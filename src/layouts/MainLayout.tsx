@@ -4,6 +4,7 @@ import { useLanguage } from "../LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, Menu, X, ChevronDown, Languages } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import roadImage from "../assets/road.png";
 
 // Static data for internationalization
 const translations = {
@@ -68,7 +69,8 @@ const translations = {
       toggleMenu: "تبديل القائمة",
       switchLanguage: "تغيير اللغة"
     }
-  }
+  },
+  logo : roadImage,
 };
 
 /**
@@ -148,8 +150,9 @@ const MainLayout = () => {
     <div dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'} className="min-h-screen font-['Montserrat',sans-serif]">
       {/* Header */}
       <header className="flex items-center justify-between px-2 md:px-4 sticky bg-card top-0 z-50 h-16 md:h-20 shadow-lg border-b border-border">
-        {/* Left side - Title */}
-        <div className="text-base md:text-lg lg:text-xl font-bold text-card-foreground">
+        {/* Left side - Logo and Title */}
+        <div className="flex items-center space-x-2 text-base md:text-lg lg:text-xl font-bold text-card-foreground">
+          <img src={translations.logo} alt="Logo" className="h-8 w-8 md:h-10 md:w-10" />
           {t.title}
         </div>
 
