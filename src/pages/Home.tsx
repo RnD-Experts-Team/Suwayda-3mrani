@@ -65,11 +65,13 @@ const Home = (): React.ReactElement => {
             description:
               "Providing essential aid and support to affected communities.",
             backgroundImage: roadImage,
+            url: "https://www.humanitarianaid.org"
           },
           ar: {
             name: "المساعدات الإنسانية الدولية",
             description: "تقديم المساعدات الأساسية والدعم للمجتمعات المتضررة.",
             backgroundImage: roadImage,
+            url: "https://www.humanitarianaid.org"
           },
         },
         {
@@ -78,11 +80,13 @@ const Home = (): React.ReactElement => {
             name: "Doctors Without Borders",
             description: "Offering medical assistance and healthcare services.",
             backgroundImage: roadImage,
+            url: "https://www.doctorswithoutborders.org"
           },
           ar: {
             name: "أطباء بلا حدود",
             description: "تقديم المساعدة الطبية وخدمات الرعاية الصحية.",
             backgroundImage: roadImage,
+            url: "https://www.doctorswithoutborders.org"
           },
         },
         {
@@ -91,11 +95,13 @@ const Home = (): React.ReactElement => {
             name: "Red Crescent Society",
             description: "Delivering emergency relief and humanitarian aid.",
             backgroundImage: roadImage,
+            url: "https://www.ifrc.org"
           },
           ar: {
             name: "جمعية الهلال الأحمر",
             description: "تقديم الإغاثة الطارئة والمساعدات الإنسانية.",
             backgroundImage: roadImage,
+            url: "https://www.ifrc.org"
           },
         },
         {
@@ -105,11 +111,13 @@ const Home = (): React.ReactElement => {
             description:
               "Supporting long-term recovery and development efforts.",
             backgroundImage: roadImage,
+            url: "https://www.globalrelieffund.org"
           },
           ar: {
             name: "صندوق الإغاثة العالمي",
             description: "دعم جهود التعافي والتنمية طويلة المدى.",
             backgroundImage: roadImage,
+            url: "https://www.globalrelieffund.org"
           },
         },
       ],
