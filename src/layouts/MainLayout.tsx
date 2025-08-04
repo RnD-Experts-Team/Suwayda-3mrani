@@ -18,7 +18,6 @@ const translations = {
       organizations: "Organizations",
       information: "Information",
       stories: "Stories",
-      news: "News",
       timeline: "Timeline",
       dataOverview: "Data Overview"
     },
@@ -49,7 +48,6 @@ const translations = {
       organizations: "المنظمات",
       information: "المعلومات",
       stories: "القصص",
-      news: "الأخبار",
       timeline: "الجدول الزمني",
       dataOverview: "نظرة عامة على البيانات"
     },
@@ -116,7 +114,6 @@ const MainLayout = () => {
   // Information dropdown links
   const informationLinks = [
     { label: t.navigation.stories, path: "/stories" },
-    { label: t.navigation.news, path: "/news" },
     { label: t.navigation.timeline, path: "/timeline" },
     { label: t.navigation.dataOverview, path: "/data-overview" },
   ];
