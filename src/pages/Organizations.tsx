@@ -2,22 +2,24 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import road from "@/assets/road.png";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/LanguageContext";
+import { organizationsApi } from "@/services/organizationsApi";
+import type { OrganizationsData } from "@/types/organizations";
 
-// Internationalized data structure
-const organizationsData = {
+// Fallback data structure (used when API fails)
+const fallbackOrganizationsData: OrganizationsData = {
   en: {
     relatedOrganizations: [
-      { name: "Global Relief Network", logoUrl: road },
-      { name: "Aid for All", logoUrl: road },
-      { name: "Hope Without Borders", logoUrl: road },
-      { name: "United Assistance", logoUrl: road },
-      { name: "Compassion in Action", logoUrl: road },
+      { name: "Global Relief Network", logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop" },
+      { name: "Aid for All", logoUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop" },
+      { name: "Hope Without Borders", logoUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop" },
+      { name: "United Assistance", logoUrl: "https://images.unsplash.com/photo-1507679799987-7379428750ca?w=500&h=300&fit=crop" },
+      { name: "Compassion in Action", logoUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop" },
     ],
     currentOrganization: {
       name: "Humanity First",
-      imageUrl: road,
+      imageUrl: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
       description:
         "Humanity First is a global humanitarian organization dedicated to providing aid and support to communities affected by genocide and mass atrocities. Our mission is to alleviate suffering, promote human dignity, and foster resilience in the face of crisis. We work tirelessly to deliver essential services, advocate for human rights, and empower individuals to rebuild their lives.",
     },
@@ -29,15 +31,15 @@ const organizationsData = {
   },
   ar: {
     relatedOrganizations: [
-      { name: "شبكة الإغاثة العالمية", logoUrl: road },
-      { name: "المساعدة للجميع", logoUrl: road },
-      { name: "الأمل بلا حدود", logoUrl: road },
-      { name: "المساعدة المتحدة", logoUrl: road },
-      { name: "الرحمة في العمل", logoUrl: road },
+      { name: "شبكة الإغاثة العالمية", logoUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop" },
+      { name: "المساعدة للجميع", logoUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop" },
+      { name: "الأمل بلا حدود", logoUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop" },
+      { name: "المساعدة المتحدة", logoUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop" },
+      { name: "الرحمة في العمل", logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop" },
     ],
     currentOrganization: {
       name: "الإنسانية أولاً",
-      imageUrl: road,
+      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
       description:
         "الإنسانية أولاً هي منظمة إنسانية عالمية مكرسة لتقديم المساعدة والدعم للمجتمعات المتضررة من الإبادة الجماعية والفظائع الجماعية. مهمتنا هي تخفيف المعاناة وتعزيز الكرامة الإنسانية وتعزيز المرونة في مواجهة الأزمات. نعمل بلا كلل لتقديم الخدمات الأساسية والدفاع عن حقوق الإنسان وتمكين الأفراد من إعادة بناء حياتهم.",
     },
@@ -51,6 +53,30 @@ const organizationsData = {
 
 const Organizations = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
+  const [organizationsData, setOrganizationsData] = useState<OrganizationsData>(fallbackOrganizationsData);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch organizations data from API
+  useEffect(() => {
+    const fetchOrganizationsData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await organizationsApi.getOrganizationsData();
+        setOrganizationsData(data);
+      } catch (err) {
+        console.error('Failed to fetch organizations data:', err);
+        setError('Failed to load organizations data. Using fallback data.');
+        // Keep using fallback data on error
+        setOrganizationsData(fallbackOrganizationsData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrganizationsData();
+  }, []);
 
   // Get current language data
   const currentData = organizationsData[currentLanguage];
@@ -69,8 +95,25 @@ const Organizations = (): React.ReactElement => {
     }
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <p className="mt-4 text-foreground">Loading organizations...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-start relative bg-background">
+      {/* Error message */}
+      {error && (
+        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+      
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-background">
         <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
           {/* Main Content */}
@@ -103,7 +146,7 @@ const Organizations = (): React.ReactElement => {
                           >
                             <CardContent className="flex items-center gap-3 p-0">
                               <div
-                                className="relative w-10 h-10 rounded-lg bg-contain bg-no-repeat bg-center flex-shrink-0"
+                                className="relative w-20 h-20 rounded-lg bg-cover bg-center flex-shrink-0"
                                 style={{
                                   backgroundImage: `url(${org.logoUrl})`,
                                 }}
@@ -129,7 +172,7 @@ const Organizations = (): React.ReactElement => {
                           >
                             <CardContent className="flex items-center gap-3 p-0">
                               <div
-                                className="relative w-10 h-10 rounded-lg bg-contain bg-no-repeat bg-center flex-shrink-0"
+                                className="relative w-10 h-10 rounded-lg bg-cover bg-center flex-shrink-0"
                                 style={{
                                   backgroundImage: `url(${org.logoUrl})`,
                                 }}

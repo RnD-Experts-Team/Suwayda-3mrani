@@ -1,19 +1,21 @@
+import React, { useState, useRef, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 import { useLanguage } from "../LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, Menu, X, ChevronDown, Languages } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { layoutApi } from "@/services/layoutApi";
+import type { LayoutData } from "@/types/layout";
 import roadImage from "../assets/road.png";
 
-// Static data for internationalization
-const translations = {
+// Fallback translations data
+const fallbackTranslations: LayoutData = {
   en: {
     title: "Suwayda Archive",
     navigation: {
       home: "Home",
       crisesArchive: "Crises Archive",
-      media: "Media",
+      gallery: "Gallery",
       aidEfforts: "Aid Efforts",
       organizations: "Organizations",
       information: "Information",
@@ -43,7 +45,7 @@ const translations = {
     navigation: {
       home: "الرئيسية",
       crisesArchive: "أرشيف الأزمات",
-      media: "الإعلام",
+      gallery: "الإعلام",
       aidEfforts: "جهود المساعدة",
       organizations: "المنظمات",
       information: "المعلومات",
@@ -68,7 +70,7 @@ const translations = {
       switchLanguage: "تغيير اللغة"
     }
   },
-  logo : roadImage,
+  logo: roadImage,
 };
 
 /**
@@ -92,6 +94,11 @@ const MainLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
+  // Layout data state
+  const [layoutData, setLayoutData] = useState<LayoutData>(fallbackTranslations);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  
   // Mobile menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
@@ -99,23 +106,90 @@ const MainLayout = () => {
   const [isInfoDropdownOpen, setIsInfoDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Fetch layout data from API
+  useEffect(() => {
+    const fetchLayoutData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await layoutApi.getLayoutData();
+        
+        // Merge API data with fallback to ensure all required fields exist
+        const mergedData: LayoutData = {
+          en: {
+            ...fallbackTranslations.en,
+            ...data.en,
+            navigation: {
+              ...fallbackTranslations.en.navigation,
+              ...data.en.navigation,
+            },
+            buttons: {
+              ...fallbackTranslations.en.buttons,
+              ...data.en.buttons,
+            },
+            footer: {
+              ...fallbackTranslations.en.footer,
+              ...data.en.footer,
+            },
+            ariaLabels: {
+              ...fallbackTranslations.en.ariaLabels,
+              ...data.en.ariaLabels,
+            },
+          },
+          ar: {
+            ...fallbackTranslations.ar,
+            ...data.ar,
+            navigation: {
+              ...fallbackTranslations.ar.navigation,
+              ...data.ar.navigation,
+            },
+            buttons: {
+              ...fallbackTranslations.ar.buttons,
+              ...data.ar.buttons,
+            },
+            footer: {
+              ...fallbackTranslations.ar.footer,
+              ...data.ar.footer,
+            },
+            ariaLabels: {
+              ...fallbackTranslations.ar.ariaLabels,
+              ...data.ar.ariaLabels,
+            },
+          },
+          logo: data.logo || fallbackTranslations.logo,
+        };
+        
+        setLayoutData(mergedData);
+      } catch (err) {
+        console.error('Failed to fetch layout data:', err);
+        setError('Failed to load layout data. Using fallback content.');
+        // Keep using fallback data on error
+        setLayoutData(fallbackTranslations);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLayoutData();
+  }, []);
+
   // Get current translations
-  const t = translations[currentLanguage];
+  const t = layoutData[currentLanguage];
 
   // Primary navigation links (always visible on desktop)
   const primaryNavLinks = [
-    { label: t.navigation.home, path: "/" },
-    { label: t.navigation.crisesArchive, path: "/crises_archive" },
-    { label: t.navigation.media, path: "/media" },
-    { label: t.navigation.aidEfforts, path: "/aid-efforts" },
-    { label: t.navigation.organizations, path: "/organizations" },
+    { label: t.navigation?.home || "Home", path: "/" },
+    { label: t.navigation?.crisesArchive || "Crises Archive", path: "/crises_archive" },
+    { label: t.navigation?.gallery || "Gallery", path: "/gallery" },
+    { label: t.navigation?.aidEfforts || "Aid Efforts", path: "/aid-efforts" },
+    { label: t.navigation?.organizations || "Organizations", path: "/organizations" },
   ];
 
   // Information dropdown links
   const informationLinks = [
-    { label: t.navigation.stories, path: "/stories" },
-    { label: t.navigation.timeline, path: "/timeline" },
-    { label: t.navigation.dataOverview, path: "/data-overview" },
+    { label: t.navigation?.stories || "Stories", path: "/stories" },
+    { label: t.navigation?.timeline || "Timeline", path: "/timeline" },
+    { label: t.navigation?.dataOverview || "Data Overview", path: "/data-overview" },
   ];
 
   // All navigation links for mobile menu
@@ -143,14 +217,40 @@ const MainLayout = () => {
     };
   }, []);
 
+  // Show loading state only briefly, then show content
+  if (loading) {
+    return (
+      <div dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'} className="min-h-screen font-['Montserrat',sans-serif]">
+        <div className="flex items-center justify-center min-h-screen bg-background">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'} className="min-h-screen font-['Montserrat',sans-serif]">
+      {/* Error message */}
+      {error && (
+        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 text-sm">
+          <p>{error}</p>
+        </div>
+      )}
+
       {/* Header */}
       <header className="flex items-center justify-between px-2 md:px-4 sticky bg-card top-0 z-50 h-16 md:h-20 shadow-lg border-b border-border">
         {/* Left side - Logo and Title */}
         <div className="flex items-center space-x-2 text-base md:text-lg lg:text-xl font-bold text-card-foreground">
-          <img src={translations.logo} alt="Logo" className="h-8 w-8 md:h-10 md:w-10" />
-          {t.title}
+          <img 
+            src={layoutData.logo} 
+            alt="Logo" 
+            className="h-8 w-8 md:h-10 md:w-10"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = roadImage; // Fallback to local image
+            }}
+          />
+          {t.title || "Suwayda Archive"}
         </div>
 
         {/* Desktop Navigation - Hidden on mobile */}
@@ -181,7 +281,7 @@ const MainLayout = () => {
                     : "hover:bg-accent/50"
                 }`}
               >
-                {t.navigation.information}
+                {t.navigation?.information || "Information"}
                 <ChevronDown
                   className={`ml-1 h-3 w-3 transition-transform duration-200 ${
                     isInfoDropdownOpen ? "rotate-180" : ""
@@ -219,7 +319,7 @@ const MainLayout = () => {
             className="bg-chart-1 hover:bg-chart-1/90 text-primary-foreground font-medium text-sm"
             size="sm"
           >
-            {t.buttons.seeStories}
+            {t.buttons?.seeStories || "See Stories"}
           </Button>
 
           <Button
@@ -227,7 +327,7 @@ const MainLayout = () => {
             className="bg-chart-2 hover:bg-chart-2/90 text-primary-foreground font-medium text-sm"
             size="sm"
           >
-            {t.buttons.takeAction}
+            {t.buttons?.takeAction || "Take Action"}
           </Button>
 
           {/* Language toggle button */}
@@ -236,7 +336,7 @@ const MainLayout = () => {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-accent"
-            aria-label={t.ariaLabels.switchLanguage}
+            aria-label={t.ariaLabels?.switchLanguage || "Switch language"}
           >
             <Languages className="h-4 w-4" />
           </Button>
@@ -247,7 +347,7 @@ const MainLayout = () => {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-accent"
-            aria-label={isDarkMode ? t.ariaLabels.switchToLight : t.ariaLabels.switchToDark}
+            aria-label={isDarkMode ? (t.ariaLabels?.switchToLight || "Switch to light mode") : (t.ariaLabels?.switchToDark || "Switch to dark mode")}
           >
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
@@ -261,7 +361,7 @@ const MainLayout = () => {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-accent"
-            aria-label={t.ariaLabels.switchLanguage}
+            aria-label={t.ariaLabels?.switchLanguage || "Switch language"}
           >
             <Languages className="h-4 w-4" />
           </Button>
@@ -272,7 +372,7 @@ const MainLayout = () => {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-accent"
-            aria-label={isDarkMode ? t.ariaLabels.switchToLight : t.ariaLabels.switchToDark}
+            aria-label={isDarkMode ? (t.ariaLabels?.switchToLight || "Switch to light mode") : (t.ariaLabels?.switchToDark || "Switch to dark mode")}
           >
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
@@ -283,7 +383,7 @@ const MainLayout = () => {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-accent"
-            aria-label={t.ariaLabels.toggleMenu}
+            aria-label={t.ariaLabels?.toggleMenu || "Toggle menu"}
           >
             {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
@@ -318,7 +418,7 @@ const MainLayout = () => {
                 }}
                 className="w-full bg-chart-1 hover:bg-chart-1/90 text-primary-foreground font-medium"
               >
-                {t.buttons.seeStories}
+                {t.buttons?.seeStories || "See Stories"}
               </Button>
               
               <Button
@@ -328,7 +428,7 @@ const MainLayout = () => {
                 }}
                 className="w-full bg-chart-2 hover:bg-chart-2/90 text-primary-foreground font-medium"
               >
-                {t.buttons.takeAction}
+                {t.buttons?.takeAction || "Take Action"}
               </Button>
             </div>
           </div>
@@ -343,25 +443,27 @@ const MainLayout = () => {
       {/* Footer */}
       <footer className="text-center py-6 bg-card text-card-foreground border-t border-border">
         <div className="max-w-6xl mx-auto px-2 md:px-4">
-          <p className="text-xs md:text-sm text-muted-foreground">{t.footer.copyright}</p>
+          <p className="text-xs md:text-sm text-muted-foreground">
+            {t.footer?.copyright || "© 2024 Sweda 3mrani. All rights reserved."}
+          </p>
           <div className="text-xs md:text-sm flex flex-wrap justify-center gap-4 md:gap-6 mt-2">
             <Link
               to="/privacy"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
-              {t.footer.privacyPolicy}
+              {t.footer?.privacyPolicy || "Privacy Policy"}
             </Link>
             <Link
               to="/terms"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
-              {t.footer.termsOfService}
+              {t.footer?.termsOfService || "Terms of Service"}
             </Link>
             <Link
               to="/contact"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
-              {t.footer.contact}
+              {t.footer?.contact || "Contact"}
             </Link>
           </div>
         </div>

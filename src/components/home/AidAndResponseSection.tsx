@@ -50,7 +50,7 @@ export default function AidAndResponseSection({ organizations, title }: AidAndRe
               return (
                 <Card
                   key={index}
-                  className="flex-shrink-0 w-[223px] bg-transparent border-none shadow-none cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+                  className="flex-shrink-0 mx-2 w-[223px] bg-transparent border-none shadow-none cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group"
                   onClick={() => handleCardClick(currentData.url)}
                 >
                   <div
