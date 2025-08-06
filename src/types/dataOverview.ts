@@ -13,9 +13,9 @@ export interface DetailItem {
 
 // Data case structure
 export interface DataCase {
-  id: number;
+  id: string; // Change from number to string to match API
   title: LanguageContent;
-  imagePath: string | null;
+  imagePath: string | null; // Allow null values
   url: string;
   details: DetailItem[];
 }

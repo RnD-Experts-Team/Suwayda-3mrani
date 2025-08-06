@@ -2,11 +2,11 @@ import axios from 'axios';
 import type { OrganizationsData } from '@/types/organizations';
 
 // Placeholder API endpoint - replace with actual API URL
-const API_BASE_URL = 'https://admin.suwayda3mrani.com/api/organization/1';
+const API_BASE_URL = 'https://admin.suwayda3mrani.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
   'Content-Type': 'application/json',
   'Accept': 'application/json',
@@ -18,9 +18,11 @@ const api = axios.create({
 });
 
 export const organizationsApi = {
-  getOrganizationsData: async (): Promise<OrganizationsData> => {
+  getOrganizationsData: async (organizationId: string): Promise<OrganizationsData> => {
     try {
-      const response = await api.get<OrganizationsData>('');
+      // Use the provided organizationId or default to '1'
+      const endpoint = organizationId ? `${API_BASE_URL}/organization/${organizationId}` : `${API_BASE_URL}/organization/1`;
+      const response = await api.get<OrganizationsData>(endpoint);
       return response.data;
     } catch (error) {
       console.error('Error fetching organizations data:', error);

@@ -2,11 +2,11 @@ import axios from 'axios';
 import type { TestimonialData } from '@/types/testmonials';
 
 // Static API endpoint - always fetches testimony with ID 1
-const API_BASE_URL = 'https://admin.suwayda3mrani.com/api/testimony/1';
+const API_BASE_URL = 'https://admin.suwayda3mrani.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -18,9 +18,10 @@ const api = axios.create({
 });
 
 export const testimonialsApi = {
-  getTestimonyData: async (): Promise<TestimonialData> => {
+  getTestimonyData: async (storyId?: string): Promise<TestimonialData> => {
     try {
-      const response = await api.get<TestimonialData>('');
+      const endpoint = storyId ? `${API_BASE_URL}/testimony/${storyId}` : `${API_BASE_URL}/testimony/1`;
+      const response = await api.get<TestimonialData>(endpoint);
       return response.data;
     } catch (error) {
       console.error('Error fetching testimony data:', error);

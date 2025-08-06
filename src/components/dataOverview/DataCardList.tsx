@@ -2,13 +2,13 @@ import React from "react";
 import DataCard from "./DataCard";
 
 interface CaseData {
-  id: number;
+  id: string; // Change from number to string
   title: {
     en: string;
     ar: string;
   };
-  imagePath: string;
-  url: string; // Added URL property
+  imagePath: string | null; // Allow null values
+  url: string;
   details: Array<{
     key: {
       en: string;
@@ -18,6 +18,7 @@ interface CaseData {
       en: string;
       ar: string;
     };
+    sort_order: number; // Add sort_order field
   }>;
 }
 
@@ -28,12 +29,9 @@ interface DataCardListProps {
 export default function DataCardList({ caseDataArray }: DataCardListProps): React.ReactElement {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> 
-      
       {caseDataArray.map((caseData) => (
         <DataCard key={caseData.id} caseData={caseData} />
       ))}
-      
-      
     </div>
   );
 }

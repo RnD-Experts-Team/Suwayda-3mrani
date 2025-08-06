@@ -11,6 +11,7 @@ interface InitiativeData {
 }
 
 interface Initiative {
+  id?: string; // Add id property
   en: InitiativeData;
   ar: InitiativeData;
 }
@@ -23,17 +24,26 @@ interface SectionTitle {
 interface LocalGroupsSectionProps {
   initiatives: Initiative[];
   sectionTitle: SectionTitle;
+  onInitiativeClick?: (initId: string) => void; // Add optional click handler
 }
 
 export default function LocalGroupsSection({
   initiatives,
   sectionTitle,
+  onInitiativeClick
 }: LocalGroupsSectionProps): React.ReactElement {
   const { currentLanguage } = useLanguage();
 
-  const handleCardClick = (url: string) => {
-    // You can replace this with your routing logic (e.g., React Router)
-    window.location.href = url;
+  const handleCardClick = (initiative: Initiative) => {
+    const currentData = initiative[currentLanguage];
+    
+    // If onInitiativeClick is provided and initiative has an id, use the dynamic routing
+    if (onInitiativeClick && initiative.id) {
+      onInitiativeClick(initiative.id);
+    } else {
+      // Otherwise, use the URL directly
+      window.location.href = currentData.url;
+    }
   };
 
   return (
@@ -54,8 +64,8 @@ export default function LocalGroupsSection({
               const currentData = initiative[currentLanguage];
               return (
                 <Card
-                  key={index}
-                  onClick={() => handleCardClick(currentData.url)}
+                  key={initiative.id || index}
+                  onClick={() => handleCardClick(initiative)}
                   className="min-w-[280px] max-w-[320px] bg-card border-border text-card-foreground cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:bg-accent"
                 >
                   <CardContent className="flex flex-col items-start gap-3 p-4">

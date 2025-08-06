@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useLanguage } from "@/LanguageContext";
+import { useParams } from "react-router-dom"; // Add this import
 import { testimonialsApi } from "@/services/testmonialsApi";
 import type { TestimonialData } from "@/types/testmonials";
 
@@ -50,9 +51,11 @@ const fallbackTestimonialData: TestimonialData = {
   }
 };
 
+
+
 const Testimonials = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
-  
+  const { storyId } = useParams<{ storyId?: string }>(); // Get story ID from URL
   const [testimonialData, setTestimonialData] = useState<TestimonialData>(fallbackTestimonialData);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +67,7 @@ const Testimonials = (): React.ReactElement => {
       try {
         setLoading(true);
         setError(null);
-        const data = await testimonialsApi.getTestimonyData();
+        const data = await testimonialsApi.getTestimonyData(storyId);// Pass storyId to API
         setTestimonialData(data);
       } catch (err) {
         console.error('Failed to fetch testimony data:', err);
@@ -77,7 +80,7 @@ const Testimonials = (): React.ReactElement => {
     };
 
     fetchTestimonyData();
-  }, []);
+  }, [storyId]);
 
   // Get current language data
   const currentData = testimonialData[currentLanguage as keyof typeof testimonialData] || testimonialData.en;
@@ -132,8 +135,8 @@ const Testimonials = (): React.ReactElement => {
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-card">
         <header className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
           {/* Main Content */}
-          <main className="items-start justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex-1 grow flex relative self-stretch w-full">
-            <div className="flex flex-col max-w-[960px] items-start relative flex-1 grow">
+          <main className="items-start justify-center px-2 md:px-4 lg:px-8 py-5 flex-1 grow flex relative self-stretch w-full">
+            <div className="flex flex-col w-full max-w-7xl items-start relative flex-1 grow">
               {/* Article Title */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between items-start pt-5 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
                 <h2 className="relative mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-xl sm:text-2xl md:text-[28px] tracking-[0] leading-tight md:leading-[35px] flex-1">

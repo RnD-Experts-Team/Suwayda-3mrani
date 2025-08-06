@@ -341,7 +341,7 @@ export default function DataOverview(): React.ReactElement {
       )}
 
       <div className="flex flex-col w-full bg-card">
-        <div className="flex justify-center px-2 sm:px-4 py-3 sm:py-5 w-full">
+        <div className="flex justify-center px-2 md:px-4 lg:px-8 py-3 md:py-5 w-full">
           <div className="flex flex-col w-full max-w-7xl">
             {/* Data Overview Title */}
             <div className="flex flex-wrap items-start justify-around gap-3 sm:gap-[12px] p-2 sm:p-4 w-full">

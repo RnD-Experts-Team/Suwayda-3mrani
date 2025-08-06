@@ -197,8 +197,8 @@ export default function Media(): React.ReactElement {
       )}
 
       <div className="flex flex-col min-h-[800px] items-start w-full bg-background">
-        <main className="flex w-full justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex-1">
-          <div className="flex flex-col max-w-[960px] w-full">
+        <main className="flex w-full justify-center px-2 md:px-4 lg:px-8 py-5 flex-1">
+          <div className="flex flex-col w-full max-w-7xl">
             {/* page title */}
             <div className="flex flex-wrap items-start justify-around gap-[12px_12px] p-4 w-full">
               <div className="flex flex-col w-full sm:w-72 items-start">

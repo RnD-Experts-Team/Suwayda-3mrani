@@ -224,8 +224,8 @@ export default function CrisesArchive(): React.ReactElement {
       )}
 
       <div className="flex flex-col min-h-[800px] items-start w-full bg-card">
-        <main className="flex-1 flex justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 w-full">
-          <div className="flex flex-col max-w-[960px] w-full">
+        <main className="flex-1 flex justify-center px-2 md:px-4 lg:px-8 py-5 w-full">
+          <div className="flex flex-col w-full max-w-7xl ">
             {/* ===== ABOUT ===== */}
             <section className="p-4">
               <h2

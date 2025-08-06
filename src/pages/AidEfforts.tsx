@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import AidAndResponseSection from "../components/home/AidAndResponseSection";
 import LocalGroupsSection from "../components/aidEfforts/LocalGroupsSection";
 import { useLanguage } from "@/LanguageContext";
+import { useNavigate } from "react-router-dom"; // Add this import
 import { aidEffortsApi } from "@/services/aidEffortsApi";
 import type {
   AidEffortsData,
@@ -254,6 +255,7 @@ const fallbackAidEffortsData: AidEffortsData = {
 
 export default function AidEfforts(): React.ReactElement {
   const { currentLanguage } = useLanguage();
+  const navigate = useNavigate(); // Add this hook
 
   const [aidEffortsData, setAidEffortsData] = useState<AidEffortsData>(
     fallbackAidEffortsData
@@ -281,6 +283,15 @@ export default function AidEfforts(): React.ReactElement {
 
     fetchAidEffortsData();
   }, []);
+
+const handleOrganizationClick = (organizationId: string) => {
+    navigate(`/organization/${organizationId}`);
+  };
+
+ // Helper function to handle initiative clicks (if you want them to also go to organization pages)
+  const handleInitiativeClick = (initiativeId: string) => {
+    navigate(`/organization/${initiativeId}`);
+  };
 
   // Loading state
   if (loading) {
@@ -315,8 +326,8 @@ export default function AidEfforts(): React.ReactElement {
 
       <div className="flex flex-col w-full bg-card">
         <div className="flex flex-col w-full">
-          <div className="px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex justify-center w-full">
-            <div className="flex flex-col max-w-[960px] w-full">
+          <div className="px-2 md:px-4 lg:px-8 py-5 flex justify-center w-full">
+            <div className="flex flex-col max-w-7xl w-full">
               {/* Hero Section */}
               <section className="flex flex-wrap items-start justify-around gap-3 p-4 w-full">
                 <Card className="bg-transparent border-none shadow-none w-full">
@@ -336,6 +347,7 @@ export default function AidEfforts(): React.ReactElement {
                 <AidAndResponseSection
                   organizations={internationalOrganizations.items}
                   title={internationalOrganizations.title}
+                  onOrganizationClick={handleOrganizationClick}
                 />
               )}
 
@@ -344,6 +356,8 @@ export default function AidEfforts(): React.ReactElement {
                 <LocalGroupsSection
                   initiatives={localGroups.items}
                   sectionTitle={localGroups.title}
+                  onInitiativeClick={handleInitiativeClick}
+
                 />
               )}
 
@@ -352,6 +366,8 @@ export default function AidEfforts(): React.ReactElement {
                 <AidAndResponseSection
                   organizations={storiesOfHope.items}
                   title={storiesOfHope.title}
+                  onOrganizationClick={handleOrganizationClick}
+
                 />
               )}
 
