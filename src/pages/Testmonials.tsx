@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -7,22 +8,28 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import React, { useState } from "react";
 import { useLanguage } from "@/LanguageContext";
+import { testimonialsApi } from "@/services/testmonialsApi";
+import type { TestimonialData } from "@/types/testmonials";
 
-// Static testimonials data with multilingual support
-const testimonialsData = {
+// Fallback testimonial data
+const fallbackTestimonialData: TestimonialData = {
   en: {
     title: "The Unseen Scars: A Survivor's Account",
     buttonText: "copy link",
     content: "My name is Anya Petrova, and I am a survivor of the atrocities that occurred in the region. I was just a young girl when the violence erupted, and my life was forever changed. I witnessed unspeakable acts of cruelty and lost many loved ones. The memories haunt me to this day, but I am sharing my story in the hope that it will help others understand the human cost of such conflicts and prevent similar tragedies from happening again. I remember the fear, the chaos, and the desperate struggle for survival. It was a time of immense suffering, but also of resilience and solidarity among those who endured together. We supported each other, shared what little we had, and held onto hope even in the darkest moments. This is my story, a testament to the strength of the human spirit in the face of adversity.",
     images: [
       "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop",
-      "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4", // Video URL
+      "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
       "https://images.unsplash.com/photo-1494790108755-2616c9c0b8d3?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop",
-    ]
+    ],
+    survivorName: "Anya Petrova",
+    survivorAge: 28,
+    survivorLocation: "Village Al-Kafr",
+    dateOfIncident: "2014-08-15",
+    testimonyId: "testimony-fallback-001"
   },
   ar: {
     title: "الندوب الخفية: شهادة ناجية",
@@ -30,21 +37,50 @@ const testimonialsData = {
     content: "اسمي أنيا بيتروفا، وأنا ناجية من الفظائع التي حدثت في المنطقة. كنت مجرد فتاة صغيرة عندما اندلع العنف، وتغيرت حياتي إلى الأبد. شهدت أعمال قسوة لا توصف وفقدت العديد من الأحباء. الذكريات تطاردني حتى اليوم، لكنني أشارك قصتي على أمل أن تساعد الآخرين على فهم التكلفة البشرية لمثل هذه الصراعات ومنع حدوث مآسي مماثلة مرة أخرى. أتذكر الخوف والفوضى والكفاح اليائس من أجل البقاء. كان وقتاً من المعاناة الشديدة، ولكن أيضاً من المرونة والتضامن بين أولئك الذين تحملوا معاً. دعمنا بعضنا البعض، وتقاسمنا القليل الذي كان لدينا، وتمسكنا بالأمل حتى في أحلك اللحظات. هذه قصتي، شهادة على قوة الروح البشرية في مواجهة الشدائد.",
     images: [
       "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop",
-      "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4", // Video URL
+      "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
       "https://images.unsplash.com/photo-1494790108755-2616c9c0b8d3?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop",
-    ]
+    ],
+    survivorName: "Anya Petrova",
+    survivorAge: 28,
+    survivorLocation: "Village Al-Kafr",
+    dateOfIncident: "2014-08-15",
+    testimonyId: "testimony-fallback-001"
   }
 };
 
-const Testmonials = (): React.ReactElement => {
+const Testimonials = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
-  const [copySuccess, setCopySuccess] = useState(false);
   
+  const [testimonialData, setTestimonialData] = useState<TestimonialData>(fallbackTestimonialData);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  // Fetch testimony data from API
+  useEffect(() => {
+    const fetchTestimonyData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await testimonialsApi.getTestimonyData();
+        setTestimonialData(data);
+      } catch (err) {
+        console.error('Failed to fetch testimony data:', err);
+        setError('Failed to load testimony data. Using fallback content.');
+        // Keep using fallback data on error
+        setTestimonialData(fallbackTestimonialData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonyData();
+  }, []);
 
   // Get current language data
-  const currentData = testimonialsData[currentLanguage as keyof typeof testimonialsData] || testimonialsData.en;
+  const currentData = testimonialData[currentLanguage as keyof typeof testimonialData] || testimonialData.en;
 
   // Function to check if URL is a video
   const isVideoUrl = (url: string) => {
@@ -74,12 +110,27 @@ const Testmonials = (): React.ReactElement => {
     }
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <p className="mt-4 text-foreground">Loading testimony...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-start relative bg-background">
+      {/* Error message */}
+      {error && (
+        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-card">
         <header className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
-          {/* Navigation Bar */}
-
           {/* Main Content */}
           <main className="items-start justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex-1 grow flex relative self-stretch w-full">
             <div className="flex flex-col max-w-[960px] items-start relative flex-1 grow">
@@ -97,6 +148,45 @@ const Testmonials = (): React.ReactElement => {
                     {copySuccess ? (currentLanguage === 'ar' ? 'تم النسخ!' : 'Copied!') : currentData.buttonText}
                   </span>
                 </Button>
+              </div>
+
+              {/* Survivor Information Card */}
+              <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
+                <Card className="w-full bg-muted/50 border border-border">
+                  <CardContent className="p-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <span className="font-semibold text-foreground">
+                          {currentLanguage === 'ar' ? 'الناجي:' : 'Survivor:'} 
+                        </span>
+                        <span className="ml-2 text-muted-foreground">{currentData.survivorName}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-foreground">
+                          {currentLanguage === 'ar' ? 'العمر وقت الحادث:' : 'Age at incident:'} 
+                        </span>
+                        <span className="ml-2 text-muted-foreground">{currentData.survivorAge}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-foreground">
+                          {currentLanguage === 'ar' ? 'الموقع:' : 'Location:'} 
+                        </span>
+                        <span className="ml-2 text-muted-foreground">{currentData.survivorLocation}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-foreground">
+                          {currentLanguage === 'ar' ? 'تاريخ الحادث:' : 'Date of incident:'} 
+                        </span>
+                        <span className="ml-2 text-muted-foreground">
+                          {new Date(currentData.dateOfIncident).toLocaleDateString(
+                            currentLanguage === 'ar' ? 'ar-SA' : 'en-US',
+                            { year: 'numeric', month: 'long', day: 'numeric' }
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
 
               {/* Image/Video Carousel */}
@@ -119,7 +209,10 @@ const Testmonials = (): React.ReactElement => {
                                 preload="metadata"
                               >
                                 <source src={media} type="video/mp4" />
-                                Your browser does not support the video tag.
+                                {currentLanguage === 'ar' 
+                                  ? 'متصفحك لا يدعم عنصر الفيديو.' 
+                                  : 'Your browser does not support the video tag.'
+                                }
                               </video>
                             ) : (
                               <img
@@ -141,10 +234,11 @@ const Testmonials = (): React.ReactElement => {
 
               {/* Article Content */}
               <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
-                <p 
-                  className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-foreground text-sm sm:text-base tracking-[0] leading-5 sm:leading-6"
-                  dangerouslySetInnerHTML={{ __html: currentData.content }}
-                />
+                <div 
+                  className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-foreground text-sm sm:text-base tracking-[0] leading-5 sm:leading-6 whitespace-pre-line"
+                >
+                  {currentData.content}
+                </div>
               </div>
             </div>
           </main>
@@ -154,4 +248,4 @@ const Testmonials = (): React.ReactElement => {
   );
 };
 
-export default Testmonials;
+export default Testimonials;

@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import React, { useState } from "react";
 import {
   Timeline,
   TimelineItem,
@@ -11,141 +11,184 @@ import {
 } from "@mui/lab";
 import { Typography, Box } from "@mui/material";
 import { useLanguage } from "@/LanguageContext";
+import { timelineApi } from "@/services/timelineApi";
+import type { TimelineData } from "@/types/timeline";
+
+// Fallback timeline data
+const fallbackTimelineData: TimelineData = {
+  en: {
+    title: "Timeline of the Crisis",
+    items: [
+      {
+        title: "Early Tensions",
+        period: "1980s - 1990",
+        description: "The initial phase of the crisis began with growing tensions between different groups. Political disagreements and social unrest started to emerge, setting the stage for future conflicts. This period was characterized by increasing polarization and the breakdown of dialogue between opposing factions.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1586829135343-132950070391?w=500&h=300&fit=crop"
+      },
+      {
+        title: "Escalation of Violence",
+        period: "1991 - 1993",
+        description: "Violence began to escalate significantly during this period. What started as political tensions transformed into armed conflicts. Multiple incidents of violence occurred, leading to casualties and displacement of civilians. The situation became increasingly unstable as various factions took up arms.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&h=300&fit=crop"
+      },
+      {
+        title: "Peak of Atrocities",
+        period: "1994",
+        description: "In 1994, the Crisis reached its zenith with widespread violence and systematic atrocities. This period marked the most intense phase of the conflict, resulting in significant loss of life and long-term consequences for the affected communities.",
+        isHighlighted: false,
+        mediaType: "video",
+        mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
+      },
+      {
+        title: "International Response",
+        period: "1995 - 2000",
+        description: "The international community began to respond to the crisis with various interventions. Humanitarian aid was provided, peacekeeping forces were deployed, and diplomatic efforts were intensified. This period saw the establishment of international tribunals and the beginning of accountability processes.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop"
+      },
+      {
+        title: "Post-Crisis Developments",
+        period: "2001 - 2010",
+        description: "The post-crisis period focused on reconstruction and reconciliation efforts. Infrastructure was rebuilt, institutions were reformed, and programs for social healing were implemented. This decade was crucial for establishing the foundations for long-term peace and stability.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop"
+      },
+      {
+        title: "Ongoing Challenges",
+        period: "2011 - Present",
+        description: "Despite significant progress, challenges remain in the present day. Issues such as ongoing tensions, economic difficulties, and the need for continued reconciliation efforts persist. The international community continues to monitor the situation and provide support where needed.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
+      },
+    ]
+  },
+  ar: {
+    title: "الجدول الزمني للأزمة",
+    items: [
+      {
+        title: "التوترات المبكرة",
+        period: "الثمانينيات - 1990",
+        description: "بدأت المرحلة الأولى من الأزمة بتنامي التوترات بين مختلف الجماعات. بدأت الخلافات السياسية والاضطرابات الاجتماعية في الظهور، مما مهد الطريق للصراعات المستقبلية. تميزت هذه الفترة بتزايد الاستقطاب وانهيار الحوار بين الفصائل المتعارضة.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1586829135343-132950070391?w=500&h=300&fit=crop"
+      },
+      {
+        title: "تصعيد العنف",
+        period: "1991 - 1993",
+        description: "بدأ العنف في التصعيد بشكل كبير خلال هذه الفترة. ما بدأ كتوترات سياسية تحول إلى صراعات مسلحة. وقعت حوادث عنف متعددة، مما أدى إلى وقوع ضحايا ونزوح المدنيين. أصبح الوضع غير مستقر بشكل متزايد حيث حملت فصائل مختلفة السلاح.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&h=300&fit=crop"
+      },
+      {
+        title: "ذروة الفظائع",
+        period: "1994",
+        description: "في عام 1994، وصلت الأزمة إلى ذروتها مع انتشار العنف والفظائع المنهجية. شكلت هذه الفترة أكثر مراحل الصراع كثافة، مما أدى إلى خسائر كبيرة في الأرواح وعواقب طويلة المدى على المجتمعات المتضررة.",
+        isHighlighted: false,
+        mediaType: "video",
+        mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
+      },
+      {
+        title: "الاستجابة الدولية",
+        period: "1995 - 2000",
+        description: "بدأ المجتمع الدولي في الاستجابة للأزمة من خلال تدخلات مختلفة. تم تقديم المساعدات الإنسانية، ونشر قوات حفظ السلام، وتكثيف الجهود الدبلوماسية. شهدت هذه الفترة إنشاء محاكم دولية وبداية عمليات المساءلة.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop"
+      },
+      {
+        title: "التطورات ما بعد الأزمة",
+        period: "2001 - 2010",
+        description: "ركزت فترة ما بعد الأزمة على جهود إعادة الإعمار والمصالحة. تم إعادة بناء البنية التحتية، وإصلاح المؤسسات، وتنفيذ برامج للشفاء الاجتماعي. كان هذا العقد حاسماً لإرساء أسس السلام والاستقرار طويل المدى.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop"
+      },
+      {
+        title: "التحديات المستمرة",
+        period: "2011 - الحاضر",
+        description: "رغم التقدم الكبير، لا تزال التحديات قائمة في الوقت الحاضر. تستمر قضايا مثل التوترات المستمرة والصعوبات الاقتصادية والحاجة إلى جهود مصالحة مستمرة. يواصل المجتمع الدولي مراقبة الوضع وتقديم الدعم حيثما دعت الحاجة.",
+        isHighlighted: false,
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
+      },
+    ]
+  }
+};
 
 const TimeLine = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
   
-  const timelineData = {
-    en: {
-      title: "Timeline of the Crisis",
-      items: [
-        {
-          title: "Early Tensions",
-          period: "1980s - 1990",
-          description: "The initial phase of the crisis began with growing tensions between different groups. Political disagreements and social unrest started to emerge, setting the stage for future conflicts. This period was characterized by increasing polarization and the breakdown of dialogue between opposing factions.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1586829135343-132950070391?w=500&h=300&fit=crop"
-        },
-        {
-          title: "Escalation of Violence",
-          period: "1991 - 1993",
-          description: "Violence began to escalate significantly during this period. What started as political tensions transformed into armed conflicts. Multiple incidents of violence occurred, leading to casualties and displacement of civilians. The situation became increasingly unstable as various factions took up arms.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&h=300&fit=crop"
-        },
-        {
-          title: "Peak of Atrocities",
-          period: "1994",
-          description: "In 1994, the Crisis reached its zenith with widespread violence and systematic atrocities. This period marked the most intense phase of the conflict, resulting in significant loss of life and long-term consequences for the affected communities.",
-          isHighlighted: false,
-          mediaType: "video",
-          mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
-        },
-        {
-          title: "International Response",
-          period: "1995 - 2000",
-          description: "The international community began to respond to the crisis with various interventions. Humanitarian aid was provided, peacekeeping forces were deployed, and diplomatic efforts were intensified. This period saw the establishment of international tribunals and the beginning of accountability processes.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop"
-        },
-        {
-          title: "Post-Crisis Developments",
-          period: "2001 - 2010",
-          description: "The post-crisis period focused on reconstruction and reconciliation efforts. Infrastructure was rebuilt, institutions were reformed, and programs for social healing were implemented. This decade was crucial for establishing the foundations for long-term peace and stability.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop"
-        },
-        {
-          title: "Ongoing Challenges",
-          period: "2011 - Present",
-          description: "Despite significant progress, challenges remain in the present day. Issues such as ongoing tensions, economic difficulties, and the need for continued reconciliation efforts persist. The international community continues to monitor the situation and provide support where needed.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
-        },
-      ]
-    },
-    ar: {
-      title: "الجدول الزمني للأزمة",
-      items: [
-        {
-          title: "التوترات المبكرة",
-          period: "الثمانينيات - 1990",
-          description: "بدأت المرحلة الأولى من الأزمة بتنامي التوترات بين مختلف الجماعات. بدأت الخلافات السياسية والاضطرابات الاجتماعية في الظهور، مما مهد الطريق للصراعات المستقبلية. تميزت هذه الفترة بتزايد الاستقطاب وانهيار الحوار بين الفصائل المتعارضة.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1586829135343-132950070391?w=500&h=300&fit=crop"
-        },
-        {
-          title: "تصعيد العنف",
-          period: "1991 - 1993",
-          description: "بدأ العنف في التصعيد بشكل كبير خلال هذه الفترة. ما بدأ كتوترات سياسية تحول إلى صراعات مسلحة. وقعت حوادث عنف متعددة، مما أدى إلى وقوع ضحايا ونزوح المدنيين. أصبح الوضع غير مستقر بشكل متزايد حيث حملت فصائل مختلفة السلاح.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&h=300&fit=crop"
-        },
-        {
-          title: "ذروة الفظائع",
-          period: "1994",
-          description: "في عام 1994، وصلت الأزمة إلى ذروتها مع انتشار العنف والفظائع المنهجية. شكلت هذه الفترة أكثر مراحل الصراع كثافة، مما أدى إلى خسائر كبيرة في الأرواح وعواقب طويلة المدى على المجتمعات المتضررة.",
-          isHighlighted: false,
-          mediaType: "video",
-          mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
-        },
-        {
-          title: "الاستجابة الدولية",
-          period: "1995 - 2000",
-          description: "بدأ المجتمع الدولي في الاستجابة للأزمة من خلال تدخلات مختلفة. تم تقديم المساعدات الإنسانية، ونشر قوات حفظ السلام، وتكثيف الجهود الدبلوماسية. شهدت هذه الفترة إنشاء محاكم دولية وبداية عمليات المساءلة.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop"
-        },
-        {
-          title: "التطورات ما بعد الأزمة",
-          period: "2001 - 2010",
-          description: "ركزت فترة ما بعد الأزمة على جهود إعادة الإعمار والمصالحة. تم إعادة بناء البنية التحتية، وإصلاح المؤسسات، وتنفيذ برامج للشفاء الاجتماعي. كان هذا العقد حاسماً لإرساء أسس السلام والاستقرار طويل المدى.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop"
-        },
-        {
-          title: "التحديات المستمرة",
-          period: "2011 - الحاضر",
-          description: "رغم التقدم الكبير، لا تزال التحديات قائمة في الوقت الحاضر. تستمر قضايا مثل التوترات المستمرة والصعوبات الاقتصادية والحاجة إلى جهود مصالحة مستمرة. يواصل المجتمع الدولي مراقبة الوضع وتقديم الدعم حيثما دعت الحاجة.",
-          isHighlighted: false,
-          mediaType: "image",
-          mediaUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
-        },
-      ]
-    }
-  };
+  const [timelineData, setTimelineData] = useState<TimelineData>(fallbackTimelineData);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState(0); // Default to first item
+
+  // Fetch timeline data from API
+  useEffect(() => {
+    const fetchTimelineData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await timelineApi.getTimelineData();
+        setTimelineData(data);
+      } catch (err) {
+        console.error('Failed to fetch timeline data:', err);
+        setError('Failed to load timeline data. Using fallback content.');
+        // Keep using fallback data on error
+        setTimelineData(fallbackTimelineData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTimelineData();
+  }, []);
 
   const currentData = timelineData[currentLanguage];
   const timelineItems = currentData.items;
-
-  // State to track the selected timeline item
-  const [selectedItem, setSelectedItem] = useState(0); // Default to "Peak of Atrocities" (index 2)
 
   // Handler for timeline dot clicks
   const handleTimelineClick = (index: number) => {
     setSelectedItem(index);
   };
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <p className="mt-4 text-foreground">Loading timeline...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-start relative bg-background">
+      {/* Error message */}
+      {error && (
+        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
       <div className="flex flex-col min-h-auto items-start relative w-full flex-[0_0_auto] bg-background">
         <div className="flex flex-col items-start relative w-full flex-[0_0_auto]">
           {/* Main Content */}
-          <main className="items-start justify-center px-40 py-5 flex-1 grow flex relative self-stretch w-full">
+          <main className="items-start justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex-1 grow flex relative self-stretch w-full">
             <div className="flex flex-col max-w-8xl items-start relative flex-1 grow">
               {/* Timeline Header */}
               <div className="flex flex-wrap items-start justify-around gap-[12px_12px] p-4 relative self-stretch w-full flex-[0_0_auto]">
                 <div className="inline-flex flex-col min-w-72 items-start relative flex-[0_0_auto]">
-                  <h2 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-[32px] tracking-[0] leading-10 whitespace-nowrap">
+                  <h2 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl sm:text-3xl lg:text-[32px] tracking-[0] leading-8 sm:leading-10">
                     {currentData.title}
                   </h2>
                 </div>
@@ -154,8 +197,8 @@ const TimeLine = (): React.ReactElement => {
               {/* Responsive Layout Container */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 {/* MUI Timeline - Left side on md/lg, top on small */}
-                <div  className="flex-1 md:flex-[0_0_60%]">
-                  <Box  sx={{ width: "100%", padding: "16px" }}>
+                <div className="flex-1 md:flex-[0_0_60%]">
+                  <Box sx={{ width: "100%", padding: "16px" }}>
                     <Timeline position={currentLanguage === 'ar' ? "left" : "right"}>
                       {timelineItems.map((item, index) => (
                         <TimelineItem key={index}>
@@ -254,7 +297,10 @@ const TimeLine = (): React.ReactElement => {
                               controls
                               src={timelineItems[selectedItem].mediaUrl}
                             >
-                              Your browser does not support the video tag.
+                              {currentLanguage === 'ar' 
+                                ? 'متصفحك لا يدعم عنصر الفيديو.' 
+                                : 'Your browser does not support the video tag.'
+                              }
                             </video>
                           ) : (
                             <img 
@@ -264,7 +310,7 @@ const TimeLine = (): React.ReactElement => {
                               onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.style.display = 'none';
-                                target.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-muted text-muted-foreground rounded-xl">Image not available</div>';
+                                target.parentElement!.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-muted text-muted-foreground rounded-xl">${currentLanguage === 'ar' ? 'الصورة غير متوفرة' : 'Image not available'}</div>`;
                               }}
                             />
                           )}
@@ -300,4 +346,5 @@ const TimeLine = (): React.ReactElement => {
     </div>
   );
 };
+
 export default TimeLine;

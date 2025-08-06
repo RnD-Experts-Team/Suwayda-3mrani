@@ -24,7 +24,7 @@ export default function HeroSection({ content }: HeroSectionProps): React.ReactE
     <Card className="border-0 mb-6">
       <CardContent className="p-0">
         <div 
-          className="relative w-full h-80 rounded-xl overflow-hidden bg-contain bg-center bg-no-repeat"
+          className="relative w-full h-80 rounded-xl overflow-hidden bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${currentData.image})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />

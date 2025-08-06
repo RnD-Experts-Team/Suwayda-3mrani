@@ -71,13 +71,13 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
             {data.title[currentLanguage]}
           </h2>
           
-          <Link to="/gallery">
+          <Link to="/media">
             <Button 
               variant="ghost" 
               className="text-muted-foreground hover:text-foreground transition-colors p-0 h-auto"
             >
               <span className="[font-family:'Newsreader-Medium',Helvetica] font-medium text-sm mr-2">
-                {currentLanguage === 'en' ? 'View Gallery' : 'عرض المعرض'}
+                {currentLanguage === 'en' ? 'View Media' : 'عرض الوسائط'}
               </span>
               {currentLanguage === 'en' ? (
                 <ArrowRight className="h-4 w-4" />
