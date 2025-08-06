@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/LanguageContext";
+import { useNavigate } from "react-router-dom";
 import { storiesApi } from "@/services/storiesApi";
 import type { StoriesData } from "@/types/stories";
 
@@ -86,6 +87,7 @@ const fallbackStoriesData: StoriesData = {
 
 export default function Stories(): React.ReactElement {
   const { currentLanguage } = useLanguage();
+  const navigate = useNavigate();
   
   const [storiesData, setStoriesData] = useState<StoriesData>(fallbackStoriesData);
   const [loading, setLoading] = useState<boolean>(true);
@@ -112,6 +114,13 @@ export default function Stories(): React.ReactElement {
     fetchStoriesData();
   }, []);
 
+// Helper function to extract story ID from URL
+  const extractStoryId = (url: string): string => {
+    // Extract the last part of the URL after the last "/"
+    const parts = url.split('/');
+    return parts[parts.length - 1];
+  };
+
   // Loading state
   if (loading) {
     return (
@@ -132,8 +141,8 @@ export default function Stories(): React.ReactElement {
       )}
 
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-card">
-        <main className="items-start justify-center px-1 sm:px-8 md:px-16 lg:px-40 py-5 flex-1 grow flex relative self-stretch w-full">
-          <div className="flex flex-col max-w-[960px] items-start relative flex-1 grow mb-[-1.00px]">
+        <main className="items-start justify-center px-2 md:px-4 lg:px-8 py-5 flex-1 grow flex relative self-stretch w-full">
+          <div className="flex flex-col w-full max-w-7xl items-start relative flex-1 grow mb-[-1.00px]">
             {/* Page Header */}
             <section className="flex flex-wrap items-start justify-around gap-[12px_12px] p-4 relative self-stretch w-full flex-[0_0_auto]">
               <div className="inline-flex align-center flex-col w-full items-center gap-3 relative flex-[0_0_auto]">
@@ -164,7 +173,7 @@ export default function Stories(): React.ReactElement {
                   <Card
                     key={story.id}
                     className="flex flex-col w-full sm:min-w-60 items-start gap-4 relative flex-1 self-stretch grow rounded-lg bg-card border border-border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-primary/50"
-                    onClick={() => (window.location.href = story.url)}
+                    onClick={() =>  navigate(`/testmonials/${extractStoryId(story.url)}`)} // Updated click handler}
                   >
                     <div
                       className="relative self-stretch w-full h-[169px] rounded-xl bg-cover bg-no-repeat bg-center transition-transform duration-300 hover:scale-102"
@@ -196,7 +205,7 @@ export default function Stories(): React.ReactElement {
                   <Card
                     key={story.id}
                     className="gap-3 pt-0 pb-3 px-0 self-stretch flex flex-col items-start relative bg-card border border-border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-primary/50"
-                    onClick={() => (window.location.href = story.url)}
+                    onClick={() => navigate(`/testmonials/${extractStoryId(story.url)}`)} // Updated click handler}
                   >
                     <div
                       className="relative self-stretch w-full h-[99px] rounded-xl bg-cover bg-no-repeat bg-center transition-transform duration-300 hover:scale-102"

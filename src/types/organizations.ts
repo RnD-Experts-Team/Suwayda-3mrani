@@ -1,12 +1,18 @@
 export interface Organization {
   name: string;
   logoUrl: string;
+  id: number;
+  organizationId: string;
+  type: "organizations" | "initiatives";
 }
 
 export interface CurrentOrganization {
   name: string;
   imageUrl: string;
   description: string;
+  type: "organizations" | "initiatives";
+  categories: (string | null)[];
+  organizationId: string;
 }
 
 export interface ActionButton {

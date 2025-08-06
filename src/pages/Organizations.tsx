@@ -1,27 +1,77 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import road from "@/assets/road.png";
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/LanguageContext";
+import { useParams, useNavigate } from "react-router-dom";
 import { organizationsApi } from "@/services/organizationsApi";
 import type { OrganizationsData } from "@/types/organizations";
 
-// Fallback data structure (used when API fails)
+// Updated interfaces to match API response
+interface RelatedOrganization {
+  name: string;
+  logoUrl: string;
+  id: number;
+  organizationId: string;
+  type: "organizations" | "initiatives";
+}
+
+interface CurrentOrganization {
+  name: string;
+  imageUrl: string;
+  description: string;
+  type: "organizations" | "initiatives";
+  categories: (string | null)[];
+  organizationId: string;
+}
+
+// Updated fallback data structure to match API
 const fallbackOrganizationsData: OrganizationsData = {
   en: {
     relatedOrganizations: [
-      { name: "Global Relief Network", logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop" },
-      { name: "Aid for All", logoUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop" },
-      { name: "Hope Without Borders", logoUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop" },
-      { name: "United Assistance", logoUrl: "https://images.unsplash.com/photo-1507679799987-7379428750ca?w=500&h=300&fit=crop" },
-      { name: "Compassion in Action", logoUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop" },
+      { 
+        name: "Global Relief Network", 
+        logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
+        id: 1,
+        organizationId: "org-fallback-001",
+        type: "organizations"
+      },
+      { 
+        name: "Aid for All", 
+        logoUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
+        id: 2,
+        organizationId: "org-fallback-002",
+        type: "organizations"
+      },
+      { 
+        name: "Hope Without Borders", 
+        logoUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
+        id: 3,
+        organizationId: "init-fallback-001",
+        type: "initiatives"
+      },
+      { 
+        name: "United Assistance", 
+        logoUrl: "https://images.unsplash.com/photo-1507679799987-7379428750ca?w=500&h=300&fit=crop",
+        id: 4,
+        organizationId: "org-fallback-003",
+        type: "organizations"
+      },
+      { 
+        name: "Compassion in Action", 
+        logoUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
+        id: 5,
+        organizationId: "org-fallback-004",
+        type: "organizations"
+      },
     ],
     currentOrganization: {
       name: "Humanity First",
       imageUrl: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
-      description:
-        "Humanity First is a global humanitarian organization dedicated to providing aid and support to communities affected by genocide and mass atrocities. Our mission is to alleviate suffering, promote human dignity, and foster resilience in the face of crisis. We work tirelessly to deliver essential services, advocate for human rights, and empower individuals to rebuild their lives.",
+      description: "Humanity First is a global humanitarian organization dedicated to providing aid and support to communities affected by genocide and mass atrocities. Our mission is to alleviate suffering, promote human dignity, and foster resilience in the face of crisis. We work tirelessly to deliver essential services, advocate for human rights, and empower individuals to rebuild their lives.",
+      type: "organizations",
+      categories: [null, null],
+      organizationId: "org-fallback-default"
     },
     actionButtons: [
       { text: "Contact", url: "mailto:contact@humanityfirst.org" },
@@ -31,17 +81,49 @@ const fallbackOrganizationsData: OrganizationsData = {
   },
   ar: {
     relatedOrganizations: [
-      { name: "شبكة الإغاثة العالمية", logoUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop" },
-      { name: "المساعدة للجميع", logoUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop" },
-      { name: "الأمل بلا حدود", logoUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop" },
-      { name: "المساعدة المتحدة", logoUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop" },
-      { name: "الرحمة في العمل", logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop" },
+      { 
+        name: "شبكة الإغاثة العالمية", 
+        logoUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
+        id: 1,
+        organizationId: "org-fallback-001",
+        type: "organizations"
+      },
+      { 
+        name: "المساعدة للجميع", 
+        logoUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
+        id: 2,
+        organizationId: "org-fallback-002",
+        type: "organizations"
+      },
+      { 
+        name: "الأمل بلا حدود", 
+        logoUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
+        id: 3,
+        organizationId: "init-fallback-001",
+        type: "initiatives"
+      },
+      { 
+        name: "المساعدة المتحدة", 
+        logoUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
+        id: 4,
+        organizationId: "org-fallback-003",
+        type: "organizations"
+      },
+      { 
+        name: "الرحمة في العمل", 
+        logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
+        id: 5,
+        organizationId: "org-fallback-004",
+        type: "organizations"
+      },
     ],
     currentOrganization: {
       name: "الإنسانية أولاً",
       imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-      description:
-        "الإنسانية أولاً هي منظمة إنسانية عالمية مكرسة لتقديم المساعدة والدعم للمجتمعات المتضررة من الإبادة الجماعية والفظائع الجماعية. مهمتنا هي تخفيف المعاناة وتعزيز الكرامة الإنسانية وتعزيز المرونة في مواجهة الأزمات. نعمل بلا كلل لتقديم الخدمات الأساسية والدفاع عن حقوق الإنسان وتمكين الأفراد من إعادة بناء حياتهم.",
+      description: "الإنسانية أولاً هي منظمة إنسانية عالمية مكرسة لتقديم المساعدة والدعم للمجتمعات المتضررة من الإبادة الجماعية والفظائع الجماعية. مهمتنا هي تخفيف المعاناة وتعزيز الكرامة الإنسانية وتعزيز المرونة في مواجهة الأزمات. نعمل بلا كلل لتقديم الخدمات الأساسية والدفاع عن حقوق الإنسان وتمكين الأفراد من إعادة بناء حياتهم.",
+      type: "organizations",
+      categories: [null, null],
+      organizationId: "org-fallback-default"
     },
     actionButtons: [
       { text: "اتصل بنا", url: "mailto:contact@humanityfirst.org" },
@@ -53,6 +135,9 @@ const fallbackOrganizationsData: OrganizationsData = {
 
 const Organizations = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
+  const { organizationId } = useParams<{ organizationId: string }>();
+  const navigate = useNavigate();
+  
   const [organizationsData, setOrganizationsData] = useState<OrganizationsData>(fallbackOrganizationsData);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -63,12 +148,11 @@ const Organizations = (): React.ReactElement => {
       try {
         setLoading(true);
         setError(null);
-        const data = await organizationsApi.getOrganizationsData();
+        const data = await organizationsApi.getOrganizationsData(organizationId);
         setOrganizationsData(data);
       } catch (err) {
         console.error('Failed to fetch organizations data:', err);
         setError('Failed to load organizations data. Using fallback data.');
-        // Keep using fallback data on error
         setOrganizationsData(fallbackOrganizationsData);
       } finally {
         setLoading(false);
@@ -76,7 +160,12 @@ const Organizations = (): React.ReactElement => {
     };
 
     fetchOrganizationsData();
-  }, []);
+  }, [organizationId]);
+
+  // Click handler for related organizations
+  const handleRelatedOrgClick = (org: RelatedOrganization) => {
+    navigate(`/organization/${org.organizationId}`);
+  };
 
   // Get current language data
   const currentData = organizationsData[currentLanguage];
@@ -117,12 +206,12 @@ const Organizations = (): React.ReactElement => {
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-background">
         <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
           {/* Main Content */}
-          <main className="items-start justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex-1 grow flex relative self-stretch w-full">
-            <div className="flex flex-col max-w-[960px] items-start relative flex-1 grow mb-[-1.00px]">
+          <main className="items-start justify-center px-2 md:px-4 lg:px-8 py-5 flex-1 grow flex relative self-stretch w-full">
+            <div className="flex flex-col w-full max-w-7xl items-start relative flex-1 grow mb-[-1.00px]">
               {/* Organizations Title */}
               <div className="flex flex-wrap items-start justify-around gap-[12px_12px] p-4 relative self-stretch w-full flex-[0_0_auto]">
                 <div className="flex flex-col w-full sm:w-72 items-start relative">
-                  <h2 className=" text-center relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl sm:text-[32px] tracking-[0] leading-8 sm:leading-10">
+                  <h2 className="text-center relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl sm:text-[32px] tracking-[0] leading-8 sm:leading-10">
                     {pageTitle}
                   </h2>
                 </div>
@@ -131,30 +220,33 @@ const Organizations = (): React.ReactElement => {
               {/* Organization Cards */}
               <div className="flex flex-col items-start gap-3 p-4 relative self-stretch w-full flex-[0_0_auto]">
                 {relatedOrganizations.length === 0 ? (
-                  // Empty state
                   <></>
                 ) : (
-                  // Responsive ScrollArea
                   <>
                     {/* Vertical ScrollArea for small screens */}
                     <ScrollArea dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'} className="h-[300px] w-full rounded-md border p-4 block md:hidden">
                       <div className="flex flex-col gap-3 pr-4">
-                        {relatedOrganizations.map((org, index) => (
+                        {relatedOrganizations.map((org) => (
                           <Card
-                            key={index}
-                            className="flex h-[94px] w-full items-center gap-3 p-4 relative bg-card rounded-lg border border-border hover:shadow-md transition-shadow"
+                            key={org.organizationId}
+                            className="flex h-[94px] w-full items-center gap-3 p-4 relative bg-card rounded-lg border border-border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-primary/50 hover:bg-accent/50 group"
+                            onClick={() => handleRelatedOrgClick(org)}
                           >
                             <CardContent className="flex items-center gap-3 p-0">
                               <div
-                                className="relative w-20 h-20 rounded-lg bg-cover bg-center flex-shrink-0"
+                                className="relative w-20 h-20 rounded-lg bg-cover bg-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
                                 style={{
-                                  backgroundImage: `url(${org.logoUrl})`,
+                                  backgroundImage: org.logoUrl ? `url(${org.logoUrl})` : 'none',
+                                  backgroundColor: org.logoUrl ? 'transparent' : '#f0f0f0'
                                 }}
                               />
                               <div className="flex flex-col min-w-0 flex-1 items-start relative">
-                                <h3 className="relative text-wrap self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-card-foreground text-sm sm:text-base tracking-[0] leading-4 sm:leading-5">
+                                <h3 className="relative text-wrap self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-card-foreground text-sm sm:text-base tracking-[0] leading-4 sm:leading-5 transition-colors duration-300 group-hover:text-primary">
                                   {org.name}
                                 </h3>
+                                <span className="text-xs text-muted-foreground capitalize mt-1">
+                                  {org.type === "organizations" ? (currentLanguage === 'ar' ? 'منظمة' : 'Organization') : (currentLanguage === 'ar' ? 'مبادرة' : 'Initiative')}
+                                </span>
                               </div>
                             </CardContent>
                           </Card>
@@ -165,22 +257,27 @@ const Organizations = (): React.ReactElement => {
                     {/* Horizontal ScrollArea for medium and large screens */}
                     <ScrollArea dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'} className="w-full rounded-md border p-4 hidden md:block">
                       <div className="flex gap-3 pb-4">
-                        {relatedOrganizations.map((org, index) => (
+                        {relatedOrganizations.map((org) => (
                           <Card
-                            key={index}
-                            className="flex h-[94px] w-auto items-center gap-3 p-4 relative bg-card rounded-lg border border-border hover:shadow-md transition-shadow flex-shrink-0"
+                            key={org.organizationId}
+                            className="flex h-[94px] w-auto items-center gap-3 p-4 relative bg-card rounded-lg border border-border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-primary/50 hover:bg-accent/50 flex-shrink-0 group"
+                            onClick={() => handleRelatedOrgClick(org)}
                           >
                             <CardContent className="flex items-center gap-3 p-0">
                               <div
-                                className="relative w-10 h-10 rounded-lg bg-cover bg-center flex-shrink-0"
+                                className="relative w-10 h-10 rounded-lg bg-cover bg-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
                                 style={{
-                                  backgroundImage: `url(${org.logoUrl})`,
+                                  backgroundImage: org.logoUrl ? `url(${org.logoUrl})` : 'none',
+                                  backgroundColor: org.logoUrl ? 'transparent' : '#f0f0f0'
                                 }}
                               />
                               <div className="flex flex-col min-w-0 flex-1 items-start relative">
-                                <h3 className="relative text-wrap self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-card-foreground text-sm sm:text-base tracking-[0] leading-4 sm:leading-5">
+                                <h3 className="relative text-wrap self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-card-foreground text-sm sm:text-base tracking-[0] leading-4 sm:leading-5 transition-colors duration-300 group-hover:text-primary">
                                   {org.name}
                                 </h3>
+                                <span className="text-xs text-muted-foreground capitalize">
+                                  {org.type === "organizations" ? (currentLanguage === 'ar' ? 'منظمة' : 'Org') : (currentLanguage === 'ar' ? 'مبادرة' : 'Init')}
+                                </span>
                               </div>
                             </CardContent>
                           </Card>

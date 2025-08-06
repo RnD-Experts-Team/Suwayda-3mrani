@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Add this import
 import AidAndResponseSection from "../components/home/AidAndResponseSection";
 import SuggestionList from "../components/home/SuggestionList";
 import ComponentNodeSectionGroup from "../components/home/ComponentNodeSectionGroup";
@@ -306,6 +307,7 @@ const fallbackHomeData: HomeData = {
 };
 
 const Home = (): React.ReactElement => {
+   const navigate = useNavigate(); // Add this hook
   const [homeData, setHomeData] = useState<HomeData>(fallbackHomeData);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -339,6 +341,13 @@ const Home = (): React.ReactElement => {
   const getDataById = (id: string): HomeContentItem | undefined => {
     return homeData.data.find((item) => item.id === id);
   };
+
+ // Add this function to handle organization clicks
+  const handleOrganizationClick = (organizationId: string) => {
+    navigate(`/organization/${organizationId}`);
+  }
+
+
 
   // Extract specific data for components
   const extractHeroData = (): ExtractedHeroData | null => {
@@ -423,8 +432,8 @@ const Home = (): React.ReactElement => {
       )}
 
       <div className="flex flex-col w-full bg-card">
-        <div className="flex justify-center px-4 md:px-10 lg:px-40 py-5 w-full">
-          <div className="flex flex-col max-w-[960px] w-full">
+        <div className="flex justify-center px-2 md:px-4 lg:px-8 py-5 w-full">
+          <div className="flex flex-col max-w-7xl w-full">
             {/* Hero Section */}
             {heroContent && <HeroSection content={heroContent} />}
 
@@ -452,6 +461,8 @@ const Home = (): React.ReactElement => {
               <AidAndResponseSection
                 organizations={aidData.organizations}
                 title={aidData.title}
+                onOrganizationClick={handleOrganizationClick}
+
               />
             )}
 

@@ -183,8 +183,8 @@ const TimeLine = (): React.ReactElement => {
       <div className="flex flex-col min-h-auto items-start relative w-full flex-[0_0_auto] bg-background">
         <div className="flex flex-col items-start relative w-full flex-[0_0_auto]">
           {/* Main Content */}
-          <main className="items-start justify-center px-4 sm:px-8 md:px-16 lg:px-40 py-5 flex-1 grow flex relative self-stretch w-full">
-            <div className="flex flex-col max-w-8xl items-start relative flex-1 grow">
+          <main className="items-start justify-center px-2 md:px-4 lg:px-8 py-5 flex-1 grow flex relative self-stretch w-full">
+            <div className="flex flex-col w-full max-w-8xl items-start relative flex-1 grow">
               {/* Timeline Header */}
               <div className="flex flex-wrap items-start justify-around gap-[12px_12px] p-4 relative self-stretch w-full flex-[0_0_auto]">
                 <div className="inline-flex flex-col min-w-72 items-start relative flex-[0_0_auto]">

@@ -11,6 +11,7 @@ interface AidOrganizationData {
 }
 
 interface AidOrganization {
+  id?: string; // Add id property
   en: AidOrganizationData;
   ar: AidOrganizationData;
 }
@@ -23,13 +24,26 @@ interface TitleData {
 interface AidAndResponseSectionProps {
   organizations: AidOrganization[];
   title: TitleData;
+  onOrganizationClick?: (orgId: string) => void; // Add optional click handler
 }
 
-export default function AidAndResponseSection({ organizations, title }: AidAndResponseSectionProps): React.ReactElement {
+export default function AidAndResponseSection({ 
+  organizations, 
+  title, 
+  onOrganizationClick 
+}: AidAndResponseSectionProps): React.ReactElement {
   const { currentLanguage } = useLanguage();
 
-  const handleCardClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
+  const handleCardClick = (org: AidOrganization) => {
+    const currentData = org[currentLanguage];
+    
+    // If onOrganizationClick is provided and org has an id, use the dynamic routing
+    if (onOrganizationClick && org.id) {
+      onOrganizationClick(org.id);
+    } else {
+      // Otherwise, use the URL directly (external links)
+      window.open(currentData.url, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
@@ -49,9 +63,9 @@ export default function AidAndResponseSection({ organizations, title }: AidAndRe
               const currentData = org[currentLanguage];
               return (
                 <Card
-                  key={index}
+                  key={org.id || index}
                   className="flex-shrink-0 mx-2 w-[223px] bg-transparent border-none shadow-none cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group"
-                  onClick={() => handleCardClick(currentData.url)}
+                  onClick={() => handleCardClick(org)}
                 >
                   <div
                     className="w-full h-[223px] rounded-xl bg-cover bg-center mb-3 transition-all duration-300 group-hover:brightness-110 group-hover:shadow-md"
