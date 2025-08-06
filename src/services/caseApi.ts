@@ -5,7 +5,7 @@ import type { CaseData } from '@/types/case';
 const API_BASE_URL = 'https://admin.suwayda3mrani.com/api';
 
 const api = axios.create({
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

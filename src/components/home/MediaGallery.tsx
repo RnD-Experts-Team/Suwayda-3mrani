@@ -71,7 +71,7 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
             {data.title[currentLanguage]}
           </h2>
           
-          <Link to="/media">
+          <Link to="/gallery">
             <Button 
               variant="ghost" 
               className="text-muted-foreground hover:text-foreground transition-colors p-0 h-auto"
@@ -104,7 +104,7 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
                     onClick={() => openDialog(mediaItem)}
                   >
                     <CardContent className="p-0">
-                      <div className="w-[200px] h-[200px] relative">
+                      <div className="w-[350px] h-[350px] relative">
                         {mediaItem.type === 'image' ? (
                           <img
                             src={mediaItem.url}
