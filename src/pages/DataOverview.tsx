@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DataCardList from "../components/dataOverview/DataCardList";
 import { useLanguage } from "@/LanguageContext";
 import { dataOverviewApi } from "@/services/dataOverviewApi";
@@ -49,7 +49,7 @@ const fallbackDataOverviewData: DataOverviewData = {
   dataRegistry: {
     deaths: [
       {
-        id: 1,
+        id: "deaths-1",
         title: {
           en: "Death Case 1",
           ar: "حالة وفاة 1",
@@ -95,7 +95,7 @@ const fallbackDataOverviewData: DataOverviewData = {
     ],
     houses: [
       {
-        id: 1,
+        id: "houses-1",
         title: {
           en: "House Case 1",
           ar: "حالة منزل 1",
@@ -139,7 +139,7 @@ const fallbackDataOverviewData: DataOverviewData = {
         ],
       },
       {
-        id: 2,
+        id: "houses-2",
         title: {
           en: "House Case 2",
           ar: "حالة منزل 2",
@@ -185,7 +185,7 @@ const fallbackDataOverviewData: DataOverviewData = {
     ],
     migrations: [
       {
-        id: 1,
+        id: "migrations-1",
         title: {
           en: "Migration Case 1",
           ar: "حالة هجرة 1",
@@ -231,7 +231,7 @@ const fallbackDataOverviewData: DataOverviewData = {
     ],
     thefts: [
       {
-        id: 1,
+        id: "thefts-1",
         title: {
           en: "Theft Case 1",
           ar: "حالة سرقة 1",

@@ -4,7 +4,6 @@ import ArticlePreviewSection from "../components/news/ArticlePreviewSection";
 import ContentWrapperSection from "../components/news/ContentWrapperSection";
 import FeaturedArticleSection from "../components/news/FeaturedArticleSection";
 import HeaderSection from "../components/news/HeaderSection";
-import MainContentSection from "../components/news/MainContentSection";
 import NavigationSection from "../components/news/NavigationSection";
 import NewsSection from "../components/news/NewsSection";
 import RelatedArticlesSection from "../components/news/RelatedArticlesSection";

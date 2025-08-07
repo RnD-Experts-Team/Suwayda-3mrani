@@ -1,5 +1,4 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -8,7 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Play } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/LanguageContext";
 import { useParams } from "react-router-dom";

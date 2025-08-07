@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { HomeData } from '@/types/home';
+import type { HomeData, HomeContentItem } from '@/types/home';
 
 // API endpoint - replace with your actual API URL
 const API_BASE_URL = 'https://admin.suwayda3mrani.com/api/home';

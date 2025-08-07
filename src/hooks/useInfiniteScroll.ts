@@ -1,9 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-interface UseInfiniteScrollProps {
-  fetchData: () => Promise<void>;
-  hasMore: boolean;
-}
 
 interface UseInfiniteScrollReturn {
   loadMoreRef: React.RefObject<HTMLDivElement>;

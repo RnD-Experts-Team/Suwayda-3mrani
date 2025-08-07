@@ -16,14 +16,6 @@ interface RelatedOrganization {
   type: "organizations" | "initiatives";
 }
 
-interface CurrentOrganization {
-  name: string;
-  imageUrl: string;
-  description: string;
-  type: "organizations" | "initiatives";
-  categories: (string | null)[];
-  organizationId: string;
-}
 
 // Updated fallback data structure to match API
 const fallbackOrganizationsData: OrganizationsData = {
@@ -148,7 +140,8 @@ const Organizations = (): React.ReactElement => {
       try {
         setLoading(true);
         setError(null);
-        const data = await organizationsApi.getOrganizationsData(organizationId);
+        const id = organizationId ?? 'org-fallback-default';
+        const data = await organizationsApi.getOrganizationsData(id);
         setOrganizationsData(data);
       } catch (err) {
         console.error('Failed to fetch organizations data:', err);

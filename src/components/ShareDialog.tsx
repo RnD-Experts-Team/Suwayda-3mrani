@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -193,7 +193,7 @@ export default function ShareDialog({ buttonText, title, url }: ShareDialogProps
           </div>
 
           {/* Native Share (for mobile) */}
-          {navigator.share && (
+{typeof navigator !== 'undefined' && 'share' in navigator && (
             <div className="pt-2 border-t">
               <Button
                 variant="outline"

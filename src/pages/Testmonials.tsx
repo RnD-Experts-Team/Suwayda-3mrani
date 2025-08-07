@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -62,7 +61,6 @@ const Testimonials = (): React.ReactElement => {
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [copySuccess, setCopySuccess] = useState(false);
 
   // Fetch testimony data from API
   useEffect(() => {
@@ -97,26 +95,7 @@ const Testimonials = (): React.ReactElement => {
     );
   };
 
-  // Function to copy current page URL to clipboard
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopySuccess(true);
-      // Reset the success state after 2 seconds
-      setTimeout(() => setCopySuccess(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy link: ", err);
-      // Fallback for older browsers
-      const textArea = document.createElement("textarea");
-      textArea.value = window.location.href;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
-    }
-  };
+  
 
   // Helper function to extract only the intro part of the content (before first \n)
   const extractIntroContent = (content: string): string => {
