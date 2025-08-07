@@ -82,6 +82,12 @@ export default function Case(): React.ReactElement {
     return videoExtensions.some(ext => url.toLowerCase().includes(ext));
   };
 
+  // Helper function to extract only the intro part of the content (before first \n)
+const extractIntroContent = (content: string): string => {
+  return content.split('\n')[0].trim();
+};
+
+
   // Loading state
   if (loading) {
     return (
@@ -162,20 +168,20 @@ export default function Case(): React.ReactElement {
               </div>
 
               {/* Case metadata */}
-              {caseData.metadata && (
+              {/* {caseData.metadata && (
                 <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
                   <Card className="w-full bg-muted/50 border border-border">
                     <CardContent className="p-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                         <div>
                           <span className="font-semibold text-foreground">
-                            {currentLanguage === 'ar' ? 'نوع القضية:' : 'Case Type:'} 
+                            {currentLanguage === 'ar' ? 'نوع القضية : ' : 'Case Type:'} 
                           </span>
                           <span className="ml-2 text-muted-foreground capitalize">{caseData.metadata.type}</span>
                         </div>
                         <div>
                           <span className="font-semibold text-foreground">
-                            {currentLanguage === 'ar' ? 'تاريخ الحادث:' : 'Incident Date:'} 
+                            {currentLanguage === 'ar' ? 'تاريخ الحادث : ' : 'Incident Date:'} 
                           </span>
                           <span className="ml-2 text-muted-foreground">
                             {new Date(caseData.metadata.incident_date).toLocaleDateString(
@@ -186,7 +192,7 @@ export default function Case(): React.ReactElement {
                         </div>
                         <div className="sm:col-span-2">
                           <span className="font-semibold text-foreground">
-                            {currentLanguage === 'ar' ? 'الموقع:' : 'Location:'} 
+                            {currentLanguage === 'ar' ? 'الموقع : ' : 'Location:'} 
                           </span>
                           <span className="ml-2 text-muted-foreground">{caseData.metadata.location}</span>
                         </div>
@@ -194,16 +200,17 @@ export default function Case(): React.ReactElement {
                     </CardContent>
                   </Card>
                 </div>
-              )}
+              )} */}
 
-              {/* Content description */}
-              <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
-                <div 
-                  className="relative self-stretch mt-[-1.00px] font-normal text-foreground text-sm sm:text-base tracking-[0] leading-5 sm:leading-6 font-['Newsreader-Regular',Helvetica] whitespace-pre-line"
-                >
-                  {currentData.content}
-                </div>
-              </div>
+              {/* Content description - Updated to show only intro */}
+<div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
+  <div 
+    className="relative self-stretch mt-[-1.00px] font-normal text-foreground text-sm sm:text-base tracking-[0] leading-5 sm:leading-6 font-['Newsreader-Regular',Helvetica] whitespace-pre-line"
+  >
+    {extractIntroContent(currentData.content)}
+  </div>
+</div>
+
             </div>
           </div>
         </div>
