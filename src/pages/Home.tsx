@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 import AidAndResponseSection from "../components/home/AidAndResponseSection";
 import SuggestionList from "../components/home/SuggestionList";
 import ComponentNodeSectionGroup from "../components/home/ComponentNodeSectionGroup";
@@ -17,337 +17,111 @@ import type {
   ComponentNodeContent
 } from "@/types/home";
 
-// Fallback data (your existing apiData structure)
-const fallbackHomeData: HomeData = {
-  data: [
-    // Hero Content
-    {
-      id: "hero-1",
-      type: "hero",
-      content: {
-        en: {
-          title: "Silenced Voices of Suwayda",
-          image: "https://picsum.photos/800/400",
-        },
-        ar: {
-          title: "أصوات السويداء المكتومة",
-          image: "https://picsum.photos/800/400",
-        },
-      },
-    },
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Content
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
 
-    // Media Gallery
-    {
-      id: "media-gallery-1",
-      type: "media_gallery",
-      content: {
-        title: { en: "Media Gallery", ar: "معرض الوسائط" },
-        mediaItems: [
-          {
-            id: "media-1",
-            url: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-            title: { en: "Image Title", ar: "عنوان الصورة" },
-            description: { en: "Description...", ar: "الوصف..." },
-            sourceUrl: "https://source.com",
-            type: "image",
-          },
-          {
-            id: "media-2",
-            url: "https://www.w3schools.com/html/mov_bbb.mp4",
-            title: { en: "Video Title", ar: "عنوان الفيديو" },
-            description: { en: "Description...", ar: "الوصف..." },
-            sourceUrl: "https://source.com",
-            type: "video",
-          },
-        ],
-      },
-    },
-
-    // Aid Organizations
-    {
-      id: "aid-organizations",
-      type: "aid_organizations",
-      title: { en: "Aid and Response", ar: "المساعدات والاستجابة" },
-      content: [
-        {
-          id: "aid-org-1",
-          en: {
-            name: "Humanitarian Aid International",
-            description: "Providing essential aid and support to affected communities.",
-            backgroundImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-            url: "https://www.humanitarianaid.org"
-          },
-          ar: {
-            name: "المساعدات الإنسانية الدولية",
-            description: "تقديم المساعدات الأساسية والدعم للمجتمعات المتضررة.",
-            backgroundImage: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
-            url: "https://www.humanitarianaid.org"
-          },
-        },
-        {
-          id: "aid-org-2",
-          en: {
-            name: "Doctors Without Borders",
-            description: "Offering medical assistance and healthcare services.",
-            backgroundImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
-            url: "https://www.doctorswithoutborders.org"
-          },
-          ar: {
-            name: "أطباء بلا حدود",
-            description: "تقديم المساعدة الطبية وخدمات الرعاية الصحية.",
-            backgroundImage: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
-            url: "https://www.doctorswithoutborders.org"
-          },
-        },
-        {
-          id: "aid-org-3",
-          en: {
-            name: "Red Crescent Society",
-            description: "Delivering emergency relief and humanitarian aid.",
-            backgroundImage: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
-            url: "https://www.ifrc.org"
-          },
-          ar: {
-            name: "جمعية الهلال الأحمر",
-            description: "تقديم الإغاثة الطارئة والمساعدات الإنسانية.",
-            backgroundImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
-            url: "https://www.ifrc.org"
-          },
-        },
-        {
-          id: "aid-org-4",
-          en: {
-            name: "Global Relief Fund",
-            description: "Supporting long-term recovery and development efforts.",
-            backgroundImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
-            url: "https://www.globalrelieffund.org"
-          },
-          ar: {
-            name: "صندوق الإغاثة العالمي",
-            description: "دعم جهود التعافي والتنمية طويلة المدى.",
-            backgroundImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
-            url: "https://www.globalrelieffund.org"
-          },
-        },
-      ],
-    },
-
-    // Suggestions
-    {
-      id: "suggestions",
-      type: "suggestions",
-      content: [
-        {
-          id: "suggestion-1",
-          key: "takeAction",
-          en: {
-            title: "Take Action",
-            description: "Support the victims of the Suwayda crisis and help bring an end to the atrocities.",
-            buttonText: "Donate",
-            buttonVariant: "outline" as const,
-          },
-          ar: {
-            title: "اتخذ إجراءً",
-            description: "ادعم ضحايا أزمة السويداء وساعد في وضع حد للفظائع.",
-            buttonText: "تبرع",
-            buttonVariant: "outline" as const,
-          },
-        },
-        {
-          id: "suggestion-2",
-          key: "shareTestimony",
-          en: {
-            title: "Share Testimony",
-            description: "If you have witnessed or experienced the events in Suwayda, share your story to help raise awareness.",
-            buttonText: "Share Testimony",
-            buttonVariant: "outline" as const,
-          },
-          ar: {
-            title: "شارك شهادتك",
-            description: "إذا كنت قد شهدت أو عشت الأحداث في السويداء، شارك قصتك للمساعدة في زيادة الوعي.",
-            buttonText: "شارك شهادتك",
-            buttonVariant: "outline" as const,
-          },
-        },
-        {
-          id: "suggestion-3",
-          key: "volunteer",
-          en: {
-            title: "Volunteer",
-            description: "Join our team of volunteers to support our efforts in providing aid and raising awareness.",
-            buttonText: "Volunteer",
-            buttonVariant: "outline" as const,
-          },
-          ar: {
-            title: "تطوع",
-            description: "انضم إلى فريق المتطوعين لدينا لدعم جهودنا في تقديم المساعدة وزيادة الوعي.",
-            buttonText: "تطوع",
-            buttonVariant: "outline" as const,
-          },
-        },
-        {
-          id: "suggestion-4",
-          key: "alertMedia",
-          en: {
-            title: "Alert Media",
-            description: "Help us amplify the voices of the victims by alerting media outlets to the ongoing Crisis.",
-            buttonText: "Alert Media",
-            buttonVariant: "outline" as const,
-          },
-          ar: {
-            title: "تنبيه الإعلام",
-            description: "ساعدنا في تضخيم أصوات الضحايا من خلال تنبيه وسائل الإعلام للأزمة المستمرة.",
-            buttonText: "تنبيه الإعلام",
-            buttonVariant: "outline" as const,
-          },
-        },
-      ],
-    },
-
-    // Component Nodes and Testimonials
-    {
-      id: "component-node-1",
-      type: "component_node",
-      content: {
-        en: {
-          category: "Breaking News",
-          title: "Suwayda Crisis Escalates",
-          description: "Recent reports indicate a surge in violence and human rights violations in Suwayda, raising concerns about the safety of civilians.",
-          imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
-        },
-        ar: {
-          category: "أخبار عاجلة",
-          title: "تصاعد أزمة السويداء",
-          description: "تشير التقارير الأخيرة إلى ارتفاع في العنف وانتهاكات حقوق الإنسان في السويداء، مما يثير المخاوف بشأن سلامة المدنيين.",
-          imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
-        },
-        url: "https://example.com/suwayda-crisis",
-      },
-    },
-
-    {
-      id: "testimonial-wrapper-1",
-      type: "testimonial",
-      content: {
-        en: {
-          category: "Survivor Story",
-          title: "Aisha's Journey",
-          description: "Aisha, a survivor from Suwayda, recounts her harrowing escape from the conflict zone and her struggle to rebuild her life.",
-          imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
-        },
-        ar: {
-          category: "قصة ناجية",
-          title: "رحلة عائشة",
-          description: "تحكي عائشة، الناجية من السويداء، عن هروبها المؤلم من منطقة الصراع وكفاحها لإعادة بناء حياتها.",
-          imageUrl: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
-        },
-        url: "https://example.com/aisha-story",
-      },
-    },
-
-    {
-      id: "testimonial-2",
-      type: "testimonial",
-      content: {
-        en: {
-          category: "Survivor Story",
-          title: "Omar's Account",
-          description: "Omar shares his experience of witnessing atrocities and his efforts to document the events to ensure accountability.",
-          imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
-        },
-        ar: {
-          category: "قصة ناجي",
-          title: "شهادة عمر",
-          description: "يشارك عمر تجربته في مشاهدة الفظائع وجهوده لتوثيق الأحداث لضمان المساءلة.",
-          imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-        },
-        url: "https://example.com/omar-account",
-      },
-    },
-
-    {
-      id: "key-events-1",
-      type: "key_events",
-      content: {
-        en: {
-          category: "Update",
-          title: "Aid Efforts Intensify",
-          description: "International organizations are ramping up aid efforts to provide essential supplies and support to affected communities in Suwayda.",
-          imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-        },
-        ar: {
-          category: "تحديث",
-          title: "تكثيف جهود المساعدة",
-          description: "تعمل المنظمات الدولية على تكثيف جهود المساعدة لتوفير الإمدادات الأساسية والدعم للمجتمعات المتضررة في السويداء.",
-          imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
-        },
-        url: "https://example.com/aid-efforts",
-      },
-    },
-
-    // Section Groups
-    {
-      id: "section-group-1",
-      type: "section_group",
-      content: {
-        title: { en: "test", ar: "اختبار" },
-        sections: ["testimonial-wrapper-1", "testimonial-2"],
-      },
-    },
-
-    {
-      id: "section-group-2",
-      type: "section_group",
-      content: {
-        title: { en: "Crisis Documentation", ar: "توثيق الأزمة" },
-        sections: ["component-node-1", "key-events-1"],
-      },
-    },
-  ],
-};
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading content...</p>
+  </div>
+);
 
 const Home = (): React.ReactElement => {
-   const navigate = useNavigate(); // Add this hook
-  const [homeData, setHomeData] = useState<HomeData>(fallbackHomeData);
+  const navigate = useNavigate();
+  const [homeData, setHomeData] = useState<HomeData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   // Fetch home data from API
-  useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await homeApi.getHomeData();
-        setHomeData(data);
-      } catch (err) {
-        console.error('Failed to fetch home data:', err);
-        setError('Failed to load home data. Using fallback data.');
-        // Keep using fallback data on error
-        setHomeData(fallbackHomeData);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchHomeData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await homeApi.getHomeData();
+      setHomeData(data);
+    } catch (err) {
+      console.error('Failed to fetch home data:', err);
+      setError(true);
+      setHomeData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchHomeData();
   }, []);
 
+  // Handle retry
+  const handleRetry = () => {
+    fetchHomeData();
+  };
+
   // Helper functions to extract data from the unified structure
   const getDataByType = (type: string): HomeContentItem | undefined => {
-    return homeData.data.find((item) => item.type === type);
+    return homeData?.data.find((item) => item.type === type);
   };
 
   const getDataById = (id: string): HomeContentItem | undefined => {
-    return homeData.data.find((item) => item.id === id);
+    return homeData?.data.find((item) => item.id === id);
   };
 
- // Add this function to handle organization clicks
+  // Get all testimonials
+  const getAllTestimonials = (): HomeContentItem[] => {
+    return homeData?.data.filter((item) => item.type === "testimonial") || [];
+  };
+
+  // Handle organization clicks
   const handleOrganizationClick = (organizationId: string) => {
     navigate(`/organization/${organizationId}`);
-  }
-
-
+  };
 
   // Extract specific data for components
   const extractHeroData = (): ExtractedHeroData | null => {
@@ -385,6 +159,23 @@ const Home = (): React.ReactElement => {
     return null;
   };
 
+  // Extract testimonials data for the first section group
+  const extractTestimonialsData = (): ExtractedSectionGroupData | null => {
+    const testimonials = getAllTestimonials();
+    if (testimonials.length === 0) return null;
+
+    const sections = testimonials
+      .filter((item): item is ComponentNodeContent => 
+        item.type === "testimonial"
+      )
+      .map(item => item.content);
+
+    return {
+      title: { en: "Testimonials", ar: "الشهادات" }, // Default title, you can customize this
+      sections,
+    };
+  };
+
   const extractSectionGroupData = (groupId: string): ExtractedSectionGroupData | null => {
     const groupItem = getDataById(groupId);
     if (groupItem && groupItem.type === "section_group") {
@@ -404,14 +195,14 @@ const Home = (): React.ReactElement => {
     return null;
   };
 
-  // Loading state
+  // Show loading state
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading home content...</p>
-      </div>
-    );
+    return <LoadingState />;
+  }
+
+  // Show error state
+  if (error || !homeData) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   // Extract data
@@ -419,18 +210,11 @@ const Home = (): React.ReactElement => {
   const galleryData = extractMediaGalleryData();
   const aidData = extractAidData();
   const suggestionsData = extractSuggestionsData();
-  const sectionGroup1Data = extractSectionGroupData("section-group-1");
-  const sectionGroup2Data = extractSectionGroupData("section-group-2");
+  const testimonialsData = extractTestimonialsData(); // Use testimonials for first section
+  const sectionGroup2Data = extractSectionGroupData("section-group-2"); // Keep second section as is
 
   return (
     <div className="flex flex-col w-full bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col w-full bg-card">
         <div className="flex justify-center px-2 md:px-4 lg:px-8 py-5 w-full">
           <div className="flex flex-col max-w-7xl w-full">
@@ -441,20 +225,14 @@ const Home = (): React.ReactElement => {
             {galleryData && <MediaGallery data={galleryData} />}
 
             {/* Section Group 1 (Testimonials) */}
-            {sectionGroup1Data && (
+            {testimonialsData && (
               <ComponentNodeSectionGroup
-                title={sectionGroup1Data.title}
-                sections={sectionGroup1Data.sections}
+                title={testimonialsData.title}
+                sections={testimonialsData.sections}
               />
             )}
 
-            {/* Section Group 2 (Crisis Documentation) */}
-            {sectionGroup2Data && (
-              <ComponentNodeSectionGroup
-                title={sectionGroup2Data.title}
-                sections={sectionGroup2Data.sections}
-              />
-            )}
+            
 
             {/* Aid and Response Section */}
             {aidData && (
@@ -462,7 +240,6 @@ const Home = (): React.ReactElement => {
                 organizations={aidData.organizations}
                 title={aidData.title}
                 onOrganizationClick={handleOrganizationClick}
-
               />
             )}
 

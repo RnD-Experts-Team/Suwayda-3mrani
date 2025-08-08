@@ -64,7 +64,7 @@ export default function AidAndResponseSection({
               return (
                 <Card
                   key={org.id || index}
-                  className="flex-shrink-0 mx-2 w-[223px] bg-transparent border-none shadow-none cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+                  className="flex-shrink-0 m-3 w-[223px] bg-transparent border-none shadow-none cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg group"
                   onClick={() => handleCardClick(org)}
                 >
                   <div
@@ -73,7 +73,7 @@ export default function AidAndResponseSection({
                   />
                   <CardContent className="p-0">
                     <div className="flex flex-col items-start w-full">
-                      <h3 className="w-full mt-[-1.00px] [font-family:'Newsreader-Medium',Helvetica] font-medium text-foreground text-base leading-6 group-hover:text-primary transition-colors duration-300">
+                      <h3 className="w-full text-wrap mt-[-1.00px] [font-family:'Newsreader-Medium',Helvetica] font-medium text-foreground text-base leading-6 group-hover:text-primary transition-colors duration-300">
                         {currentData.name}
                       </h3>
                       <p className="w-full mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-wrap text-muted-foreground text-sm leading-[21px] group-hover:text-foreground transition-colors duration-300">

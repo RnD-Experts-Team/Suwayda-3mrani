@@ -24,43 +24,61 @@ import type { MediaPageData, MediaItem } from "@/types/gallery";
 /* ────────── CONSTANTS ────────── */
 const ITEMS_PER_PAGE = 6;
 
-/* ────────── FALLBACK DATA (complete fallback object) ────────── */
-const fallbackMediaData: MediaPageData = {
-  pageTitle: {
-    en: "Media",
-    ar: "الإعلام",
-  },
-  loadingMessages: {
-    loadingGallery: { en: "Loading gallery...", ar: "جاري تحميل المعرض..." },
-    loadingMore: { en: "Loading more...", ar: "جاري تحميل المزيد..." },
-    scrollForMore: { en: "Scroll for more", ar: "مرر لرؤية المزيد" },
-    noMoreItems: { en: "No more items to load", ar: "لا توجد عناصر أخرى للتحميل" },
-    videoNotSupported: { en: "Your browser does not support the video tag.", ar: "متصفحك لا يدعم عنصر الفيديو." },
-    closeModal: { en: "Close", ar: "إغلاق" },
-  },
-  mediaItems: [
-    { id: 1, src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop", alt: "Portrait photo 1", type: "image" },
-    { id: 2, src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop", alt: "Portrait photo 2", type: "image" },
-    { id: 3, src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop", alt: "Portrait photo 3", type: "image" },
-    { id: 4, src: "https://www.w3schools.com/html/mov_bbb.mp4", alt: "Sample video 4", type: "video" },
-    { id: 5, src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop", alt: "Portrait photo 5", type: "image" },
-    { id: 6, src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop", alt: "Portrait photo 6", type: "image" },
-    { id: 7, src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop", alt: "Portrait photo 7", type: "image" },
-    { id: 8, src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop", alt: "Portrait photo 8", type: "image" },
-    { id: 9, src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop", alt: "Portrait photo 9", type: "image" },
-    { id: 10, src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop", alt: "Portrait photo 10", type: "image" },
-    { id: 11, src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop", alt: "Portrait photo 11", type: "image" },
-    { id: 12, src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop", alt: "Portrait photo 12", type: "image" },
-    { id: 13, src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop", alt: "Portrait photo 13", type: "image" },
-    { id: 14, src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop", alt: "Portrait photo 14", type: "image" },
-    { id: 15, src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop", alt: "Portrait photo 15", type: "image" },
-    { id: 16, src: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop", alt: "Portrait photo 16", type: "image" },
-    { id: 17, src: "https://www.w3schools.com/html/mov_bbb.mp4", alt: "Sample video 17", type: "video" },
-    { id: 18, src: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop", alt: "Portrait photo 18", type: "image" },
-    { id: 19, src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop", alt: "Portrait photo 19", type: "image" },
-    { id: 20, src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop", alt: "Portrait photo 20", type: "image" },
-  ],
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Media Gallery
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading media gallery...</p>
+  </div>
+);
 
 /* Helper – infer type if not pre-tagged */
 const getMediaType = (src: string): "image" | "video" => {
@@ -72,8 +90,9 @@ export default function Media(): React.ReactElement {
   const { currentLanguage } = useLanguage();
 
   /* ─── Data-level state ─── */
-  const [mediaData, setMediaData] = useState<MediaPageData>(fallbackMediaData);
+  const [mediaData, setMediaData] = useState<MediaPageData | null>(null);
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   /* ─── UI/scroll state ─── */
   const [items, setItems] = useState<MediaItem[]>([]);
@@ -85,32 +104,44 @@ export default function Media(): React.ReactElement {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
 
-  const [error, setError] = useState<string | null>(null);
-
   /* ─────────────────────────────────────────
      FETCH WHOLE MEDIA PAGE DATA FROM API
   ───────────────────────────────────────── */
+  const fetchData = async () => {
+    try {
+      setError(false);
+      const apiPayload = await mediaApi.getMediaData();
+      setMediaData(apiPayload);
+    } catch (err) {
+      console.error("Failed to fetch media data:", err);
+      setError(true);
+      setMediaData(null);
+    } finally {
+      setDataLoaded(true);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setError(null);
-        const apiPayload = await mediaApi.getMediaData();
-        setMediaData(apiPayload);
-      } catch {
-        setError("Failed to load media. Showing fallback content.");
-        setMediaData(fallbackMediaData);
-      } finally {
-        setDataLoaded(true);
-      }
-    };
     fetchData();
   }, []);
+
+  // Handle retry
+  const handleRetry = () => {
+    setDataLoaded(false);
+    setInitialLoading(true);
+    setItems([]);
+    setPage(1);
+    setHasMore(true);
+    fetchData();
+  };
 
   /* ─────────────────────────────────────────
      PAGINATION / INFINITE-SCROLL SLICE
   ───────────────────────────────────────── */
   const sliceItems = useCallback(
     async (pageNum = 1) => {
+      if (!mediaData) return;
+
       /* simulate latency for UX parity */
       await new Promise((r) => setTimeout(r, 400));
 
@@ -134,7 +165,7 @@ export default function Media(): React.ReactElement {
 
   /* load first page whenever mediaData changes AND data is loaded */
   useEffect(() => {
-    if (dataLoaded) {
+    if (dataLoaded && mediaData) {
       setInitialLoading(true);
       setItems([]);
       setPage(1);
@@ -172,30 +203,18 @@ export default function Media(): React.ReactElement {
   }, [isModalOpen]);
 
   /* ────────── RENDER ────────── */
+  // Show loading state
   if (!dataLoaded || initialLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">
-  {dataLoaded
-    ? (mediaData.loadingMessages?.loadingGallery ??
-       fallbackMediaData.loadingMessages.loadingGallery)[currentLanguage]
-    : "Loading…"}
-</p>
+    return <LoadingState />;
+  }
 
-      </div>
-    );
+  // Show error state
+  if (error || !mediaData) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   return (
     <div className="flex flex-col items-start bg-background">
-      {/* error banner */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col min-h-[800px] items-start w-full bg-background">
         <main className="flex w-full justify-center px-2 md:px-4 lg:px-8 py-5 flex-1">
           <div className="flex flex-col w-full max-w-7xl">

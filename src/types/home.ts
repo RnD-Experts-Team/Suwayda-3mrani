@@ -11,10 +11,12 @@ export interface HeroContent {
   content: {
     en: {
       title: string;
+      description: string;
       image: string;
     };
     ar: {
       title: string;
+      description: string;
       image: string;
     };
   };
@@ -134,8 +136,8 @@ export interface HomeData {
 
 // Helper types for extracted data
 export interface ExtractedHeroData {
-  en: { title: string; image: string; };
-  ar: { title: string; image: string; };
+  en: { title: string; description: string; image: string; };
+  ar: { title: string; description: string; image: string; };
 }
 
 export interface ExtractedMediaGalleryData {

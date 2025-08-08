@@ -5,315 +5,104 @@ import { useLanguage } from "@/LanguageContext";
 import { dataOverviewApi } from "@/services/dataOverviewApi";
 import type { DataOverviewData, DataCase } from "@/types/dataOverview";
 
-// Fallback data overview data
-const fallbackDataOverviewData: DataOverviewData = {
-  pageTitle: {
-    en: "Data Overview",
-    ar: "نظرة عامة على البيانات",
-  },
-  tabItems: [
-    
-    {
-      id: "houses",
-      category: "houses",
-      label: {
-        en: "Houses",
-        ar: "منازل",
-      },
-    },
-    {
-      id: "migrations",
-      category: "migrations",
-      label: {
-        en: "Migrations",
-        ar: "هجرات",
-      },
-    },
-    {
-      id: "deaths",
-      category: "deaths",
-      label: {
-        en: "Deaths",
-        ar: "وفيات",
-      },
-    },
-    {
-      id: "thefts",
-      category: "thefts",
-      label: {
-        en: "Thefts",
-        ar: "سرقات",
-      },
-    },
-  ],
-  dataRegistry: {
-    deaths: [
-      {
-        id: "deaths-1",
-        title: {
-          en: "Death Case 1",
-          ar: "حالة وفاة 1",
-        },
-        imagePath: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
-        url: "https://example.com/death1",
-        details: [
-          {
-            key: {
-              en: "Location",
-              ar: "الموقع",
-            },
-            value: {
-              en: "Village C",
-              ar: "القرية ج",
-            },
-            sort_order: 0,
-          },
-          {
-            key: {
-              en: "Date",
-              ar: "التاريخ",
-            },
-            value: {
-              en: "2023-07-10",
-              ar: "2023-07-10",
-            },
-            sort_order: 1,
-          },
-          {
-            key: {
-              en: "Cause",
-              ar: "السبب",
-            },
-            value: {
-              en: "Conflict related",
-              ar: "متعلق بالنزاع",
-            },
-            sort_order: 2,
-          },
-        ],
-      },
-    ],
-    houses: [
-      {
-        id: "houses-1",
-        title: {
-          en: "House Case 1",
-          ar: "حالة منزل 1",
-        },
-        imagePath: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
-        url: "https://example.com/house1",
-        details: [
-          {
-            key: {
-              en: "Location",
-              ar: "الموقع",
-            },
-            value: {
-              en: "Village A",
-              ar: "القرية أ",
-            },
-            sort_order: 0,
-          },
-          {
-            key: {
-              en: "Date",
-              ar: "التاريخ",
-            },
-            value: {
-              en: "2023-05-15",
-              ar: "2023-05-15",
-            },
-            sort_order: 1,
-          },
-          {
-            key: {
-              en: "Description",
-              ar: "الوصف",
-            },
-            value: {
-              en: "House destroyed by fire",
-              ar: "منزل دمر بالنار",
-            },
-            sort_order: 2,
-          },
-        ],
-      },
-      {
-        id: "houses-2",
-        title: {
-          en: "House Case 2",
-          ar: "حالة منزل 2",
-        },
-        imagePath: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
-        url: "https://example.com/house1",
-        details: [
-          {
-            key: {
-              en: "Location",
-              ar: "الموقع",
-            },
-            value: {
-              en: "Village A",
-              ar: "القرية أ",
-            },
-            sort_order: 0,
-          },
-          {
-            key: {
-              en: "Date",
-              ar: "التاريخ",
-            },
-            value: {
-              en: "2023-05-15",
-              ar: "2023-05-15",
-            },
-            sort_order: 1,
-          },
-          {
-            key: {
-              en: "Description",
-              ar: "الوصف",
-            },
-            value: {
-              en: "House destroyed by fire",
-              ar: "منزل دمر بالنار",
-            },
-            sort_order: 2,
-          },
-        ],
-      },
-    ],
-    migrations: [
-      {
-        id: "migrations-1",
-        title: {
-          en: "Migration Case 1",
-          ar: "حالة هجرة 1",
-        },
-        imagePath: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
-        url: "https://example.com/migration1",
-        details: [
-          {
-            key: {
-              en: "Origin",
-              ar: "المنشأ",
-            },
-            value: {
-              en: "Village A",
-              ar: "القرية أ",
-            },
-            sort_order: 0,
-          },
-          {
-            key: {
-              en: "Destination",
-              ar: "الوجهة",
-            },
-            value: {
-              en: "City B",
-              ar: "المدينة ب",
-            },
-            sort_order: 1,
-          },
-          {
-            key: {
-              en: "Date",
-              ar: "التاريخ",
-            },
-            value: {
-              en: "2023-06-20",
-              ar: "2023-06-20",
-            },
-            sort_order: 2,
-          },
-        ],
-      },
-    ],
-    thefts: [
-      {
-        id: "thefts-1",
-        title: {
-          en: "Theft Case 1",
-          ar: "حالة سرقة 1",
-        },
-        imagePath: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-        url: "https://example.com/theft1",
-        details: [
-          {
-            key: {
-              en: "Location",
-              ar: "الموقع",
-            },
-            value: {
-              en: "Village D",
-              ar: "القرية د",
-            },
-            sort_order: 0,
-          },
-          {
-            key: {
-              en: "Date",
-              ar: "التاريخ",
-            },
-            value: {
-              en: "2023-08-05",
-              ar: "2023-08-05",
-            },
-            sort_order: 1,
-          },
-          {
-            key: {
-              en: "Items Stolen",
-              ar: "الأشياء المسروقة",
-            },
-            value: {
-              en: "Household items",
-              ar: "أدوات منزلية",
-            },
-            sort_order: 2,
-          },
-        ],
-      },
-    ],
-  },
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Data Overview
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading data overview...</p>
+  </div>
+);
 
 export default function DataOverview(): React.ReactElement {
   const { currentLanguage } = useLanguage();
   
-  const [dataOverviewData, setDataOverviewData] = useState<DataOverviewData>(fallbackDataOverviewData);
+  const [dataOverviewData, setDataOverviewData] = useState<DataOverviewData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("");
 
   // Fetch data overview data from API
-  useEffect(() => {
-    const fetchDataOverviewData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await dataOverviewApi.getDataOverviewData();
-        setDataOverviewData(data);
-        // Set default active tab to first available tab
-        if (data.tabItems.length > 0) {
-          setActiveTab(data.tabItems[0].id);
-        }
-      } catch (err) {
-        console.error('Failed to fetch data overview data:', err);
-        setError('Failed to load data overview. Using fallback content.');
-        // Keep using fallback data on error
-        setDataOverviewData(fallbackDataOverviewData);
-        setActiveTab(fallbackDataOverviewData.tabItems[0]?.id || "deaths");
-      } finally {
-        setLoading(false);
+  const fetchDataOverviewData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await dataOverviewApi.getDataOverviewData();
+      setDataOverviewData(data);
+      // Set default active tab to first available tab
+      if (data.tabItems.length > 0) {
+        setActiveTab(data.tabItems[0].id);
       }
-    };
+    } catch (err) {
+      console.error('Failed to fetch data overview data:', err);
+      setError(true);
+      setDataOverviewData(null);
+      setActiveTab("");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchDataOverviewData();
   }, []);
 
+  // Handle retry
+  const handleRetry = () => {
+    fetchDataOverviewData();
+  };
+
   // Function to get data array for a specific tab
   const getDataArray = (tabId: string): DataCase[] => {
+    if (!dataOverviewData) return [];
+    
     const tab = dataOverviewData.tabItems.find((item) => item.id === tabId);
     if (!tab) return [];
     
@@ -321,32 +110,25 @@ export default function DataOverview(): React.ReactElement {
     return dataOverviewData.dataRegistry[category] || [];
   };
 
-  // Loading state
+  // Show loading state
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading data overview...</p>
-      </div>
-    );
+    return <LoadingState />;
+  }
+
+  // Show error state
+  if (error || !dataOverviewData) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   return (
     <div className="flex flex-col w-full bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col w-full bg-card">
         <div className="flex justify-center px-2 md:px-4 lg:px-8 py-3 md:py-5 w-full">
           <div className="flex flex-col w-full max-w-7xl">
             {/* Data Overview Title */}
             <div className="flex flex-wrap items-start justify-around gap-3 sm:gap-[12px] p-2 sm:p-4 w-full">
               <div className="flex flex-col w-full sm:w-72">
-                <h2 className="[font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl sm:text-[32px] leading-8 sm:leading-10">
+                <h2 className="[font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl w-full text-center sm:text-[32px] leading-8 sm:leading-10">
                   {dataOverviewData.pageTitle[currentLanguage]}
                 </h2>
               </div>
