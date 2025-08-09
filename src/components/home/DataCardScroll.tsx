@@ -1,15 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import { useLanguage } from "@/LanguageContext";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 
 interface CaseData {
-  id: string; // Change from number to string to match API
+  id: string;
   title: {
     en: string;
     ar: string;
   };
-  imagePath: string | null; // Allow null values
+  imagePath: string | null;
   url: string;
   details: Array<{
     key: {
@@ -24,45 +24,53 @@ interface CaseData {
   }>;
 }
 
-interface DataCardProps {
+interface DataCardScrollProps {
   caseData: CaseData;
 }
 
-export default function DataCard({ caseData }: DataCardProps): React.ReactElement {
+export default function DataCardScroll({ caseData }: DataCardScrollProps): React.ReactElement {
   const { currentLanguage } = useLanguage();
-  const navigate = useNavigate(); // Add this hook
+  const navigate = useNavigate();
+
+  // Function to get limited details (max 3 items)
+  const getLimitedDetails = () => {
+    // Sort details by sort_order first
+    const sortedDetails = [...caseData.details].sort((a, b) => a.sort_order - b.sort_order);
+    
+    // Then take the first 3 items
+    return sortedDetails.slice(0, 3);
+  };
 
   const handleCardClick = () => {
-    // Navigate to the case page using the case ID
     navigate(`/case/${caseData.id}`);
   };
 
   return (
     <Card 
-      className="w-full border border-border bg-transparent shadow-lg rounded-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer group"
+      className="w-[300px] h-[470px] border border-border bg-transparent shadow-lg rounded-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer group flex flex-col"
       onClick={handleCardClick}
     >
-      <CardContent className="p-2">
-        <div className="flex flex-col sm:flex-row items-center gap-6">
+      <CardContent className="p-4 flex flex-col h-full">
+        <div className="flex flex-col items-center gap-4 h-full">
           <div
-            className="w-48 h-48 rounded-xl bg-cover bg-center shrink-0 border border-border shadow-sm group-hover:shadow-md transition-shadow duration-300"
+            className="w-full aspect-square rounded-xl bg-cover bg-center shrink-0 border border-border shadow-sm group-hover:shadow-md transition-shadow duration-300"
             style={{ 
               backgroundImage: caseData.imagePath ? `url(${caseData.imagePath})` : 'none',
               backgroundColor: caseData.imagePath ? 'transparent' : '#f0f0f0'
             }}
             aria-label="Case image"
           />
-          <div className="flex flex-col justify-start space-y-3 w-full">
+          <div className="flex flex-col justify-start space-y-3 w-full flex-grow">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <h3 className="font-semibold text-foreground text-lg text-wrap leading-6 group-hover:text-primary transition-colors duration-300">
+              <h3 className="font-semibold text-wrap text-foreground text-base leading-6 group-hover:text-primary transition-colors duration-300 line-clamp-2">
                 {caseData.title[currentLanguage]}
               </h3>
             </div>
-            <div className="space-y-2">
-              {caseData.details.map((detail, index) => (
+            <div className="space-y-2 overflow-y-auto flex-grow">
+              {getLimitedDetails().map((detail, index) => (
                 <p
                   key={index}
-                  className="text-muted-foreground text-sm leading-relaxed"
+                  className="text-muted-foreground text-wrap text-sm leading-relaxed line-clamp-3"
                 >
                   {detail.key.en === "Description" ? (
                     detail.value[currentLanguage]
