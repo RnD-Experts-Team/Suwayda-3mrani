@@ -5,141 +5,114 @@ import { useNavigate } from "react-router-dom";
 import { storiesApi } from "@/services/storiesApi";
 import type { StoriesData } from "@/types/stories";
 
-// Fallback data structure
-const fallbackStoriesData: StoriesData = {
-  pageTitle: {
-    en: "Stories",
-    ar: "القصص"
-  },
-  pageDescription: {
-    en: "Explore personal accounts and narratives from the crisis, offering a deeper understanding of the human impact.",
-    ar: "استكشف الحسابات الشخصية والروايات من الأزمة، مما يوفر فهماً أعمق للتأثير الإنساني."
-  },
-  featuredSectionTitle: {
-    en: "Featured Stories",
-    ar: "القصص المميزة"
-  },
-  allStoriesTitle: {
-    en: "All Stories",
-    ar: "جميع القصص"
-  },
-  featuredStories: [
-    {
-      id: 1,
-      title: {
-        en: "A Mother's Resilience",
-        ar: "مرونة الأم"
-      },
-      description: {
-        en: "Discover how a mother's love and determination helped her family survive the crisis.",
-        ar: "اكتشف كيف ساعد حب الأم وعزيمتها عائلتها على النجاة من الأزمة."
-      },
-      imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-      url: "/story/mothers-resilience"
-    },
-    {
-      id: 2,
-      title: {
-        en: "A Young Man's Journey",
-        ar: "رحلة شاب"
-      },
-      description: {
-        en: "Follow a young man's harrowing journey through the conflict and his fight for justice.",
-        ar: "تابع رحلة شاب مؤلمة عبر الصراع وكفاحه من أجل العدالة."
-      },
-      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-      url: "/story/young-mans-journey"
-    },
-    {
-      id: 3,
-      title: {
-        en: "Hope Amidst Despair",
-        ar: "الأمل وسط اليأس"
-      },
-      description: {
-        en: "Witness the stories of individuals who found hope and strength in the face of adversity.",
-        ar: "اشهد قصص الأفراد الذين وجدوا الأمل والقوة في مواجهة الشدائد."
-      },
-      imageUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
-      url: "/story/hope-amidst-despair"
-    }
-  ],
-  allStories: [
-    {
-      id: 1,
-      title: {
-        en: "The Survivor's Voice",
-        ar: "صوت الناجي"
-      },
-      imageUrl: "https://images.unsplash.com/photo-1507679799987-7379428750ca?w=500&h=300&fit=crop",
-      url: "/story/survivors-voice"
-    },
-    // ... rest of your fallback data
-  ],
-  pagination: {
-    current_page: 1,
-    last_page: 1,
-    per_page: 20,
-    total: 8,
-    has_more: false
-  }
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Stories
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading stories...</p>
+  </div>
+);
 
 export default function Stories(): React.ReactElement {
   const { currentLanguage } = useLanguage();
   const navigate = useNavigate();
   
-  const [storiesData, setStoriesData] = useState<StoriesData>(fallbackStoriesData);
+  const [storiesData, setStoriesData] = useState<StoriesData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   // Fetch data from API
-  useEffect(() => {
-    const fetchStoriesData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await storiesApi.getStoriesData();
-        setStoriesData(data);
-      } catch (err) {
-        console.error('Failed to fetch stories data:', err);
-        setError('Failed to load stories data. Using fallback content.');
-        // Keep using fallback data on error
-        setStoriesData(fallbackStoriesData);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchStoriesData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await storiesApi.getStoriesData();
+      setStoriesData(data);
+    } catch (err) {
+      console.error('Failed to fetch stories data:', err);
+      setError(true);
+      setStoriesData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchStoriesData();
   }, []);
 
-// Helper function to extract story ID from URL
+  // Handle retry
+  const handleRetry = () => {
+    fetchStoriesData();
+  };
+
+  // Helper function to extract story ID from URL
   const extractStoryId = (url: string): string => {
     // Extract the last part of the URL after the last "/"
     const parts = url.split('/');
     return parts[parts.length - 1];
   };
 
-  // Loading state
+  // Show loading state
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading stories...</p>
-      </div>
-    );
+    return <LoadingState />;
+  }
+
+  // Show error state
+  if (error || !storiesData) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   return (
     <div className="flex flex-col items-start relative bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-card">
         <main className="items-start justify-center px-2 md:px-4 lg:px-8 py-5 flex-1 grow flex relative self-stretch w-full">
           <div className="flex flex-col w-full max-w-7xl items-start relative flex-1 grow mb-[-1.00px]">
@@ -173,7 +146,7 @@ export default function Stories(): React.ReactElement {
                   <Card
                     key={story.id}
                     className="flex flex-col w-full sm:min-w-60 items-start gap-4 relative flex-1 self-stretch grow rounded-lg bg-card border border-border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-primary/50"
-                    onClick={() =>  navigate(`/testmonials/${extractStoryId(story.url)}`)} // Updated click handler}
+                    onClick={() => navigate(`/testmonials/${extractStoryId(story.url)}`)}
                   >
                     <div
                       className="relative self-stretch w-full h-[169px] rounded-xl bg-cover bg-no-repeat bg-center transition-transform duration-300 hover:scale-102"
@@ -205,7 +178,7 @@ export default function Stories(): React.ReactElement {
                   <Card
                     key={story.id}
                     className="gap-3 pt-0 pb-3 px-0 self-stretch flex flex-col items-start relative bg-card border border-border cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:border-primary/50"
-                    onClick={() => navigate(`/testmonials/${extractStoryId(story.url)}`)} // Updated click handler}
+                    onClick={() => navigate(`/testmonials/${extractStoryId(story.url)}`)}
                   >
                     <div
                       className="relative self-stretch w-full h-[99px] rounded-xl bg-cover bg-no-repeat bg-center transition-transform duration-300 hover:scale-102"

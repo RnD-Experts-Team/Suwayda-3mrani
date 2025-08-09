@@ -1,0 +1,1795 @@
+[
+    {
+        "id": "hero-5",
+        "type": "hero",
+        "content": {
+            "en": {
+                "title": "Suwayda3mrani",
+                "image": "",
+                "description": "Together Suwayda is going to come back",
+                "buttonText": "",
+                "buttonVariant": ""
+            },
+            "ar": {
+                "title": "سويدا عمراني",
+                "image": "",
+                "description": "معا سويدا راح ترجع تكبر",
+                "buttonText": "",
+                "buttonVariant": ""
+            }
+        }
+    },
+    {
+        "id": "suggestion-4",
+        "type": "suggestion"
+    },
+    {
+        "id": "media-gallery-1",
+        "type": "media_gallery",
+        "content": {
+            "title": {
+                "en": "Media Gallery",
+                "ar": "معرض الوسائط"
+            },
+            "mediaItems": [
+                {
+                    "id": "media-1",
+                    "url": "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=600&fit=crop",
+                    "thumbnail": "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=600&fit=crop",
+                    "title": {
+                        "en": "Documentation of Suwayda Crisis - Visual Evidence",
+                        "ar": "توثيق أزمة السويداء - أدلة مرئية"
+                    },
+                    "description": {
+                        "en": "Photographic evidence documenting the impact of the crisis on Suwayda communities.",
+                        "ar": "أدلة فوتوغرافية توثق تأثير الأزمة على مجتمعات السويداء."
+                    },
+                    "sourceUrl": "https://unsplash.com/@jorgerestrepo",
+                    "type": "image"
+                },
+                {
+                    "id": "media-2",
+                    "url": "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=800&h=600&fit=crop",
+                    "thumbnail": null,
+                    "title": {
+                        "en": "Witness Testimonies - Video Documentation",
+                        "ar": "شهادات الشهود - توثيق فيديو"
+                    },
+                    "description": {
+                        "en": "Video testimonies from survivors and witnesses of the ongoing crisis.",
+                        "ar": "شهادات فيديو من الناجين والشهود من الأزمة المستمرة."
+                    },
+                    "sourceUrl": "https://unsplash.com/@jordanmcdonald",
+                    "type": "video"
+                },
+                {
+                    "id": "media-3",
+                    "url": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+                    "thumbnail": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+                    "title": {
+                        "en": "Humanitarian Impact Assessment",
+                        "ar": "تقييم التأثير الإنساني"
+                    },
+                    "description": {
+                        "en": "Visual documentation of the humanitarian impact on local communities.",
+                        "ar": "توثيق مرئي للتأثير الإنساني على المجتمعات المحلية."
+                    },
+                    "sourceUrl": "https://unsplash.com/@yogesh_7",
+                    "type": "image"
+                },
+                {
+                    "id": "media-4",
+                    "url": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&h=600&fit=crop",
+                    "thumbnail": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&h=600&fit=crop",
+                    "title": {
+                        "en": "Community Resilience Stories",
+                        "ar": "قصص صمود المجتمع"
+                    },
+                    "description": {
+                        "en": "Images showing the resilience and strength of the Suwayda community.",
+                        "ar": "صور تظهر صمود وقوة مجتمع السويداء."
+                    },
+                    "sourceUrl": "https://unsplash.com/@claybanks",
+                    "type": "image"
+                },
+                {
+                    "id": "media-5",
+                    "url": "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800&h=600&fit=crop",
+                    "thumbnail": "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=800&h=600&fit=crop",
+                    "title": {
+                        "en": "Cultural Heritage Preservation",
+                        "ar": "الحفاظ على التراث الثقافي"
+                    },
+                    "description": {
+                        "en": "Documentation of efforts to preserve Druze cultural heritage during the crisis.",
+                        "ar": "توثيق جهود الحفاظ على التراث الثقافي الدرزي خلال الأزمة."
+                    },
+                    "sourceUrl": "https://unsplash.com/@madhatterzone",
+                    "type": "image"
+                }
+            ]
+        }
+    },
+    {
+        "id": "aid-organizations",
+        "type": "aid_organizations",
+        "title": {
+            "en": "Aid and Response",
+            "ar": "المساعدات والاستجابة"
+        },
+        "content": [
+            {
+                "id": "aid-org-1",
+                "type": "organizations",
+                "website_url": "https://www.icrc.org",
+                "contact_url": "mailto:syria@icrc.org",
+                "categories": [
+                    "humanitarian-aid",
+                    "medical-assistance"
+                ],
+                "en": {
+                    "name": "International Committee of the Red Cross",
+                    "description": "The ICRC provides humanitarian assistance and protection to victims of armed conflict and violence in Syria, including medical care, food distribution, and family reunification services.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/organizations/icrc-bg.jpg",
+                    "url": "/aid-organizations/icrc-2024"
+                },
+                "ar": {
+                    "name": "اللجنة الدولية للصليب الأحمر",
+                    "description": "تقدم اللجنة الدولية للصليب الأحمر المساعدة الإنسانية والحماية لضحايا النزاع المسلح والعنف في سوريا، بما في ذلك الرعاية الطبية وتوزيع الغذاء وخدمات لم شمل الأسر.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/organizations/icrc-bg.jpg",
+                    "url": "/aid-organizations/icrc-2024"
+                }
+            },
+            {
+                "id": "aid-org-4",
+                "type": "initiatives",
+                "website_url": null,
+                "contact_url": "mailto:info@scrn.org",
+                "categories": [
+                    "humanitarian-aid"
+                ],
+                "en": {
+                    "name": "Suwayda Community Relief Network",
+                    "description": "A grassroots network of local volunteers providing immediate assistance to families affected by violence and displacement in Suwayda.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/initiatives/scrn-bg.jpg",
+                    "url": "/aid-organizations/scrn-2024"
+                },
+                "ar": {
+                    "name": "شبكة إغاثة مجتمع السويداء",
+                    "description": "شبكة شعبية من المتطوعين المحليين تقدم المساعدة الفورية للأسر المتضررة من العنف والتهجير في السويداء.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/initiatives/scrn-bg.jpg",
+                    "url": "/aid-organizations/scrn-2024"
+                }
+            },
+            {
+                "id": "aid-org-2",
+                "type": "organizations",
+                "website_url": "https://www.msf.org",
+                "contact_url": "mailto:info@msf.org",
+                "categories": [
+                    "medical-assistance"
+                ],
+                "en": {
+                    "name": "Doctors Without Borders",
+                    "description": "MSF operates medical facilities and provides emergency healthcare services to communities affected by the crisis in southern Syria.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/organizations/msf-bg.jpg",
+                    "url": "/aid-organizations/msf-2024"
+                },
+                "ar": {
+                    "name": "أطباء بلا حدود",
+                    "description": "تشغل منظمة أطباء بلا حدود مرافق طبية وتقدم خدمات الرعاية الصحية الطارئة للمجتمعات المتضررة من الأزمة في جنوب سوريا.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/organizations/msf-bg.jpg",
+                    "url": "/aid-organizations/msf-2024"
+                }
+            },
+            {
+                "id": "aid-org-5",
+                "type": "initiatives",
+                "website_url": null,
+                "contact_url": "mailto:heritage@dhpi.org",
+                "categories": [
+                    "cultural-preservation"
+                ],
+                "en": {
+                    "name": "Druze Heritage Preservation Initiative",
+                    "description": "Local initiative focused on documenting and preserving Druze cultural heritage, traditions, and historical sites threatened by the ongoing conflict.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/initiatives/dhpi-bg.jpg",
+                    "url": "/aid-organizations/dhpi-2024"
+                },
+                "ar": {
+                    "name": "مبادرة الحفاظ على التراث الدرزي",
+                    "description": "مبادرة محلية تركز على توثيق والحفاظ على التراث الثقافي الدرزي والتقاليد والمواقع التاريخية المهددة بسبب النزاع المستمر.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/initiatives/dhpi-bg.jpg",
+                    "url": "/aid-organizations/dhpi-2024"
+                }
+            },
+            {
+                "id": "aid-org-3",
+                "type": "organizations",
+                "website_url": "https://www.sams-usa.net",
+                "contact_url": "mailto:info@sams-usa.net",
+                "categories": [
+                    "medical-assistance"
+                ],
+                "en": {
+                    "name": "Syrian American Medical Society",
+                    "description": "SAMS supports healthcare systems in Syria by providing medical equipment, training healthcare workers, and operating medical facilities in underserved areas.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/organizations/sams-bg.jpg",
+                    "url": "/aid-organizations/sams-2024"
+                },
+                "ar": {
+                    "name": "الجمعية الطبية السورية الأمريكية",
+                    "description": "تدعم الجمعية الطبية السورية الأمريكية أنظمة الرعاية الصحية في سوريا من خلال توفير المعدات الطبية وتدريب العاملين في الرعاية الصحية وتشغيل المرافق الطبية في المناطق المحرومة.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/organizations/sams-bg.jpg",
+                    "url": "/aid-organizations/sams-2024"
+                }
+            },
+            {
+                "id": "aid-org-6",
+                "type": "initiatives",
+                "website_url": null,
+                "contact_url": "mailto:support@wec.org",
+                "categories": [
+                    "humanitarian-aid"
+                ],
+                "en": {
+                    "name": "Women Empowerment Collective",
+                    "description": "Community-led initiative supporting women and children affected by the crisis through psychological support, vocational training, and economic empowerment programs.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/initiatives/wec-bg.jpg",
+                    "url": "/aid-organizations/wec-2024"
+                },
+                "ar": {
+                    "name": "جماعة تمكين المرأة",
+                    "description": "مبادرة مجتمعية تدعم النساء والأطفال المتضررين من الأزمة من خلال الدعم النفسي والتدريب المهني وبرامج التمكين الاقتصادي.",
+                    "backgroundImage": "https://admin.suwayda3mrani.com/storage/initiatives/wec-bg.jpg",
+                    "url": "/aid-organizations/wec-2024"
+                }
+            }
+        ]
+    },
+    {
+        "id": "testimonial-1",
+        "type": "testimonial",
+        "content": {
+            "en": {
+                "category": "Testimony",
+                "title": "A Family's Journey Through Crisis",
+                "description": "The testimony of Ahmad and his family who fled their village after threats and violence escalated in 2018. Their story represents the experience of many families forced to leave their ancestral homes.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony1-bg.jpg"
+            },
+            "ar": {
+                "category": "شهادة",
+                "title": "رحلة عائلة عبر الأزمة",
+                "description": "شهادة أحمد وعائلته الذين فروا من قريتهم بعد تصاعد التهديدات والعنف في عام 2018. قصتهم تمثل تجربة العديد من العائلات المجبرة على ترك بيوت أجدادهم.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony1-bg.jpg"
+            },
+            "url": "/testimony/testimony-001",
+            "survivor_name": "Ahmad M.",
+            "survivor_age": 45,
+            "survivor_location": "Salkhad",
+            "date_of_incident": "2018-06-15T00:00:00.000000Z"
+        }
+    },
+    {
+        "id": "testimonial-2",
+        "type": "testimonial",
+        "content": {
+            "en": {
+                "category": "Testimony",
+                "title": "Surviving the Siege",
+                "description": "Fatima recounts the months of isolation when her village was cut off from essential supplies. Her testimony highlights the resilience of women during the most difficult periods of the crisis.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony2-bg.jpg"
+            },
+            "ar": {
+                "category": "شهادة",
+                "title": "النجاة من الحصار",
+                "description": "تحكي فاطمة عن شهور العزلة عندما انقطعت قريتها عن الإمدادات الأساسية. شهادتها تسلط الضوء على صمود النساء خلال أصعب فترات الأزمة.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony2-bg.jpg"
+            },
+            "url": "/testimony/testimony-002",
+            "survivor_name": "Fatima K.",
+            "survivor_age": 38,
+            "survivor_location": "Qanawat",
+            "date_of_incident": "2019-02-20T00:00:00.000000Z"
+        }
+    },
+    {
+        "id": "testimonial-3",
+        "type": "testimonial",
+        "content": {
+            "en": {
+                "category": "Testimony",
+                "title": "Loss and Remembrance",
+                "description": "Hassan's emotional account of losing his brother in a targeted attack. His testimony serves as a reminder of the human cost of the ongoing violence and the importance of remembering the victims.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony3-bg.jpg"
+            },
+            "ar": {
+                "category": "شهادة",
+                "title": "الفقدان والذكرى",
+                "description": "حساب حسان المؤثر عن فقدان شقيقه في هجوم مستهدف. شهادته تذكير بالثمن الإنساني للعنف المستمر وأهمية تذكر الضحايا.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony3-bg.jpg"
+            },
+            "url": "/testimony/testimony-003",
+            "survivor_name": "Hassan A.",
+            "survivor_age": 52,
+            "survivor_location": "Shahba",
+            "date_of_incident": "2018-11-08T00:00:00.000000Z"
+        }
+    },
+    {
+        "id": "testimonial-4",
+        "type": "testimonial",
+        "content": {
+            "en": {
+                "category": "Testimony",
+                "title": "Hope Amid Hardship",
+                "description": "Despite losing everything, Layla and her children rebuilt their lives with the help of the community. Her story demonstrates the power of collective support and the determination to preserve hope.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony4-bg.jpg"
+            },
+            "ar": {
+                "category": "شهادة",
+                "title": "الأمل وسط الصعوبات",
+                "description": "رغم فقدان كل شيء، أعادت ليلى وأطفالها بناء حياتهم بمساعدة المجتمع. قصتها تظهر قوة الدعم الجماعي والعزم على الحفاظ على الأمل.",
+                "imageUrl": "https://admin.suwayda3mrani.com/storage/testimonies/testimony4-bg.jpg"
+            },
+            "url": "/testimony/testimony-004",
+            "survivor_name": "Layla S.",
+            "survivor_age": 29,
+            "survivor_location": "Suwayda City",
+            "date_of_incident": "2019-05-12T00:00:00.000000Z"
+        }
+    }
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Add this import
+import AidAndResponseSection from "../components/home/AidAndResponseSection";
+import SuggestionList from "../components/home/SuggestionList";
+import ComponentNodeSectionGroup from "../components/home/ComponentNodeSectionGroup";
+import HeroSection from "../components/home/HeroSection";
+import MediaGallery from "@/components/home/MediaGallery";
+import { homeApi } from "@/services/homeApi";
+import type { 
+  HomeData, 
+  HomeContentItem, 
+  ExtractedHeroData,
+  ExtractedMediaGalleryData,
+  ExtractedAidData,
+  ExtractedSuggestionsData,
+  ExtractedSectionGroupData,
+  ComponentNodeContent
+} from "@/types/home";
+
+// Fallback data for suggestions since they're not complete in API
+const fallbackSuggestions = {
+  id: "suggestions",
+  type: "suggestions" as const,
+  content: [
+    {
+      id: "suggestion-1",
+      key: "takeAction",
+      en: {
+        title: "Take Action",
+        description: "Support the victims of the Suwayda crisis and help bring an end to the atrocities.",
+        buttonText: "Donate",
+        buttonVariant: "outline" as const,
+      },
+      ar: {
+        title: "اتخذ إجراءً",
+        description: "ادعم ضحايا أزمة السويداء وساعد في وضع حد للفظائع.",
+        buttonText: "تبرع",
+        buttonVariant: "outline" as const,
+      },
+    },
+    {
+      id: "suggestion-2",
+      key: "shareTestimony",
+      en: {
+        title: "Share Testimony",
+        description: "If you have witnessed or experienced the events in Suwayda, share your story to help raise awareness.",
+        buttonText: "Share Testimony",
+        buttonVariant: "outline" as const,
+      },
+      ar: {
+        title: "شارك شهادتك",
+        description: "إذا كنت قد شهدت أو عشت الأحداث في السويداء، شارك قصتك للمساعدة في زيادة الوعي.",
+        buttonText: "شارك شهادتك",
+        buttonVariant: "outline" as const,
+      },
+    },
+    {
+      id: "suggestion-3",
+      key: "volunteer",
+      en: {
+        title: "Volunteer",
+        description: "Join our team of volunteers to support our efforts in providing aid and raising awareness.",
+        buttonText: "Volunteer",
+        buttonVariant: "outline" as const,
+      },
+      ar: {
+        title: "تطوع",
+        description: "انضم إلى فريق المتطوعين لدينا لدعم جهودنا في تقديم المساعدة وزيادة الوعي.",
+        buttonText: "تطوع",
+        buttonVariant: "outline" as const,
+      },
+    },
+    {
+      id: "suggestion-4",
+      key: "alertMedia",
+      en: {
+        title: "Alert Media",
+        description: "Help us amplify the voices of the victims by alerting media outlets to the ongoing Crisis.",
+        buttonText: "Alert Media",
+        buttonVariant: "outline" as const,
+      },
+      ar: {
+        title: "تنبيه الإعلام",
+        description: "ساعدنا في تضخيم أصوات الضحايا من خلال تنبيه وسائل الإعلام للأزمة المستمرة.",
+        buttonText: "تنبيه الإعلام",
+        buttonVariant: "outline" as const,
+      },
+    },
+  ],
+};
+
+// Fallback data (your existing apiData structure)
+const fallbackHomeData: HomeData = {
+  data: [
+    // Hero Content
+    {
+      id: "hero-1",
+      type: "hero",
+      content: {
+        en: {
+          title: "Silenced Voices of Suwayda",
+          image: "https://picsum.photos/800/400",
+          description: "Together Suwayda is going to come back",
+          buttonText: "",
+          buttonVariant: "",
+        },
+        ar: {
+          title: "أصوات السويداء المكتومة",
+          image: "https://picsum.photos/800/400",
+          description: "معا سويدا راح ترجع تكبر",
+          buttonText: "",
+          buttonVariant: "",
+        },
+      },
+    },
+
+    // Media Gallery
+    {
+      id: "media-gallery-1",
+      type: "media_gallery",
+      content: {
+        title: { en: "Media Gallery", ar: "معرض الوسائط" },
+        mediaItems: [
+          {
+            id: "media-1",
+            url: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
+            thumbnail: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
+            title: { en: "Image Title", ar: "عنوان الصورة" },
+            description: { en: "Description...", ar: "الوصف..." },
+            sourceUrl: "https://source.com",
+            type: "image",
+          },
+          {
+            id: "media-2",
+            url: "https://www.w3schools.com/html/mov_bbb.mp4",
+            thumbnail: null,
+            title: { en: "Video Title", ar: "عنوان الفيديو" },
+            description: { en: "Description...", ar: "الوصف..." },
+            sourceUrl: "https://source.com",
+            type: "video",
+          },
+        ],
+      },
+    },
+
+    // Aid Organizations
+    {
+      id: "aid-organizations",
+      type: "aid_organizations",
+      title: { en: "Aid and Response", ar: "المساعدات والاستجابة" },
+      content: [
+        {
+          id: "aid-org-1",
+          type: "organizations",
+          website_url: "https://www.humanitarianaid.org",
+          contact_url: "mailto:info@humanitarianaid.org",
+          categories: ["humanitarian-aid"],
+          en: {
+            name: "Humanitarian Aid International",
+            description: "Providing essential aid and support to affected communities.",
+            backgroundImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
+            url: "/aid-organizations/humanitarian-aid-2024"
+          },
+          ar: {
+            name: "المساعدات الإنسانية الدولية",
+            description: "تقديم المساعدات الأساسية والدعم للمجتمعات المتضررة.",
+            backgroundImage: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
+            url: "/aid-organizations/humanitarian-aid-2024"
+          },
+        },
+        {
+          id: "aid-org-2",
+          type: "organizations",
+          website_url: "https://www.doctorswithoutborders.org",
+          contact_url: "mailto:info@msf.org",
+          categories: ["medical-assistance"],
+          en: {
+            name: "Doctors Without Borders",
+            description: "Offering medical assistance and healthcare services.",
+            backgroundImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
+            url: "/aid-organizations/msf-2024"
+          },
+          ar: {
+            name: "أطباء بلا حدود",
+            description: "تقديم المساعدة الطبية وخدمات الرعاية الصحية.",
+            backgroundImage: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
+            url: "/aid-organizations/msf-2024"
+          },
+        },
+        {
+          id: "aid-org-3",
+          type: "organizations",
+          website_url: "https://www.ifrc.org",
+          contact_url: "mailto:info@ifrc.org",
+          categories: ["humanitarian-aid"],
+          en: {
+            name: "Red Crescent Society",
+            description: "Delivering emergency relief and humanitarian aid.",
+            backgroundImage: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
+            url: "/aid-organizations/ifrc-2024"
+          },
+          ar: {
+            name: "جمعية الهلال الأحمر",
+            description: "تقديم الإغاثة الطارئة والمساعدات الإنسانية.",
+            backgroundImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
+            url: "/aid-organizations/ifrc-2024"
+          },
+        },
+        {
+          id: "aid-org-4",
+          type: "initiatives",
+          website_url: null,
+          contact_url: "mailto:info@globalrelieffund.org",
+          categories: ["humanitarian-aid"],
+          en: {
+            name: "Global Relief Fund",
+            description: "Supporting long-term recovery and development efforts.",
+            backgroundImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
+            url: "/aid-organizations/global-relief-2024"
+          },
+          ar: {
+            name: "صندوق الإغاثة العالمي",
+            description: "دعم جهود التعافي والتنمية طويلة المدى.",
+            backgroundImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
+            url: "/aid-organizations/global-relief-2024"
+          },
+        },
+      ],
+    },
+
+    // Suggestions will be added from fallbackSuggestions if not present in API
+  ],
+};
+
+const Home = (): React.ReactElement => {
+   const navigate = useNavigate(); // Add this hook
+  const [homeData, setHomeData] = useState<HomeData>(fallbackHomeData);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch home data from API
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await homeApi.getHomeData();
+        
+        // Check if suggestions are missing and add fallback
+        const hasSuggestions = data.data.some(item => item.type === "suggestions" && "content" in item && Array.isArray(item.content) && item.content.length > 0);
+        if (!hasSuggestions) {
+          data.data.push(fallbackSuggestions);
+        }
+        
+        // Create section groups for testimonials since API doesn't include them
+        const testimonials = data.data.filter(item => item.type === "testimonial");
+        if (testimonials.length > 0) {
+          const testimonialGroup = {
+            id: "section-group-testimonials",
+            type: "section_group" as const,
+            content: {
+              title: { en: "Testimonials", ar: "الشهادات" },
+              sections: testimonials.map(t => t.id),
+            },
+          };
+          data.data.push(testimonialGroup);
+        }
+        
+        setHomeData(data);
+      } catch (err) {
+        console.error('Failed to fetch home data:', err);
+        setError('Failed to load home data. Using fallback data.');
+        // Keep using fallback data on error
+        setHomeData(fallbackHomeData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
+  // Helper functions to extract data from the unified structure
+  const getDataByType = (type: string): HomeContentItem | undefined => {
+    return homeData.data.find((item) => item.type === type);
+  };
+
+  const getDataById = (id: string): HomeContentItem | undefined => {
+    return homeData.data.find((item) => item.id === id);
+  };
+
+ // Add this function to handle organization clicks
+  const handleOrganizationClick = (organizationId: string) => {
+    navigate(`/organization/${organizationId}`);
+  }
+
+
+
+  // Extract specific data for components
+  const extractHeroData = (): ExtractedHeroData | null => {
+    const heroItem = getDataByType("hero");
+    if (heroItem && heroItem.type === "hero") {
+      return heroItem.content;
+    }
+    return null;
+  };
+
+  const extractMediaGalleryData = (): ExtractedMediaGalleryData | null => {
+    const galleryItem = getDataByType("media_gallery");
+    if (galleryItem && galleryItem.type === "media_gallery") {
+      return galleryItem.content;
+    }
+    return null;
+  };
+
+  const extractAidData = (): ExtractedAidData | null => {
+    const aidItem = getDataByType("aid_organizations");
+    if (aidItem && aidItem.type === "aid_organizations") {
+      return {
+        title: aidItem.title,
+        organizations: aidItem.content,
+      };
+    }
+    return null;
+  };
+
+  const extractSuggestionsData = (): ExtractedSuggestionsData | null => {
+    const suggestionsItem = getDataByType("suggestions");
+    if (suggestionsItem && suggestionsItem.type === "suggestions") {
+      return { suggestions: suggestionsItem.content };
+    }
+    return null;
+  };
+
+  const extractSectionGroupData = (groupId: string): ExtractedSectionGroupData | null => {
+    const groupItem = getDataById(groupId);
+    if (groupItem && groupItem.type === "section_group") {
+      const sections = groupItem.content.sections
+        .map(sectionId => getDataById(sectionId))
+        .filter((item): item is ComponentNodeContent => 
+          item !== undefined && 
+          (item.type === "component_node" || item.type === "testimonial" || item.type === "key_events")
+        )
+        .map(item => item.content);
+
+      return {
+        title: groupItem.content.title,
+        sections,
+      };
+    }
+    return null;
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <p className="mt-4 text-foreground">Loading home content...</p>
+      </div>
+    );
+  }
+
+  // Extract data
+  const heroContent = extractHeroData();
+  const galleryData = extractMediaGalleryData();
+  const aidData = extractAidData();
+  const suggestionsData = extractSuggestionsData();
+  const testimonialsGroupData = extractSectionGroupData("section-group-testimonials");
+
+  return (
+    <div className="flex flex-col w-full bg-background">
+      {/* Error message */}
+      {error && (
+        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
+      <div className="flex flex-col w-full bg-card">
+        <div className="flex justify-center px-2 md:px-4 lg:px-8 py-5 w-full">
+          <div className="flex flex-col max-w-7xl w-full">
+            {/* Hero Section */}
+            {heroContent && <HeroSection content={heroContent} />}
+
+            {/* Media Gallery */}
+            {galleryData && <MediaGallery data={galleryData} />}
+
+            {/* Testimonials Section */}
+            {testimonialsGroupData && (
+              <ComponentNodeSectionGroup
+                title={testimonialsGroupData.title}
+                sections={testimonialsGroupData.sections}
+              />
+            )}
+
+            {/* Aid and Response Section */}
+            {aidData && (
+              <AidAndResponseSection
+                organizations={aidData.organizations}
+                title={aidData.title}
+                onOrganizationClick={handleOrganizationClick}
+
+              />
+            )}
+
+            {/* Suggestions */}
+            {suggestionsData && (
+              <SuggestionList suggestions={suggestionsData.suggestions} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import type { HomeData, HomeContentItem } from '@/types/home';
+
+// Import the results data from the local file
+import resultsData from '@/assets/results.txt?raw';
+
+export const homeApi = {
+  getHomeData: async (): Promise<HomeData> => {
+    try {
+      // Parse the JSON data from the results.txt file
+      const data: HomeContentItem[] = JSON.parse(resultsData);
+      return { data };
+    } catch (error) {
+      console.error('Error parsing home data from results.txt:', error);
+      throw new Error('Failed to parse home data from results.txt');
+    }
+  },
+};
+
+
+export default homeApi;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Language-specific content types
+export interface LanguageContent {
+  en: string;
+  ar: string;
+}
+
+// Hero Section Types
+export interface HeroContent {
+  id: string;
+  type: "hero";
+  content: {
+    en: {
+      title: string;
+      image: string;
+      description: string;
+      buttonText: string;
+      buttonVariant: string;
+    };
+    ar: {
+      title: string;
+      image: string;
+      description: string;
+      buttonText: string;
+      buttonVariant: string;
+    };
+  };
+}
+
+// Media Gallery Types
+export interface MediaItem {
+  id: string;
+  url: string;
+  thumbnail: string | null;
+  title: LanguageContent;
+  description: LanguageContent;
+  sourceUrl: string;
+  type: "image" | "video";
+}
+
+export interface MediaGalleryContent {
+  id: string;
+  type: "media_gallery";
+  content: {
+    title: LanguageContent;
+    mediaItems: MediaItem[];
+  };
+}
+
+// Aid Organizations Types
+export interface AidOrganization {
+  id: string;
+  type: "organizations" | "initiatives";
+  website_url: string | null;
+  contact_url: string;
+  categories: string[];
+  en: {
+    name: string;
+    description: string;
+    backgroundImage: string;
+    url: string;
+  };
+  ar: {
+    name: string;
+    description: string;
+    backgroundImage: string;
+    url: string;
+  };
+}
+
+export interface AidOrganizationsContent {
+  id: string;
+  type: "aid_organizations";
+  title: LanguageContent;
+  content: AidOrganization[];
+}
+
+// Suggestions Types
+export interface Suggestion {
+  id: string;
+  key: string;
+  en: {
+    title: string;
+    description: string;
+    buttonText: string;
+    buttonVariant: "outline" | "default";
+  };
+  ar: {
+    title: string;
+    description: string;
+    buttonText: string;
+    buttonVariant: "outline" | "default";
+  };
+}
+
+export interface SuggestionsContent {
+  id: string;
+  type: "suggestions";
+  content: Suggestion[];
+}
+
+// Component Node Types
+export interface ComponentNodeContent {
+  id: string;
+  type: "component_node" | "testimonial" | "key_events";
+  content: {
+    en: {
+      category: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+    };
+    ar: {
+      category: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+    };
+    url: string;
+    // Additional fields for testimonials
+    survivor_name?: string;
+    survivor_age?: number;
+    survivor_location?: string;
+    date_of_incident?: string;
+  };
+}
+
+// Section Group Types
+export interface SectionGroupContent {
+  id: string;
+  type: "section_group";
+  content: {
+    title: LanguageContent;
+    sections: string[]; // Array of IDs referencing other content items
+  };
+}
+
+// Union type for all content types
+export type HomeContentItem = 
+  | HeroContent 
+  | MediaGalleryContent 
+  | AidOrganizationsContent 
+  | SuggestionsContent 
+  | ComponentNodeContent 
+  | SectionGroupContent;
+
+// Main data structure
+export interface HomeData {
+  data: HomeContentItem[];
+}
+
+// Helper types for extracted data
+export interface ExtractedHeroData {
+  en: { title: string; image: string; description: string; buttonText: string; buttonVariant: string; };
+  ar: { title: string; image: string; description: string; buttonText: string; buttonVariant: string; };
+}
+
+export interface ExtractedMediaGalleryData {
+  title: LanguageContent;
+  mediaItems: MediaItem[];
+}
+
+export interface ExtractedAidData {
+  title: LanguageContent;
+  organizations: AidOrganization[];
+}
+
+export interface ExtractedSuggestionsData {
+  suggestions: Suggestion[];
+}
+
+export interface ExtractedSectionGroupData {
+  title: LanguageContent;
+  sections: ComponentNodeContent['content'][];
+}
+
+
+
+// Base types for multilingual content
+export interface MultilingualText {
+  en: string;
+  ar: string;
+}
+
+export interface MultilingualContent {
+  en: {
+    title: string;
+    image?: string;
+    description?: string;
+    buttonText?: string;
+    buttonVariant?: string;
+  };
+  ar: {
+    title: string;
+    image?: string;
+    description?: string;
+    buttonText?: string;
+    buttonVariant?: string;
+  };
+}
+
+// Media Gallery Types
+export interface MediaItem {
+  id: string;
+  url: string;
+  thumbnail?: string | null;
+  title: MultilingualText;
+  description: MultilingualText;
+  sourceUrl?: string;
+  type: "image" | "video";
+}
+
+export interface MediaGalleryContent {
+  title: MultilingualText;
+  mediaItems: MediaItem[];
+}
+
+// Aid Organizations Types
+export interface AidOrganization {
+  id: string;
+  type: "organizations" | "initiatives";
+  website_url?: string | null;
+  contact_url?: string | null;
+  categories: string[];
+  en: {
+    name: string;
+    description: string;
+    backgroundImage: string;
+    url: string;
+  };
+  ar: {
+    name: string;
+    description: string;
+    backgroundImage: string;
+    url: string;
+  };
+}
+
+export interface AidOrganizationsContent {
+  title: MultilingualText;
+  content: AidOrganization[];
+}
+
+// Testimonial Types
+export interface TestimonialContent {
+  en: {
+    category: string;
+    title: string;
+    description: string;
+    imageUrl: string;
+  };
+  ar: {
+    category: string;
+    title: string;
+    description: string;
+    imageUrl: string;
+  };
+  url: string;
+  survivor_name: string;
+  survivor_age: number;
+  survivor_location: string;
+  date_of_incident: string;
+}
+
+// Home Content Item Types
+export interface HeroItem {
+  id: string;
+  type: "hero";
+  content: MultilingualContent;
+}
+
+export interface MediaGalleryItem {
+  id: string;
+  type: "media_gallery";
+  content: MediaGalleryContent;
+}
+
+export interface AidOrganizationsItem {
+  id: string;
+  type: "aid_organizations";
+  title: MultilingualText;
+  content: AidOrganization[];
+}
+
+export interface TestimonialItem {
+  id: string;
+  type: "testimonial";
+  content: TestimonialContent;
+}
+
+export interface SuggestionItem {
+  id: string;
+  type: "suggestion";
+  // Note: The API only returns id and type for suggestions
+  // You might need to handle this differently based on your requirements
+}
+
+// Union type for all home content items
+export type HomeContentItem = 
+  | HeroItem 
+  | MediaGalleryItem 
+  | AidOrganizationsItem 
+  | TestimonialItem 
+  | SuggestionItem;
+
+// Main home data structure
+export interface HomeData {
+  data?: HomeContentItem[];
+}
+
+// API Response type (the array format from your API)
+export type HomeApiResponse = HomeContentItem[];
+
+// Extracted data types for components
+export interface ExtractedHeroData {
+  en: {
+    title: string;
+    image?: string;
+    description?: string;
+    buttonText?: string;
+    buttonVariant?: string;
+  };
+  ar: {
+    title: string;
+    image?: string;
+    description?: string;
+    buttonText?: string;
+    buttonVariant?: string;
+  };
+}
+
+export interface ExtractedMediaGalleryData {
+  title: MultilingualText;
+  mediaItems: MediaItem[];
+}
+
+export interface ExtractedAidData {
+  title: MultilingualText;
+  organizations: AidOrganization[];
+}
+
+export interface ExtractedTestimonialsData {
+  testimonials: TestimonialContent[];
+}
+
+// Legacy types for backward compatibility with existing components
+export interface SuggestionContent {
+  id: string;
+  key: string;
+  en: {
+    title: string;
+    description: string;
+    buttonText: string;
+    buttonVariant: "outline" | "default";
+  };
+  ar: {
+    title: string;
+    description: string;
+    buttonText: string;
+    buttonVariant: "outline" | "default";
+  };
+}
+
+export interface ExtractedSuggestionsData {
+  suggestions: SuggestionContent[];
+}
+
+export interface ComponentNodeContent {
+  type: "component_node" | "testimonial" | "key_events";
+  content: any;
+}
+
+export interface ExtractedSectionGroupData {
+  title: MultilingualText;
+  sections: any[];
+}
+
+
+
+
+import axios from 'axios';
+import type { HomeData, HomeApiResponse } from '@/types/home';
+
+// API endpoint
+const API_BASE_URL = 'https://admin.suwayda3mrani.com/api/home';
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  },
+  withCredentials: false,
+});
+
+export const homeApi = {
+  getHomeData: async (): Promise<HomeData> => {
+    try {
+      const response = await api.get<HomeApiResponse>('');
+      
+      // Transform the API response to match our expected structure
+      return {
+        data: response.data
+      };
+    } catch (error) {
+      console.error('Error fetching home data:', error);
+      throw new Error('Failed to fetch home data');
+    }
+  },
+
+  // Helper method to get specific content by type
+  getContentByType: async (type: string): Promise<any> => {
+    const homeData = await homeApi.getHomeData();
+    return homeData.data?.find(item => item.type === type);
+  },
+
+  // Helper method to get specific content by id
+  getContentById: async (id: string): Promise<any> => {
+    const homeData = await homeApi.getHomeData();
+    return homeData.data?.find(item => item.id === id);
+  },
+};
+
+export default homeApi;
+
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import AidAndResponseSection from "../components/home/AidAndResponseSection";
+import SuggestionList from "../components/home/SuggestionList";
+import HeroSection from "../components/home/HeroSection";
+import MediaGallery from "@/components/home/MediaGallery";
+import { homeApi } from "@/services/homeApi";
+import type { 
+  HomeData, 
+  HomeContentItem, 
+  ExtractedHeroData,
+  ExtractedMediaGalleryData,
+  ExtractedAidData,
+  ExtractedSuggestionsData,
+  SuggestionContent,
+  TestimonialItem,
+  ExtractedTestimonialsData
+} from "@/types/home";
+// Add this to your Home.tsx file, right after the imports and before the component
+
+// Complete fallback data that matches your component interfaces exactly
+const fallbackHomeData: HomeData = {
+  data: [
+    // Hero Content
+    {
+      id: "hero-1",
+      type: "hero",
+      content: {
+        en: {
+          title: "Silenced Voices of Suwayda",
+          image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop",
+          description: "Together Suwayda is going to come back",
+          buttonText: "",
+          buttonVariant: ""
+        },
+        ar: {
+          title: "أصوات السويداء المكتومة",
+          image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=400&fit=crop",
+          description: "معا سويدا راح ترجع تكبر",
+          buttonText: "",
+          buttonVariant: ""
+        },
+      },
+    },
+
+    // Media Gallery
+    {
+      id: "media-gallery-1",
+      type: "media_gallery",
+      content: {
+        title: { en: "Media Gallery", ar: "معرض الوسائط" },
+        mediaItems: [
+          {
+            id: "media-1",
+            url: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=600&fit=crop",
+            thumbnail: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=800&h=600&fit=crop",
+            title: { en: "Documentation of Suwayda Crisis", ar: "توثيق أزمة السويداء" },
+            description: { en: "Visual evidence documenting the crisis.", ar: "أدلة مرئية توثق الأزمة." },
+            sourceUrl: "https://unsplash.com",
+            type: "image",
+          },
+          {
+            id: "media-2",
+            url: "https://www.w3schools.com/html/mov_bbb.mp4",
+            thumbnail: null,
+            title: { en: "Witness Testimonies", ar: "شهادات الشهود" },
+            description: { en: "Video testimonies from survivors.", ar: "شهادات فيديو من الناجين." },
+            sourceUrl: "https://source.com",
+            type: "video",
+          },
+          {
+            id: "media-3",
+            url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+            thumbnail: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&h=600&fit=crop",
+            title: { en: "Humanitarian Impact", ar: "التأثير الإنساني" },
+            description: { en: "Documentation of humanitarian impact.", ar: "توثيق التأثير الإنساني." },
+            sourceUrl: "https://unsplash.com",
+            type: "image",
+          },
+        ],
+      },
+    },
+
+    // Aid Organizations
+    {
+      id: "aid-organizations",
+      type: "aid_organizations",
+      title: { en: "Aid and Response", ar: "المساعدات والاستجابة" },
+      content: [
+        {
+          id: "aid-org-1",
+          type: "organizations",
+          website_url: "https://www.icrc.org",
+          contact_url: "mailto:syria@icrc.org",
+          categories: ["humanitarian-aid", "medical-assistance"],
+          en: {
+            name: "International Committee of the Red Cross",
+            description: "Providing humanitarian assistance and protection to victims of armed conflict.",
+            backgroundImage: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
+            url: "/aid-organizations/icrc-2024"
+          },
+          ar: {
+            name: "اللجنة الدولية للصليب الأحمر",
+            description: "تقديم المساعدة الإنسانية والحماية لضحايا النزاع المسلح.",
+            backgroundImage: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
+            url: "/aid-organizations/icrc-2024"
+          },
+        },
+        {
+          id: "aid-org-2",
+          type: "organizations",
+          website_url: "https://www.msf.org",
+          contact_url: "mailto:info@msf.org",
+          categories: ["medical-assistance"],
+          en: {
+            name: "Doctors Without Borders",
+            description: "Offering medical assistance and healthcare services to affected communities.",
+            backgroundImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
+            url: "/aid-organizations/msf-2024"
+          },
+          ar: {
+            name: "أطباء بلا حدود",
+            description: "تقديم المساعدة الطبية وخدمات الرعاية الصحية للمجتمعات المتضررة.",
+            backgroundImage: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
+            url: "/aid-organizations/msf-2024"
+          },
+        },
+        {
+          id: "aid-org-3",
+          type: "organizations",
+          website_url: "https://www.sams-usa.net",
+          contact_url: "mailto:info@sams-usa.net",
+          categories: ["medical-assistance"],
+          en: {
+            name: "Syrian American Medical Society",
+            description: "Supporting healthcare systems by providing medical equipment and training.",
+            backgroundImage: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
+            url: "/aid-organizations/sams-2024"
+          },
+          ar: {
+            name: "الجمعية الطبية السورية الأمريكية",
+            description: "دعم أنظمة الرعاية الصحية من خلال توفير المعدات الطبية والتدريب.",
+            backgroundImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
+            url: "/aid-organizations/sams-2024"
+          },
+        },
+        {
+          id: "aid-org-4",
+          type: "initiatives",
+          website_url: null,
+          contact_url: "mailto:info@scrn.org",
+          categories: ["humanitarian-aid"],
+          en: {
+            name: "Suwayda Community Relief Network",
+            description: "Grassroots network providing immediate assistance to affected families.",
+            backgroundImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
+            url: "/aid-organizations/scrn-2024"
+          },
+          ar: {
+            name: "شبكة إغاثة مجتمع السويداء",
+            description: "شبكة شعبية تقدم المساعدة الفورية للأسر المتضررة.",
+            backgroundImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
+            url: "/aid-organizations/scrn-2024"
+          },
+        },
+      ],
+    },
+
+    // Testimonials
+    {
+      id: "testimonial-1",
+      type: "testimonial",
+      content: {
+        en: {
+          category: "Testimony",
+          title: "A Family's Journey Through Crisis",
+          description: "The testimony of Ahmad and his family who fled their village after threats and violence escalated.",
+          imageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop"
+        },
+        ar: {
+          category: "شهادة",
+          title: "رحلة عائلة عبر الأزمة",
+          description: "شهادة أحمد وعائلته الذين فروا من قريتهم بعد تصاعد التهديدات والعنف.",
+          imageUrl: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop"
+        },
+        url: "/testimony/testimony-001",
+        survivor_name: "Ahmad M.",
+        survivor_age: 45,
+        survivor_location: "Salkhad",
+        date_of_incident: "2018-06-15T00:00:00.000000Z"
+      },
+    },
+
+    {
+      id: "testimonial-2",
+      type: "testimonial",
+      content: {
+        en: {
+          category: "Testimony",
+          title: "Surviving the Siege",
+          description: "Fatima recounts the months of isolation when her village was cut off from essential supplies.",
+          imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop"
+        },
+        ar: {
+          category: "شهادة",
+          title: "النجاة من الحصار",
+          description: "تحكي فاطمة عن شهور العزلة عندما انقطعت قريتها عن الإمدادات الأساسية.",
+          imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop"
+        },
+        url: "/testimony/testimony-002",
+        survivor_name: "Fatima K.",
+        survivor_age: 38,
+        survivor_location: "Qanawat",
+        date_of_incident: "2019-02-20T00:00:00.000000Z"
+      },
+    },
+
+    {
+      id: "testimonial-3",
+      type: "testimonial",
+      content: {
+        en: {
+          category: "Testimony",
+          title: "Loss and Remembrance",
+          description: "Hassan's emotional account of losing his brother in a targeted attack.",
+          imageUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
+        },
+        ar: {
+          category: "شهادة",
+          title: "الفقدان والذكرى",
+          description: "حساب حسان المؤثر عن فقدان شقيقه في هجوم مستهدف.",
+          imageUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop"
+        },
+        url: "/testimony/testimony-003",
+        survivor_name: "Hassan A.",
+        survivor_age: 52,
+        survivor_location: "Shahba",
+        date_of_incident: "2018-11-08T00:00:00.000000Z"
+      },
+    },
+
+    {
+      id: "testimonial-4",
+      type: "testimonial",
+      content: {
+        en: {
+          category: "Testimony",
+          title: "Hope Amid Hardship",
+          description: "Despite losing everything, Layla and her children rebuilt their lives with community help.",
+          imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=300&fit=crop"
+        },
+        ar: {
+          category: "شهادة",
+          title: "الأمل وسط الصعوبات",
+          description: "رغم فقدان كل شيء، أعادت ليلى وأطفالها بناء حياتهم بمساعدة المجتمع.",
+          imageUrl: "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=500&h=300&fit=crop"
+        },
+        url: "/testimony/testimony-004",
+        survivor_name: "Layla S.",
+        survivor_age: 29,
+        survivor_location: "Suwayda City",
+        date_of_incident: "2019-05-12T00:00:00.000000Z"
+      },
+    },
+  ],
+};
+
+// Fallback suggestions data (since API doesn't provide full suggestion content)
+const fallbackSuggestions: SuggestionContent[] = [
+  {
+    id: "suggestion-1",
+    key: "takeAction",
+    en: {
+      title: "Take Action",
+      description: "Support the victims of the Suwayda crisis and help bring an end to the atrocities.",
+      buttonText: "Donate",
+      buttonVariant: "outline" as const,
+    },
+    ar: {
+      title: "اتخذ إجراءً",
+      description: "ادعم ضحايا أزمة السويداء وساعد في وضع حد للفظائع.",
+      buttonText: "تبرع",
+      buttonVariant: "outline" as const,
+    },
+  },
+  {
+    id: "suggestion-2",
+    key: "shareTestimony",
+    en: {
+      title: "Share Testimony",
+      description: "If you have witnessed or experienced the events in Suwayda, share your story to help raise awareness.",
+      buttonText: "Share Testimony",
+      buttonVariant: "outline" as const,
+    },
+    ar: {
+      title: "شارك شهادتك",
+      description: "إذا كنت قد شهدت أو عشت الأحداث في السويداء، شارك قصتك للمساعدة في زيادة الوعي.",
+      buttonText: "شارك شهادتك",
+      buttonVariant: "outline" as const,
+    },
+  },
+  {
+    id: "suggestion-3",
+    key: "volunteer",
+    en: {
+      title: "Volunteer",
+      description: "Join our team of volunteers to support our efforts in providing aid and raising awareness.",
+      buttonText: "Volunteer",
+      buttonVariant: "outline" as const,
+    },
+    ar: {
+      title: "تطوع",
+      description: "انضم إلى فريق المتطوعين لدينا لدعم جهودنا في تقديم المساعدة وزيادة الوعي.",
+      buttonText: "تطوع",
+      buttonVariant: "outline" as const,
+    },
+  },
+  {
+    id: "suggestion-4",
+    key: "alertMedia",
+    en: {
+      title: "Alert Media",
+      description: "Help us amplify the voices of the victims by alerting media outlets to the ongoing Crisis.",
+      buttonText: "Alert Media",
+      buttonVariant: "outline" as const,
+    },
+    ar: {
+      title: "تنبيه الإعلام",
+      description: "ساعدنا في تضخيم أصوات الضحايا من خلال تنبيه وسائل الإعلام للأزمة المستمرة.",
+      buttonText: "تنبيه الإعلام",
+      buttonVariant: "outline" as const,
+    },
+  },
+];
+
+
+const Home = (): React.ReactElement => {
+  const navigate = useNavigate();
+  const [homeData, setHomeData] = useState<HomeData>({ data: [] });
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+ // Update the fetchHomeData function in your Home.tsx:
+useEffect(() => {
+  const fetchHomeData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await homeApi.getHomeData();
+      setHomeData(data);
+    } catch (err) {
+      console.error('Failed to fetch home data:', err);
+      setError('Failed to load home data. Using fallback content.');
+      // Use fallback data when API fails
+      setHomeData(fallbackHomeData);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchHomeData();
+}, []);
+
+
+  // Helper functions to extract data from the unified structure
+  const getDataByType = (type: string): HomeContentItem | undefined => {
+    return homeData.data?.find((item) => item.type === type);
+  };
+
+  const getDataById = (id: string): HomeContentItem | undefined => {
+    return homeData.data?.find((item) => item.id === id);
+  };
+
+  const getAllDataByType = (type: string): HomeContentItem[] => {
+    return homeData.data?.filter((item) => item.type === type) || [];
+  };
+
+  // Add this function to handle organization clicks
+  const handleOrganizationClick = (organizationId: string) => {
+    navigate(`/organization/${organizationId}`);
+  };
+
+  // Extract specific data for components
+  const extractHeroData = (): ExtractedHeroData | null => {
+    const heroItem = getDataByType("hero");
+    if (heroItem && heroItem.type === "hero") {
+      return heroItem.content;
+    }
+    return null;
+  };
+
+  const extractMediaGalleryData = (): ExtractedMediaGalleryData | null => {
+    const galleryItem = getDataByType("media_gallery");
+    if (galleryItem && galleryItem.type === "media_gallery") {
+      return galleryItem.content;
+    }
+    return null;
+  };
+
+  const extractAidData = (): ExtractedAidData | null => {
+    const aidItem = getDataByType("aid_organizations");
+    if (aidItem && aidItem.type === "aid_organizations") {
+      return {
+        title: aidItem.title,
+        organizations: aidItem.content,
+      };
+    }
+    return null;
+  };
+
+  const extractSuggestionsData = (): ExtractedSuggestionsData | null => {
+    // Since the API only returns suggestion IDs, we'll use fallback data
+    const suggestionItems = getAllDataByType("suggestion");
+    if (suggestionItems.length > 0) {
+      return { suggestions: fallbackSuggestions };
+    }
+    return null;
+  };
+
+  const extractTestimonialsData = (): ExtractedTestimonialsData | null => {
+    const testimonialItems = getAllDataByType("testimonial") as TestimonialItem[];
+    if (testimonialItems.length > 0) {
+      return {
+        testimonials: testimonialItems.map(item => item.content)
+      };
+    }
+    return null;
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <p className="mt-4 text-foreground">Loading home content...</p>
+      </div>
+    );
+  }
+
+  // Extract data
+  const heroContent = extractHeroData();
+  const galleryData = extractMediaGalleryData();
+  const aidData = extractAidData();
+  const suggestionsData = extractSuggestionsData();
+  const testimonialsData = extractTestimonialsData();
+
+  return (
+    <div className="flex flex-col w-full bg-background">
+      {/* Error message */}
+      {error && (
+        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+          <p className="text-sm">{error}</p>
+        </div>
+      )}
+
+      <div className="flex flex-col w-full bg-card">
+        <div className="flex justify-center px-2 md:px-4 lg:px-8 py-5 w-full">
+          <div className="flex flex-col max-w-7xl w-full">
+            {/* Hero Section */}
+            {heroContent && <HeroSection content={heroContent} />}
+
+            {/* Media Gallery */}
+            {galleryData && <MediaGallery data={galleryData} />}
+
+            {/* Testimonials Section */}
+            {testimonialsData && (
+              <div className="py-8">
+                <h2 className="text-2xl font-bold mb-6 text-foreground">
+                  Testimonials
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {testimonialsData.testimonials.map((testimonial, index) => (
+                    <div
+                      key={index}
+                      className="bg-card border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                      onClick={() => navigate(testimonial.url)}
+                    >
+                      <div className="aspect-video mb-4 rounded-lg overflow-hidden">
+                        <img
+                          src={testimonial.en.imageUrl}
+                          alt={testimonial.en.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <span className="text-sm text-muted-foreground">
+                          {testimonial.en.category}
+                        </span>
+                        <h3 className="font-semibold text-foreground">
+                          {testimonial.en.title}
+                        </h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">
+                          {testimonial.en.description}
+                        </p>
+                        <div className="text-xs text-muted-foreground">
+                          <span>{testimonial.survivor_name}</span> • 
+                          <span className="ml-1">{testimonial.survivor_location}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Aid and Response Section */}
+            {aidData && (
+              <AidAndResponseSection
+                organizations={aidData.organizations}
+                title={aidData.title}
+                onOrganizationClick={handleOrganizationClick}
+              />
+            )}
+
+            {/* Suggestions */}
+            {suggestionsData && (
+              <SuggestionList suggestions={suggestionsData.suggestions} />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Home;

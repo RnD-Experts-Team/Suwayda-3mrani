@@ -11,11 +11,17 @@ export interface HeroContent {
   content: {
     en: {
       title: string;
+      description: string;
       image: string;
+      buttonText: string;
+      buttonVariant: string;
     };
     ar: {
       title: string;
+      description: string;
       image: string;
+      buttonText: string;
+      buttonVariant: string;
     };
   };
 }
@@ -24,9 +30,10 @@ export interface HeroContent {
 export interface MediaItem {
   id: string;
   url: string;
+  thumbnail: string;
   title: LanguageContent;
   description: LanguageContent;
-  sourceUrl: string;
+  sourceUrl: string | null;
   type: "image" | "video";
 }
 
@@ -42,6 +49,10 @@ export interface MediaGalleryContent {
 // Aid Organizations Types
 export interface AidOrganization {
   id: string;
+  type: string;
+  website_url: string | null;
+  contact_url: string | null;
+  categories: string[];
   en: {
     name: string;
     description: string;
@@ -63,28 +74,86 @@ export interface AidOrganizationsContent {
   content: AidOrganization[];
 }
 
-// Suggestions Types
-export interface Suggestion {
+// Individual Suggestion Types (matching API structure)
+export interface SuggestionContent {
   id: string;
-  key: string;
+  type: "suggestion";
+  content: {
+    en: {
+      title: string;
+      description: string;
+      buttonText: string;
+      buttonVariant: "outline" | "default";
+      action_link: string;
+    };
+    ar: {
+      title: string;
+      description: string;
+      buttonText: string;
+      buttonVariant: "outline" | "default";
+      action_link: string;
+    };
+  };
+}
+
+// Suggestion List Item (for component props)
+// export interface SuggestionItem {
+//   en: {
+//     title: string;
+//     description: string;
+//     buttonText: string;
+//     buttonVariant?: "default" | "outline";
+//   };
+//   ar: {
+//     title: string;
+//     description: string;
+//     buttonText: string;
+//     buttonVariant?: "default" | "outline";
+//   };
+// }
+
+// Suggestion List Item (for component props)
+export interface SuggestionItem {
   en: {
     title: string;
     description: string;
     buttonText: string;
-    buttonVariant: "outline" | "default";
+    buttonVariant?: "default" | "outline";
+    action_link?: string; // Add this line
   };
   ar: {
     title: string;
     description: string;
     buttonText: string;
-    buttonVariant: "outline" | "default";
+    buttonVariant?: "default" | "outline";
+    action_link?: string; // Add this line
   };
 }
 
-export interface SuggestionsContent {
+
+// Testimonial/Component Node Types
+export interface TestimonialContent {
   id: string;
-  type: "suggestions";
-  content: Suggestion[];
+  type: "testimonial";
+  content: {
+    en: {
+      category: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+    };
+    ar: {
+      category: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+    };
+    url: string;
+    survivor_name: string;
+    survivor_age: number;
+    survivor_location: string;
+    date_of_incident: string;
+  };
 }
 
 // Component Node Types
@@ -123,7 +192,8 @@ export type HomeContentItem =
   | HeroContent 
   | MediaGalleryContent 
   | AidOrganizationsContent 
-  | SuggestionsContent 
+  | SuggestionContent
+  | TestimonialContent
   | ComponentNodeContent 
   | SectionGroupContent;
 
@@ -134,8 +204,20 @@ export interface HomeData {
 
 // Helper types for extracted data
 export interface ExtractedHeroData {
-  en: { title: string; image: string; };
-  ar: { title: string; image: string; };
+  en: { 
+    title: string; 
+    description: string; 
+    image: string; 
+    buttonText: string;
+    buttonVariant: string;
+  };
+  ar: { 
+    title: string; 
+    description: string; 
+    image: string; 
+    buttonText: string;
+    buttonVariant: string;
+  };
 }
 
 export interface ExtractedMediaGalleryData {
@@ -149,7 +231,7 @@ export interface ExtractedAidData {
 }
 
 export interface ExtractedSuggestionsData {
-  suggestions: Suggestion[];
+  suggestions: SuggestionItem[];
 }
 
 export interface ExtractedSectionGroupData {

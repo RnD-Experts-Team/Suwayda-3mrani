@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import AidAndResponseSection from "../components/home/AidAndResponseSection";
 import LocalGroupsSection from "../components/aidEfforts/LocalGroupsSection";
 import { useLanguage } from "@/LanguageContext";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 import { aidEffortsApi } from "@/services/aidEffortsApi";
 import type {
   AidEffortsData,
@@ -12,295 +12,112 @@ import type {
   InitiativeSection,
 } from "@/types/aidEfforts";
 
-// Your existing fallback data structure
-const fallbackAidEffortsData: AidEffortsData = {
-  pageContent: {
-    heroTitle: {
-      en: "Aid Efforts",
-      ar: "جهود المساعدة",
-    },
-    heroDescription: {
-      en: "Explore the organizations and initiatives dedicated to providing aid and support to those affected by the crisis. Learn about their work, impact, and how you can contribute.",
-      ar: "استكشف المنظمات والمبادرات المكرسة لتقديم المساعدة والدعم للمتضررين من الأزمة. تعرف على عملهم وتأثيرهم وكيف يمكنك المساهمة.",
-    },
-    sectionTitle: {
-      en: "Aid Efforts",
-      ar: "جهود المساعدة",
-    },
-  },
-  actionButtons: [
-    {
-      text: { en: "Donate", ar: "تبرع" },
-      url: "/donate",
-    },
-    {
-      text: { en: "Volunteer", ar: "تطوع" },
-      url: "/volunteer",
-    },
-    {
-      text: { en: "Get Involved", ar: "شارك معنا" },
-      url: "/get-involved",
-    },
-  ],
-  sections: [
-    {
-      id: "international-organizations",
-      title: {
-        en: "International Organizations",
-        ar: "المنظمات الدولية",
-      },
-      type: "organizations",
-      items: [
-        {
-          en: {
-            name: "Global Relief Coalition",
-            description:
-              "GRC provides emergency relief and long-term support to communities affected by conflict and disaster.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-            url: "https://www.globalreliefcoalition.org",
-          },
-          ar: {
-            name: "تحالف الإغاثة العالمي",
-            description:
-              "يقدم تحالف الإغاثة العالمي الإغاثة الطارئة والدعم طويل الأمد للمجتمعات المتضررة من النزاعات والكوارث.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-            url: "https://www.globalreliefcoalition.org",
-          },
-        },
-        {
-          en: {
-            name: "Humanity First Aid",
-            description:
-              "HFA delivers essential aid and medical assistance to those in need, focusing on vulnerable populations.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
-            url: "https://www.humanityfirstaid.org",
-          },
-          ar: {
-            name: "الإنسانية أولاً للمساعدات",
-            description:
-              "تقدم الإنسانية أولاً المساعدات الأساسية والمساعدة الطبية للمحتاجين، مع التركيز على الفئات الضعيفة.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1507679799987-7379428750ca?w=500&h=300&fit=crop",
-            url: "https://www.humanityfirstaid.org",
-          },
-        },
-        {
-          en: {
-            name: "World Health Alliance",
-            description:
-              "WHA works to improve health outcomes in crisis-affected areas, providing medical care and resources.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
-            url: "https://www.worldhealthalliance.org",
-          },
-          ar: {
-            name: "تحالف الصحة العالمي",
-            description:
-              "يعمل تحالف الصحة العالمي على تحسين النتائج الصحية في المناطق المتضررة من الأزمات، وتقديم الرعاية الطبية والموارد.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
-            url: "https://www.worldhealthalliance.org",
-          },
-        },
-      ],
-    },
-    {
-      id: "local-groups",
-      title: {
-        en: "Local Groups",
-        ar: "المجموعات المحلية",
-      },
-      type: "initiatives",
-      items: [
-        {
-          en: {
-            title: "Community Support Network",
-            description:
-              "A network of local volunteers providing direct assistance to affected families.",
-            url: "/community-support",
-          },
-          ar: {
-            title: "شبكة الدعم المجتمعي",
-            description:
-              "شبكة من المتطوعين المحليين تقدم المساعدة المباشرة للعائلات المتضررة.",
-            url: "/community-support",
-          },
-        },
-        {
-          en: {
-            title: "Hope for Tomorrow",
-            description:
-              "Focuses on rebuilding lives and communities through education and empowerment programs.",
-            url: "/hope-tomorrow",
-          },
-          ar: {
-            title: "أمل للغد",
-            description:
-              "يركز على إعادة بناء الحياة والمجتمعات من خلال برامج التعليم والتمكين.",
-            url: "/hope-tomorrow",
-          },
-        },
-        {
-          en: {
-            title: "Resilience Builders",
-            description:
-              "Works on the ground to foster resilience and recovery in the aftermath of the crisis.",
-            url: "/resilience-builders",
-          },
-          ar: {
-            title: "بناة المرونة",
-            description:
-              "يعمل على الأرض لتعزيز المرونة والتعافي في أعقاب الأزمة.",
-            url: "/resilience-builders",
-          },
-        },
-        {
-          en: {
-            title: "Emergency Response Team",
-            description:
-              "Rapid response unit providing immediate assistance during crisis situations.",
-            url: "/emergency-response",
-          },
-          ar: {
-            title: "فريق الاستجابة الطارئة",
-            description:
-              "وحدة استجابة سريعة تقدم المساعدة الفورية خلال حالات الأزمات.",
-            url: "/emergency-response",
-          },
-        },
-        {
-          en: {
-            title: "Youth Empowerment Initiative",
-            description:
-              "Empowering young people to become leaders in their communities through various programs.",
-            url: "/youth-empowerment",
-          },
-          ar: {
-            title: "مبادرة تمكين الشباب",
-            description:
-              "تمكين الشباب ليصبحوا قادة في مجتمعاتهم من خلال برامج متنوعة.",
-            url: "/youth-empowerment",
-          },
-        },
-      ],
-    },
-    {
-      id: "stories-of-hope",
-      title: {
-        en: "Stories of Hope",
-        ar: "قصص الأمل",
-      },
-      type: "organizations",
-      items: [
-        {
-          en: {
-            name: "Community Rebuilds",
-            description:
-              "A community comes together to rebuild their homes and lives after the crisis.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
-            url: "#community-rebuilds",
-          },
-          ar: {
-            name: "إعادة بناء المجتمع",
-            description:
-              "يجتمع المجتمع لإعادة بناء منازلهم وحياتهم بعد الأزمة.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
-            url: "#community-rebuilds",
-          },
-        },
-        {
-          en: {
-            name: "Children's Education Program",
-            description:
-              "An education program helps children recover and learn in a safe environment.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
-            url: "#education-program",
-          },
-          ar: {
-            name: "برنامج تعليم الأطفال",
-            description:
-              "برنامج تعليمي يساعد الأطفال على التعافي والتعلم في بيئة آمنة.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
-            url: "#education-program",
-          },
-        },
-        {
-          en: {
-            name: "Volunteer Spotlight",
-            description:
-              "Meet a volunteer who has dedicated their time to helping those affected by the crisis.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-            url: "#volunteer-spotlight",
-          },
-          ar: {
-            name: "تسليط الضوء على المتطوعين",
-            description: "تعرف على متطوع كرس وقته لمساعدة المتضررين من الأزمة.",
-            backgroundImage:
-              "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-            url: "#volunteer-spotlight",
-          },
-        },
-      ],
-    },
-  ],
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Aid Efforts
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading aid efforts...</p>
+  </div>
+);
 
 export default function AidEfforts(): React.ReactElement {
   const { currentLanguage } = useLanguage();
-  const navigate = useNavigate(); // Add this hook
+  const navigate = useNavigate();
 
-  const [aidEffortsData, setAidEffortsData] = useState<AidEffortsData>(
-    fallbackAidEffortsData
-  );
+  const [aidEffortsData, setAidEffortsData] = useState<AidEffortsData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   // Fetch data from API
-  useEffect(() => {
-    const fetchAidEffortsData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await aidEffortsApi.getAidEffortsData();
-        setAidEffortsData(data);
-      } catch (err) {
-        console.error("Failed to fetch aid efforts data:", err);
-        setError("Failed to load aid efforts data. Using fallback content.");
-        // Keep using fallback data on error
-        setAidEffortsData(fallbackAidEffortsData);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchAidEffortsData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await aidEffortsApi.getAidEffortsData();
+      setAidEffortsData(data);
+    } catch (err) {
+      console.error("Failed to fetch aid efforts data:", err);
+      setError(true);
+      setAidEffortsData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchAidEffortsData();
   }, []);
 
-const handleOrganizationClick = (organizationId: string) => {
+  // Handle retry
+  const handleRetry = () => {
+    fetchAidEffortsData();
+  };
+
+  const handleOrganizationClick = (organizationId: string) => {
     navigate(`/organization/${organizationId}`);
   };
 
- // Helper function to handle initiative clicks (if you want them to also go to organization pages)
+  // Helper function to handle initiative clicks
   const handleInitiativeClick = (initiativeId: string) => {
     navigate(`/organization/${initiativeId}`);
   };
 
-  // Loading state
+  // Show loading state
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading aid efforts...</p>
-      </div>
-    );
+    return <LoadingState />;
+  }
+
+  // Show error state
+  if (error || !aidEffortsData) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   // Extract data for easier access
@@ -317,13 +134,6 @@ const handleOrganizationClick = (organizationId: string) => {
 
   return (
     <div className="flex flex-col w-full bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col w-full bg-card">
         <div className="flex flex-col w-full">
           <div className="px-2 md:px-4 lg:px-8 py-5 flex justify-center w-full">
@@ -335,7 +145,7 @@ const handleOrganizationClick = (organizationId: string) => {
                     <h2 className="font-bold text-center text-foreground text-[32px] leading-10 [font-family:'Newsreader-Bold',Helvetica] mt-0">
                       {pageContent.heroTitle[currentLanguage]}
                     </h2>
-                    <p className="text-sm text-[#adadad] leading-[21px] [font-family:'Newsreader-Regular',Helvetica] m-0">
+                    <p className="text-sm text-muted-foreground leading-[21px] [font-family:'Newsreader-Regular',Helvetica] m-0">
                       {pageContent.heroDescription[currentLanguage]}
                     </p>
                   </CardContent>
@@ -357,19 +167,17 @@ const handleOrganizationClick = (organizationId: string) => {
                   initiatives={localGroups.items}
                   sectionTitle={localGroups.title}
                   onInitiativeClick={handleInitiativeClick}
-
                 />
               )}
 
               {/* Stories of Hope Section */}
-              {storiesOfHope && (
+              {/* {storiesOfHope && (
                 <AidAndResponseSection
                   organizations={storiesOfHope.items}
                   title={storiesOfHope.title}
                   onOrganizationClick={handleOrganizationClick}
-
                 />
-              )}
+              )} */}
 
               {/* Section Title */}
               <div className="flex flex-col pt-5 pb-3 px-2 sm:px-4 w-full">

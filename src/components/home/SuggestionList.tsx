@@ -6,6 +6,8 @@ interface SuggestionData {
   description: string;
   buttonText: string;
   buttonVariant?: "default" | "outline";
+  action_link?: string;
+
 }
 
 interface SuggestionItem {

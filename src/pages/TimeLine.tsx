@@ -14,172 +14,116 @@ import { useLanguage } from "@/LanguageContext";
 import { timelineApi } from "@/services/timelineApi";
 import type { TimelineData } from "@/types/timeline";
 
-// Fallback timeline data
-const fallbackTimelineData: TimelineData = {
-  en: {
-    title: "Timeline of the Crisis",
-    items: [
-      {
-        title: "Early Tensions",
-        period: "1980s - 1990",
-        description: "The initial phase of the crisis began with growing tensions between different groups. Political disagreements and social unrest started to emerge, setting the stage for future conflicts. This period was characterized by increasing polarization and the breakdown of dialogue between opposing factions.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1586829135343-132950070391?w=500&h=300&fit=crop"
-      },
-      {
-        title: "Escalation of Violence",
-        period: "1991 - 1993",
-        description: "Violence began to escalate significantly during this period. What started as political tensions transformed into armed conflicts. Multiple incidents of violence occurred, leading to casualties and displacement of civilians. The situation became increasingly unstable as various factions took up arms.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&h=300&fit=crop"
-      },
-      {
-        title: "Peak of Atrocities",
-        period: "1994",
-        description: "In 1994, the Crisis reached its zenith with widespread violence and systematic atrocities. This period marked the most intense phase of the conflict, resulting in significant loss of life and long-term consequences for the affected communities.",
-        isHighlighted: false,
-        mediaType: "video",
-        mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
-      },
-      {
-        title: "International Response",
-        period: "1995 - 2000",
-        description: "The international community began to respond to the crisis with various interventions. Humanitarian aid was provided, peacekeeping forces were deployed, and diplomatic efforts were intensified. This period saw the establishment of international tribunals and the beginning of accountability processes.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop"
-      },
-      {
-        title: "Post-Crisis Developments",
-        period: "2001 - 2010",
-        description: "The post-crisis period focused on reconstruction and reconciliation efforts. Infrastructure was rebuilt, institutions were reformed, and programs for social healing were implemented. This decade was crucial for establishing the foundations for long-term peace and stability.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop"
-      },
-      {
-        title: "Ongoing Challenges",
-        period: "2011 - Present",
-        description: "Despite significant progress, challenges remain in the present day. Issues such as ongoing tensions, economic difficulties, and the need for continued reconciliation efforts persist. The international community continues to monitor the situation and provide support where needed.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
-      },
-    ]
-  },
-  ar: {
-    title: "الجدول الزمني للأزمة",
-    items: [
-      {
-        title: "التوترات المبكرة",
-        period: "الثمانينيات - 1990",
-        description: "بدأت المرحلة الأولى من الأزمة بتنامي التوترات بين مختلف الجماعات. بدأت الخلافات السياسية والاضطرابات الاجتماعية في الظهور، مما مهد الطريق للصراعات المستقبلية. تميزت هذه الفترة بتزايد الاستقطاب وانهيار الحوار بين الفصائل المتعارضة.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1586829135343-132950070391?w=500&h=300&fit=crop"
-      },
-      {
-        title: "تصعيد العنف",
-        period: "1991 - 1993",
-        description: "بدأ العنف في التصعيد بشكل كبير خلال هذه الفترة. ما بدأ كتوترات سياسية تحول إلى صراعات مسلحة. وقعت حوادث عنف متعددة، مما أدى إلى وقوع ضحايا ونزوح المدنيين. أصبح الوضع غير مستقر بشكل متزايد حيث حملت فصائل مختلفة السلاح.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&h=300&fit=crop"
-      },
-      {
-        title: "ذروة الفظائع",
-        period: "1994",
-        description: "في عام 1994، وصلت الأزمة إلى ذروتها مع انتشار العنف والفظائع المنهجية. شكلت هذه الفترة أكثر مراحل الصراع كثافة، مما أدى إلى خسائر كبيرة في الأرواح وعواقب طويلة المدى على المجتمعات المتضررة.",
-        isHighlighted: false,
-        mediaType: "video",
-        mediaUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
-      },
-      {
-        title: "الاستجابة الدولية",
-        period: "1995 - 2000",
-        description: "بدأ المجتمع الدولي في الاستجابة للأزمة من خلال تدخلات مختلفة. تم تقديم المساعدات الإنسانية، ونشر قوات حفظ السلام، وتكثيف الجهود الدبلوماسية. شهدت هذه الفترة إنشاء محاكم دولية وبداية عمليات المساءلة.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&h=300&fit=crop"
-      },
-      {
-        title: "التطورات ما بعد الأزمة",
-        period: "2001 - 2010",
-        description: "ركزت فترة ما بعد الأزمة على جهود إعادة الإعمار والمصالحة. تم إعادة بناء البنية التحتية، وإصلاح المؤسسات، وتنفيذ برامج للشفاء الاجتماعي. كان هذا العقد حاسماً لإرساء أسس السلام والاستقرار طويل المدى.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=300&fit=crop"
-      },
-      {
-        title: "التحديات المستمرة",
-        period: "2011 - الحاضر",
-        description: "رغم التقدم الكبير، لا تزال التحديات قائمة في الوقت الحاضر. تستمر قضايا مثل التوترات المستمرة والصعوبات الاقتصادية والحاجة إلى جهود مصالحة مستمرة. يواصل المجتمع الدولي مراقبة الوضع وتقديم الدعم حيثما دعت الحاجة.",
-        isHighlighted: false,
-        mediaType: "image",
-        mediaUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop"
-      },
-    ]
-  }
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Timeline
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading timeline...</p>
+  </div>
+);
 
 const TimeLine = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
   
-  const [timelineData, setTimelineData] = useState<TimelineData>(fallbackTimelineData);
+  const [timelineData, setTimelineData] = useState<TimelineData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState(0); // Default to first item
 
   // Fetch timeline data from API
-  useEffect(() => {
-    const fetchTimelineData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await timelineApi.getTimelineData();
-        setTimelineData(data);
-      } catch (err) {
-        console.error('Failed to fetch timeline data:', err);
-        setError('Failed to load timeline data. Using fallback content.');
-        // Keep using fallback data on error
-        setTimelineData(fallbackTimelineData);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchTimelineData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await timelineApi.getTimelineData();
+      setTimelineData(data);
+    } catch (err) {
+      console.error('Failed to fetch timeline data:', err);
+      setError(true);
+      setTimelineData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchTimelineData();
   }, []);
 
-  const currentData = timelineData[currentLanguage];
-  const timelineItems = currentData.items;
+  // Handle retry
+  const handleRetry = () => {
+    setSelectedItem(0);
+    fetchTimelineData();
+  };
 
   // Handler for timeline dot clicks
   const handleTimelineClick = (index: number) => {
     setSelectedItem(index);
   };
 
-  // Loading state
+  // Show loading state
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading timeline...</p>
-      </div>
-    );
+    return <LoadingState />;
   }
+
+  // Show error state
+  if (error || !timelineData) {
+    return <ErrorState onRetry={handleRetry} />;
+  }
+
+  const currentData = timelineData[currentLanguage];
+  const timelineItems = currentData.items;
 
   return (
     <div className="flex flex-col items-start relative bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col min-h-auto items-start relative w-full flex-[0_0_auto] bg-background">
         <div className="flex flex-col items-start relative w-full flex-[0_0_auto]">
           {/* Main Content */}
@@ -198,91 +142,98 @@ const TimeLine = (): React.ReactElement => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                 {/* MUI Timeline - Left side on md/lg, top on small */}
                 <div className="flex-1 md:flex-[0_0_60%]">
-                  <Box sx={{ width: "100%", padding: "16px" }}>
-                    <Timeline position={currentLanguage === 'ar' ? "left" : "right"}>
-                      {timelineItems.map((item, index) => (
-                        <TimelineItem key={index}>
-                          <TimelineOppositeContent
-                            sx={{
-                              m: "auto 0",
-                              color: selectedItem === index ? "#ffffff" : "#adadad",
-                              fontFamily: "Newsreader-Regular, Helvetica",
-                              fontSize: "16px",
-                              fontWeight: selectedItem === index ? "bold" : "normal",
-                              transition: "all 0.3s ease",
-                              textAlign: currentLanguage === 'ar' ? 'left' : 'right',
-                              direction: currentLanguage === 'ar' ? 'rtl' : 'ltr',
-                              minWidth: currentLanguage === 'ar' ? '120px' : 'auto',
-                            }}
-                            align={currentLanguage === 'ar' ? "left" : "right"}
-                            variant="body2"
-                          >
-                            {item.period}
-                          </TimelineOppositeContent>
-                          <TimelineSeparator>
-                            <TimelineDot
-                              onClick={() => handleTimelineClick(index)}
-                              sx={{
-                                backgroundColor: selectedItem === index
-                                  ? "#ffffff"
-                                  : item.isHighlighted
-                                  ? "#ffffff"
-                                  : "#4c4c4c",
-                                border: selectedItem === index
-                                  ? "3px solid #ffffff"
-                                  : item.isHighlighted
-                                  ? "2px solid #ffffff"
-                                  : "2px solid #4c4c4c",
-                                width: selectedItem === index ? "20px" : "16px",
-                                height: selectedItem === index ? "20px" : "16px",
-                                cursor: "pointer",
-                                transition: "all 0.3s ease",
-                                boxShadow: selectedItem === index ? "0 0 10px rgba(255, 255, 255, 0.5)" : "none",
-                                '&:hover': {
-                                  backgroundColor: "#ffffff",
-                                  transform: "scale(1.2)",
-                                  boxShadow: "0 0 15px rgba(255, 255, 255, 0.7)",
-                                },
-                              }}
-                            />
-                            {index < timelineItems.length - 1 && (
-                              <TimelineConnector
-                                sx={{ 
-                                  backgroundColor: selectedItem === index || selectedItem === index + 1 ? "#ffffff" : "#4c4c4c",
-                                  transition: "background-color 0.3s ease"
-                                }}
-                              />
-                            )}
-                          </TimelineSeparator>
-                          <TimelineContent sx={{ py: "12px", px: 2 }}>
-                            <Typography
-                              variant="h6"
-                              component="span"
-                              sx={{
-                                color: selectedItem === index ? "#ffffff" : "#adadad",
-                                fontFamily: "Newsreader-Medium, Helvetica",
-                                fontSize: "16px",
-                                fontWeight: selectedItem === index ? "bold" : "medium",
-                                cursor: "pointer",
-                                transition: "all 0.3s ease",
-                                textShadow: selectedItem === index ? "0 0 5px rgba(255, 255, 255, 0.3)" : "none",
-                                direction: currentLanguage === 'ar' ? 'rtl' : 'ltr',
-                                textAlign: currentLanguage === 'ar' ? 'right' : 'left',
-                                '&:hover': {
-                                  color: "#ffffff",
-                                  textShadow: "0 0 5px rgba(255, 255, 255, 0.5)",
-                                },
-                              }}
-                              onClick={() => handleTimelineClick(index)}
-                            >
-                              {item.title}
-                            </Typography>
-                          </TimelineContent>
-                        </TimelineItem>
-                      ))}
-                    </Timeline>
-                  </Box>
-                </div>
+  <Box sx={{ width: "100%", padding: "16px" }}>
+    <Timeline position={currentLanguage === 'ar' ? "left" : "right"}>
+      {timelineItems.map((item, index) => (
+        <TimelineItem key={index}>
+          <TimelineOppositeContent
+            sx={{
+              m: "auto 0",
+              color: selectedItem === index ? "var(--foreground)" : "var(--muted-foreground)",
+              fontFamily: "Newsreader-Regular, Helvetica",
+              fontSize: "16px",
+              fontWeight: selectedItem === index ? "bold" : "normal",
+              transition: "all 0.3s ease",
+              textAlign: currentLanguage === 'ar' ? 'left' : 'right',
+              direction: currentLanguage === 'ar' ? 'rtl' : 'ltr',
+              minWidth: currentLanguage === 'ar' ? '120px' : 'auto',
+            }}
+            align={currentLanguage === 'ar' ? "left" : "right"}
+            variant="body2"
+          >
+            {item.period}
+          </TimelineOppositeContent>
+          <TimelineSeparator>
+            <TimelineDot
+              onClick={() => handleTimelineClick(index)}
+              sx={{
+                backgroundColor: selectedItem === index
+                  ? "var(--primary)"
+                  : item.isHighlighted
+                  ? "var(--primary)"
+                  : "var(--muted)",
+                border: selectedItem === index
+                  ? "3px solid var(--primary)"
+                  : item.isHighlighted
+                  ? "2px solid var(--primary)"
+                  : "2px solid var(--border)",
+                width: selectedItem === index ? "20px" : "16px",
+                height: selectedItem === index ? "20px" : "16px",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: selectedItem === index 
+                  ? "0 0 10px color-mix(in srgb, var(--primary) 50%, transparent)" 
+                  : "none",
+                '&:hover': {
+                  backgroundColor: "var(--primary)",
+                  transform: "scale(1.2)",
+                  boxShadow: "0 0 15px color-mix(in srgb, var(--primary) 70%, transparent)",
+                },
+              }}
+            />
+            {index < timelineItems.length - 1 && (
+              <TimelineConnector
+                sx={{ 
+                  backgroundColor: selectedItem === index || selectedItem === index + 1 
+                    ? "var(--primary)" 
+                    : "var(--border)",
+                  transition: "background-color 0.3s ease"
+                }}
+              />
+            )}
+          </TimelineSeparator>
+          <TimelineContent sx={{ py: "12px", px: 2 }}>
+            <Typography
+              variant="h6"
+              component="span"
+              sx={{
+                color: selectedItem === index ? "var(--foreground)" : "var(--muted-foreground)",
+                fontFamily: "Newsreader-Medium, Helvetica",
+                fontSize: "16px",
+                fontWeight: selectedItem === index ? "bold" : "medium",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                textShadow: selectedItem === index 
+                  ? "0 0 5px color-mix(in srgb, var(--foreground) 30%, transparent)" 
+                  : "none",
+                direction: currentLanguage === 'ar' ? 'rtl' : 'ltr',
+                textAlign: currentLanguage === 'ar' ? 'right' : 'left',
+                '&:hover': {
+                  color: "var(--foreground)",
+                  textShadow: "0 0 5px color-mix(in srgb, var(--foreground) 50%, transparent)",
+                },
+              }}
+              onClick={() => handleTimelineClick(index)}
+            >
+              {item.title}
+            </Typography>
+          </TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
+  </Box>
+</div>
+
 
                 {/* Dynamic Event Card - Right side on md/lg, bottom on small */}
                 <div className="flex-1 md:flex-[0_0_40%] flex items-start">

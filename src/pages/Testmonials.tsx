@@ -9,84 +9,98 @@ import {
 } from "@/components/ui/carousel";
 import ShareDialog from '@/components/ShareDialog';
 import { useLanguage } from "@/LanguageContext";
-import { useParams } from "react-router-dom"; // Add this import
+import { useParams } from "react-router-dom";
 import { testimonialsApi } from "@/services/testmonialsApi";
 import type { TestimonialData } from "@/types/testmonials";
 
-// Fallback testimonial data
-const fallbackTestimonialData: TestimonialData = {
-  en: {
-    title: "The Unseen Scars: A Survivor's Account",
-    buttonText: "copy link",
-    content:
-      "My name is Anya Petrova, and I am a survivor of the atrocities that occurred in the region. I was just a young girl when the violence erupted, and my life was forever changed. I witnessed unspeakable acts of cruelty and lost many loved ones. The memories haunt me to this day, but I am sharing my story in the hope that it will help others understand the human cost of such conflicts and prevent similar tragedies from happening again. I remember the fear, the chaos, and the desperate struggle for survival. It was a time of immense suffering, but also of resilience and solidarity among those who endured together. We supported each other, shared what little we had, and held onto hope even in the darkest moments. This is my story, a testament to the strength of the human spirit in the face of adversity.",
-    images: [
-      "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop",
-      "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-      "https://images.unsplash.com/photo-1494790108755-2616c9c0b8d3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop",
-    ],
-    survivorName: "Anya Petrova",
-    survivorAge: 28,
-    survivorLocation: "Village Al-Kafr",
-    dateOfIncident: "2014-08-15",
-    testimonyId: "testimony-fallback-001",
-  },
-  ar: {
-    title: "الندوب الخفية: شهادة ناجية",
-    buttonText: "نسخ الرابط",
-    content:
-      "اسمي أنيا بيتروفا، وأنا ناجية من الفظائع التي حدثت في المنطقة. كنت مجرد فتاة صغيرة عندما اندلع العنف، وتغيرت حياتي إلى الأبد. شهدت أعمال قسوة لا توصف وفقدت العديد من الأحباء. الذكريات تطاردني حتى اليوم، لكنني أشارك قصتي على أمل أن تساعد الآخرين على فهم التكلفة البشرية لمثل هذه الصراعات ومنع حدوث مآسي مماثلة مرة أخرى. أتذكر الخوف والفوضى والكفاح اليائس من أجل البقاء. كان وقتاً من المعاناة الشديدة، ولكن أيضاً من المرونة والتضامن بين أولئك الذين تحملوا معاً. دعمنا بعضنا البعض، وتقاسمنا القليل الذي كان لدينا، وتمسكنا بالأمل حتى في أحلك اللحظات. هذه قصتي، شهادة على قوة الروح البشرية في مواجهة الشدائد.",
-    images: [
-      "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop",
-      "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4",
-      "https://images.unsplash.com/photo-1494790108755-2616c9c0b8d3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop",
-    ],
-    survivorName: "Anya Petrova",
-    survivorAge: 28,
-    survivorLocation: "Village Al-Kafr",
-    dateOfIncident: "2014-08-15",
-    testimonyId: "testimony-fallback-001",
-  },
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Testimony
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading testimony...</p>
+  </div>
+);
 
 const Testimonials = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
-  const { storyId } = useParams<{ storyId?: string }>(); // Get story ID from URL
-  const [testimonialData, setTestimonialData] = useState<TestimonialData>(
-    fallbackTestimonialData
-  );
+  const { storyId } = useParams<{ storyId?: string }>();
+  
+  const [testimonialData, setTestimonialData] = useState<TestimonialData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   // Fetch testimony data from API
-  useEffect(() => {
-    const fetchTestimonyData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await testimonialsApi.getTestimonyData(storyId); // Pass storyId to API
-        setTestimonialData(data);
-      } catch (err) {
-        console.error("Failed to fetch testimony data:", err);
-        setError("Failed to load testimony data. Using fallback content.");
-        // Keep using fallback data on error
-        setTestimonialData(fallbackTestimonialData);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchTestimonyData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await testimonialsApi.getTestimonyData(storyId);
+      setTestimonialData(data);
+    } catch (err) {
+      console.error("Failed to fetch testimony data:", err);
+      setError(true);
+      setTestimonialData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchTestimonyData();
   }, [storyId]);
 
-  // Get current language data
-  const currentData =
-    testimonialData[currentLanguage as keyof typeof testimonialData] ||
-    testimonialData.en;
+  // Handle retry
+  const handleRetry = () => {
+    fetchTestimonyData();
+  };
 
   // Function to check if URL is a video
   const isVideoUrl = (url: string) => {
@@ -95,32 +109,28 @@ const Testimonials = (): React.ReactElement => {
     );
   };
 
-  
-
   // Helper function to extract only the intro part of the content (before first \n)
   const extractIntroContent = (content: string): string => {
     return content.split("\n")[0].trim();
   };
 
-  // Loading state
+  // Show loading state
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading testimony...</p>
-      </div>
-    );
+    return <LoadingState />;
   }
+
+  // Show error state
+  if (error || !testimonialData) {
+    return <ErrorState onRetry={handleRetry} />;
+  }
+
+  // Get current language data
+  const currentData =
+    testimonialData[currentLanguage as keyof typeof testimonialData] ||
+    testimonialData.en;
 
   return (
     <div className="flex flex-col items-start relative bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-card">
         <header className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
           {/* Main Content */}
@@ -132,9 +142,9 @@ const Testimonials = (): React.ReactElement => {
                   {currentData.title}
                 </h2>
                 <ShareDialog
-  buttonText={currentData.buttonText}
-  title={currentData.title}
-/>
+                  buttonText={currentData.buttonText}
+                  title={currentData.title}
+                />
               </div>
 
               {/* Survivor Information Card */}
@@ -185,46 +195,48 @@ const Testimonials = (): React.ReactElement => {
               </div> */}
 
               {/* Image/Video Carousel */}
-              <div className="relative self-stretch w-full flex-[0_0_auto] mb-4">
-                <Carousel
-                  className="w-full"
-                  opts={{
-                    direction: currentLanguage === "ar" ? "rtl" : "ltr",
-                  }}
-                >
-                  <CarouselContent>
-                    {currentData.images.map((media, index) => (
-                      <CarouselItem key={index}>
-                        <Card className="relative self-stretch w-full flex-[0_0_auto] bg-transparent border-0">
-                          <CardContent className="p-0">
-                            {isVideoUrl(media) ? (
-                              <video
-                                className="w-full h-auto object-cover rounded-lg"
-                                controls
-                                preload="metadata"
-                              >
-                                <source src={media} type="video/mp4" />
-                                {currentLanguage === "ar"
-                                  ? "متصفحك لا يدعم عنصر الفيديو."
-                                  : "Your browser does not support the video tag."}
-                              </video>
-                            ) : (
-                              <img
-                                className="w-full h-auto object-cover rounded-lg"
-                                alt={`Testimonial media ${index + 1}`}
-                                src={media}
-                              />
-                            )}
-                          </CardContent>
-                        </Card>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  {/* Hide carousel buttons on small screens (sm and below) */}
-                  <CarouselPrevious className="hidden md:flex" />
-                  <CarouselNext className="hidden md:flex" />
-                </Carousel>
-              </div>
+              {currentData.images && currentData.images.length > 0 && (
+                <div className="relative self-stretch w-full flex-[0_0_auto] mb-4">
+                  <Carousel
+                    className="w-full"
+                    opts={{
+                      direction: currentLanguage === "ar" ? "rtl" : "ltr",
+                    }}
+                  >
+                    <CarouselContent>
+                      {currentData.images.map((media, index) => (
+                        <CarouselItem key={index}>
+                          <Card className="relative self-stretch w-full flex-[0_0_auto] bg-transparent border-0">
+                            <CardContent className="p-0">
+                              {isVideoUrl(media) ? (
+                                <video
+                                  className="w-full h-auto object-cover rounded-lg"
+                                  controls
+                                  preload="metadata"
+                                >
+                                  <source src={media} type="video/mp4" />
+                                  {currentLanguage === "ar"
+                                    ? "متصفحك لا يدعم عنصر الفيديو."
+                                    : "Your browser does not support the video tag."}
+                                </video>
+                              ) : (
+                                <img
+                                  className="w-full h-auto object-cover rounded-lg"
+                                  alt={`Testimonial media ${index + 1}`}
+                                  src={media}
+                                />
+                              )}
+                            </CardContent>
+                          </Card>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                    {/* Hide carousel buttons on small screens (sm and below) */}
+                    <CarouselPrevious className="hidden md:flex" />
+                    <CarouselNext className="hidden md:flex" />
+                  </Carousel>
+                </div>
+              )}
 
               {/* Article Content - Updated to show only intro */}
               <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">

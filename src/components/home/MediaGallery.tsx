@@ -100,7 +100,7 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
                 {limitedMediaItems.map((mediaItem, index) => (
                   <Card 
                     key={index} 
-                    className="!mx-2 bg-card border-border rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 flex-shrink-0 shadow-sm cursor-pointer"
+                    className="!m-2 bg-card border-border rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 flex-shrink-0 shadow-sm cursor-pointer"
                     onClick={() => openDialog(mediaItem)}
                   >
                     <CardContent className="p-0">
