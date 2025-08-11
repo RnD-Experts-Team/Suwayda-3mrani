@@ -42,7 +42,7 @@ export default function AidAndResponseSection({
       onOrganizationClick(org.id);
     } else {
       // Otherwise, use the URL directly (external links)
-      window.open(currentData.url, '_blank', 'noopener,noreferrer');
+      window.location.href = currentData.url;
     }
   };
 

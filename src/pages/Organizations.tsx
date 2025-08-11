@@ -116,7 +116,7 @@ const Organizations = (): React.ReactElement => {
     if (url.startsWith("mailto:")) {
       window.location.href = url;
     } else {
-      window.open(url, "_blank", "noopener,noreferrer");
+      window.location.href = url;
     }
   };
 

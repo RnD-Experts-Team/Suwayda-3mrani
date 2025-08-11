@@ -26,7 +26,7 @@ export default function ComponentNodeSection({ data, url }: ComponentNodeSection
   
   const handleClick = () => {
     if (url) {
-      window.open(url, '_blank');
+      window.location.href = url;
     }
   };
   
