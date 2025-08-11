@@ -16,7 +16,7 @@ interface MediaItem {
     en: string;
     ar: string;
   };
-  sourceUrl: string;
+  sourceUrl: string | null;
   type: 'image' | 'video';
 }
 

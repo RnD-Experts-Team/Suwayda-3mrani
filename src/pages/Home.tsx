@@ -14,9 +14,10 @@ import type {
   ExtractedHeroData,
   ExtractedMediaGalleryData,
   ExtractedAidData,
-  ExtractedSuggestionsData,
+  // ExtractedSuggestionsData,
   ExtractedSectionGroupData,
   ComponentNodeContent,
+  // FeaturedCasesContent,
 } from "@/types/home";
 
 // Error component for when API fails
@@ -112,9 +113,9 @@ const Home = (): React.ReactElement => {
     return homeData?.data.find((item) => item.type === type);
   };
 
-  const getDataById = (id: string): HomeContentItem | undefined => {
-    return homeData?.data.find((item) => item.id === id);
-  };
+  // const getDataById = (id: string): HomeContentItem | undefined => {
+  //   return homeData?.data.find((item) => item.id === id);
+  // };
 
   // Get all suggestions from the API data
   const getAllSuggestions = (): any[] => {
@@ -134,9 +135,9 @@ const Home = (): React.ReactElement => {
   // Extract featured cases data
   const extractFeaturedCasesData = (): { title: any; cases: any[] } | null => {
     const featuredCasesItem = getDataByType("featured_cases");
-    if (featuredCasesItem && featuredCasesItem.type === "featured_cases") {
+    if (featuredCasesItem?.content && featuredCasesItem.type === "featured_cases") {
       // Transform the API data to match the CaseData interface expected by DataCard
-      const transformedCases = featuredCasesItem.content.map(
+      const transformedCases = Array.isArray(featuredCasesItem.content) ? featuredCasesItem.content.map(
         (caseItem: any) => ({
           id: caseItem.id,
           title: caseItem.title,
@@ -144,7 +145,7 @@ const Home = (): React.ReactElement => {
           url: `/case/${caseItem.id}`, // Construct the URL using the case ID
           details: caseItem.details,
         })
-      );
+      ):[];  
 
       return {
         title: featuredCasesItem.title,
@@ -241,29 +242,29 @@ const Home = (): React.ReactElement => {
 
   const featuredCasesData = extractFeaturedCasesData();
 
-  const extractSectionGroupData = (
-    groupId: string
-  ): ExtractedSectionGroupData | null => {
-    const groupItem = getDataById(groupId);
-    if (groupItem && groupItem.type === "section_group") {
-      const sections = groupItem.content.sections
-        .map((sectionId) => getDataById(sectionId))
-        .filter(
-          (item): item is ComponentNodeContent =>
-            item !== undefined &&
-            (item.type === "component_node" ||
-              item.type === "testimonial" ||
-              item.type === "key_events")
-        )
-        .map((item) => item.content);
+  // const extractSectionGroupData = (
+  //   groupId: string
+  // ): ExtractedSectionGroupData | null => {
+  //   const groupItem = getDataById(groupId);
+  //   if (groupItem && groupItem.type === "section_group") {
+  //     const sections = groupItem.content.sections
+  //       .map((sectionId) => getDataById(sectionId))
+  //       .filter(
+  //         (item): item is ComponentNodeContent =>
+  //           item !== undefined &&
+  //           (item.type === "component_node" ||
+  //             item.type === "testimonial" ||
+  //             item.type === "key_events")
+  //       )
+  //       .map((item) => item.content);
 
-      return {
-        title: groupItem.content.title,
-        sections,
-      };
-    }
-    return null;
-  };
+  //     return {
+  //       title: groupItem.content.title,
+  //       sections,
+  //     };
+  //   }
+  //   return null;
+  // };
 
   // Show loading state
   if (loading) {
@@ -281,7 +282,7 @@ const Home = (): React.ReactElement => {
   const aidData = extractAidData();
   const suggestionsData = extractSuggestionsData();
   const testimonialsData = extractTestimonialsData(); // Use testimonials for first section
-  const sectionGroup2Data = extractSectionGroupData("section-group-2"); // Keep second section as is
+  // const sectionGroup2Data = extractSectionGroupData("section-group-2"); // Keep second section as is
 
   return (
     <div className="flex flex-col w-full bg-background">

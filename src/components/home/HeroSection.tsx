@@ -35,10 +35,7 @@ export default function HeroSection({ content }: HeroSectionProps): React.ReactE
   className="font-bold text-primary-foreground text-[28px] leading-[35px] [font-family:'Newsreader-Bold',Helvetica] mb-3"
   style={{
     color: 'var(--primary-foreground)',
-
-
     WebkitTextStroke: '1px var(--foreground)',
-    textStroke: '1px var(--foreground)',
     paintOrder: 'stroke fill'
   }}
 >
@@ -47,10 +44,7 @@ export default function HeroSection({ content }: HeroSectionProps): React.ReactE
               <p className="text-primary-foreground text-lg leading-[24px] opacity-90 max-w-2xl"
               style={{
     color: 'var(--primary-foreground)',
-
-
     WebkitTextStroke: '1px var(--foreground)',
-    textStroke: '1px var(--foreground)',
     paintOrder: 'stroke fill'
   }}>
                 {currentData.description}
