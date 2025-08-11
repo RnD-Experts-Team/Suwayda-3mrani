@@ -5,231 +5,113 @@ import { useLanguage } from "@/LanguageContext";
 import { crisesArchiveApi } from "@/services/crisesArchiveApi";
 import type { CrisesArchiveData } from "@/types/crisesArchive";
 
-/* ─────── Fallback data (your former static object) ─────── */
-const fallbackArchiveData: CrisesArchiveData = {
-  aboutSection: {
-    title: {
-      en: "About the Crisis Archive",
-      ar: "حول أرشيف الأزمة",
-    },
-    description: {
-      en: "The Crisis Archive is dedicated to documenting and preserving the historical record of the mass atrocities committed against the religious minority group in the region. This archive serves as a critical resource for researchers, educators, policymakers, and the public, aiming to promote understanding, accountability, and prevention of future atrocities.",
-      ar: "يُكرس أرشيف الأزمة لتوثيق وحفظ السجل التاريخي للفظائع الجماعية المرتكبة ضد الأقلية الدينية في المنطقة. يُعتبر هذا الأرشيف مصدراً حيوياً للباحثين والمعلمين وصناع السياسات والجمهور، بهدف تعزيز الفهم والمساءلة ومنع الفظائع المستقبلية.",
-    },
-  },
-  historicalContext: {
-    title: {
-      en: "Historical Context",
-      ar: "السياق التاريخي",
-    },
-    description: {
-      en: "The crisis unfolded against a backdrop of long-standing tensions and discrimination against the religious minority group. Decades of marginalization and persecution culminated in a systematic campaign of violence and oppression, beginning in 2014. The archive meticulously documents the events leading up to the crisis, the atrocities committed, and the ongoing impact on the affected communities.",
-      ar: "تطورت الأزمة على خلفية من التوترات طويلة الأمد والتمييز ضد الأقلية الدينية. عقود من التهميش والاضطهاد بلغت ذروتها في حملة منهجية من العنف والقمع، بدءاً من عام 2014. يوثق الأرشيف بدقة الأحداث التي أدت إلى الأزمة، والفظائع المرتكبة، والتأثير المستمر على المجتمعات المتضررة.",
-    },
-  },
-  affectedCommunity: {
-    title: {
-      en: "The Affected Community",
-      ar: "المجتمع المتضرر",
-    },
-    description: {
-      en: "The religious minority group, with a history spanning thousands of years in the region, has faced numerous challenges to their existence. This archive focuses on the recent atrocities, highlighting the resilience and strength of the community in the face of unimaginable suffering. It aims to amplify their voices and ensure their stories are heard.",
-      ar: "الأقلية الدينية، التي لها تاريخ يمتد لآلاف السنين في المنطقة، واجهت تحديات عديدة لوجودها. يركز هذا الأرشيف على الفظائع الأخيرة، مسلطاً الضوء على مرونة وقوة المجتمع في مواجهة المعاناة التي لا يمكن تصورها. يهدف إلى تضخيم أصواتهم وضمان سماع قصصهم.",
-    },
-  },
-  archivePurpose: {
-    title: {
-      en: "Purpose of the Archive",
-      ar: "الغرض من الأرشيف",
-    },
-    description: {
-      en: "The Crisis Archive serves multiple critical purposes:",
-      ar: "يخدم أرشيف الأزمة عدة أغراض حيوية:",
-    },
-    items: [
-      {
-        number: "1",
-        title: {
-          en: "Documentation:",
-          ar: "التوثيق:",
-        },
-        description: {
-          en: "To create a comprehensive and accessible record of the atrocities, including testimonies, documents, images, and other forms of evidence.",
-          ar: "لإنشاء سجل شامل ومتاح للفظائع، بما في ذلك الشهادات والوثائق والصور وأشكال أخرى من الأدلة.",
-        },
-      },
-      {
-        number: "2",
-        title: {
-          en: "Education:",
-          ar: "التعليم:",
-        },
-        description: {
-          en: "To educate the public about the crisis, its causes, and its consequences, fostering a deeper understanding of the issues.",
-          ar: "لتثقيف الجمهور حول الأزمة وأسبابها وعواقبها، وتعزيز فهم أعمق للقضايا.",
-        },
-      },
-      {
-        number: "3",
-        title: {
-          en: "Advocacy:",
-          ar: "المناصرة:",
-        },
-        description: {
-          en: "To support advocacy efforts for justice, accountability, and the prevention of future atrocities.",
-          ar: "لدعم جهود المناصرة من أجل العدالة والمساءلة ومنع الفظائع المستقبلية.",
-        },
-      },
-      {
-        number: "4",
-        title: {
-          en: "Remembrance:",
-          ar: "التذكر:",
-        },
-        description: {
-          en: "To honor the victims and survivors, ensuring their stories are not forgotten and contributing to the healing process.",
-          ar: "لتكريم الضحايا والناجين، وضمان عدم نسيان قصصهم والمساهمة في عملية الشفاء.",
-        },
-      },
-      {
-        number: "5",
-        title: {
-          en: "Research:",
-          ar: "البحث:",
-        },
-        description: {
-          en: "To provide a valuable resource for researchers studying genocide, human rights, and related fields.",
-          ar: "لتوفير مصدر قيم للباحثين الذين يدرسون الإبادة الجماعية وحقوق الإنسان والمجالات ذات الصلة.",
-        },
-      },
-    ],
-  },
-  keyFacts: {
-    title: {
-      en: "Key Facts and Statistics",
-      ar: "الحقائق والإحصائيات الرئيسية",
-    },
-    facts: [
-      {
-        label: {
-          en: "Start Date",
-          ar: "تاريخ البداية",
-        },
-        value: {
-          en: "August 2014",
-          ar: "أغسطس 2014",
-        },
-        secondLabel: {
-          en: "Peak Violence",
-          ar: "ذروة العنف",
-        },
-        secondValue: {
-          en: "2014-2017",
-          ar: "2014-2017",
-        },
-      },
-      {
-        label: {
-          en: "Estimated Casualties",
-          ar: "الضحايا المقدرون",
-        },
-        value: {
-          en: "Thousands",
-          ar: "الآلاف",
-        },
-        secondLabel: {
-          en: "Displaced Persons",
-          ar: "النازحون",
-        },
-        secondValue: {
-          en: "Hundreds of thousands",
-          ar: "مئات الآلاف",
-        },
-      },
-      {
-        label: {
-          en: "International Recognition",
-          ar: "الاعتراف الدولي",
-        },
-        value: {
-          en: "Recognized as genocide by several nations and organizations",
-          ar: "معترف بها كإبادة جماعية من قبل عدة دول ومنظمات",
-        },
-        secondLabel: {
-          en: "",
-          ar: "",
-        },
-        secondValue: {
-          en: "",
-          ar: "",
-        },
-      },
-    ],
-  },
-  missionStatement: {
-    title: {
-      en: "Mission Statement",
-      ar: "بيان المهمة",
-    },
-    description: {
-      en: "Our mission is to preserve the memory of the atrocities committed against the religious minority group, to educate current and future generations about the dangers of hatred and violence, and to advocate for a world free from genocide and mass atrocities. We are committed to ensuring that the voices of the victims and survivors are heard and that their experiences contribute to a more just and peaceful future.",
-      ar: "مهمتنا هي الحفاظ على ذكرى الفظائع المرتكبة ضد الأقلية الدينية، وتثقيف الأجيال الحالية والمستقبلية حول مخاطر الكراهية والعنف، والدعوة لعالم خالٍ من الإبادة الجماعية والفظائع الجماعية. نحن ملتزمون بضمان سماع أصوات الضحايا والناجين وأن تساهم تجاربهم في مستقبل أكثر عدالة وسلاماً.",
-    },
-  },
-};
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Archive
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
+
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading archive...</p>
+  </div>
+);
 
 export default function CrisesArchive(): React.ReactElement {
   const { currentLanguage } = useLanguage();
 
-  const [archiveData, setArchiveData] =
-    useState<CrisesArchiveData>(fallbackArchiveData);
+  const [archiveData, setArchiveData] = useState<CrisesArchiveData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   /* Fetch from API once on mount */
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const data = await crisesArchiveApi.getArchiveData();
+      setArchiveData(data);
+    } catch (err) {
+      console.error("Failed to fetch archive data:", err);
+      setError(true);
+      setArchiveData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await crisesArchiveApi.getArchiveData();
-        setArchiveData(data);
-      } catch {
-        setError("Failed to load archive data. Showing fallback content.");
-        setArchiveData(fallbackArchiveData);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchData();
   }, []);
 
-  /* Loading spinner */
+  // Handle retry
+  const handleRetry = () => {
+    fetchData();
+  };
+
+  /* Show loading state */
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
-        <p className="mt-4 text-foreground">Loading archive…</p>
-      </div>
-    );
+    return <LoadingState />;
+  }
+
+  /* Show error state */
+  if (error || !archiveData) {
+    return <ErrorState onRetry={handleRetry} />;
   }
 
   return (
     <div className="flex flex-col items-start relative bg-background">
-      {/* Error banner */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
       <div className="flex flex-col min-h-[800px] items-start w-full bg-card">
         <main className="flex-1 flex justify-center px-2 md:px-4 lg:px-8 py-5 w-full">
           <div className="flex flex-col w-full max-w-7xl ">
             {/* ===== ABOUT ===== */}
             <section className="p-4">
               <h2
-                className="text-2xl sm:text-[32px] font-bold break-words sm:whitespace-nowrap"
+                className="text-2xl sm:text-[32px] font-bold text-foreground break-words sm:whitespace-nowrap"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.aboutSection.title[currentLanguage],
                 }}
@@ -238,7 +120,7 @@ export default function CrisesArchive(): React.ReactElement {
 
             <section className="px-4 pb-3">
               <p
-                className="text-sm sm:text-base leading-5 sm:leading-6"
+                className="text-sm sm:text-base leading-5 sm:leading-6 text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.aboutSection.description[currentLanguage],
                 }}
@@ -250,7 +132,7 @@ export default function CrisesArchive(): React.ReactElement {
             {/* ===== HISTORICAL CONTEXT ===== */}
             <section className="px-4 pt-5 pb-3">
               <h3
-                className="text-lg sm:text-[22px] font-bold"
+                className="text-lg sm:text-[22px] font-bold text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.historicalContext.title[currentLanguage],
                 }}
@@ -259,7 +141,7 @@ export default function CrisesArchive(): React.ReactElement {
 
             <section className="px-4 pb-3">
               <p
-                className="text-sm sm:text-base leading-5 sm:leading-6"
+                className="text-sm sm:text-base leading-5 sm:leading-6 text-foreground"
                 dangerouslySetInnerHTML={{
                   __html:
                     archiveData.historicalContext.description[currentLanguage],
@@ -272,7 +154,7 @@ export default function CrisesArchive(): React.ReactElement {
             {/* ===== AFFECTED COMMUNITY ===== */}
             <section className="px-4 pt-5 pb-3">
               <h3
-                className="text-lg sm:text-[22px] font-bold"
+                className="text-lg sm:text-[22px] font-bold text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.affectedCommunity.title[currentLanguage],
                 }}
@@ -281,7 +163,7 @@ export default function CrisesArchive(): React.ReactElement {
 
             <section className="px-4 pb-3">
               <p
-                className="text-sm sm:text-base leading-5 sm:leading-6"
+                className="text-sm sm:text-base leading-5 sm:leading-6 text-foreground"
                 dangerouslySetInnerHTML={{
                   __html:
                     archiveData.affectedCommunity.description[currentLanguage],
@@ -294,7 +176,7 @@ export default function CrisesArchive(): React.ReactElement {
             {/* ===== ARCHIVE PURPOSE ===== */}
             <section className="px-4 pt-5 pb-3">
               <h3
-                className="text-lg sm:text-[22px] font-bold"
+                className="text-lg sm:text-[22px] font-bold text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.archivePurpose.title[currentLanguage],
                 }}
@@ -303,7 +185,7 @@ export default function CrisesArchive(): React.ReactElement {
 
             <section className="px-4 pb-6">
               <div
-                className="text-sm sm:text-base leading-6 sm:leading-7 text-justify space-y-6"
+                className="text-sm sm:text-base leading-6 sm:leading-7 text-foreground text-justify space-y-6"
                 dir={currentLanguage === "ar" ? "rtl" : "ltr"}
                 dangerouslySetInnerHTML={{
                   __html:
@@ -329,7 +211,7 @@ export default function CrisesArchive(): React.ReactElement {
                     </div>
                     <div className="flex-1 space-y-1">
                       <h4
-                        className="font-bold text-sm sm:text-base leading-5 sm:leading-6"
+                        className="font-bold text-sm sm:text-base leading-5 sm:leading-6 text-foreground"
                         dangerouslySetInnerHTML={{
                           __html: item.title[currentLanguage],
                         }}
@@ -351,7 +233,7 @@ export default function CrisesArchive(): React.ReactElement {
             {/* ===== KEY FACTS ===== */}
             <section className="px-4 pt-5 pb-3">
               <h3
-                className="text-lg sm:text-[22px] font-bold"
+                className="text-lg sm:text-[22px] font-bold text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.keyFacts.title[currentLanguage],
                 }}
@@ -373,7 +255,7 @@ export default function CrisesArchive(): React.ReactElement {
                         }}
                       />
                       <div
-                        className="text-sm sm:text-base font-semibold"
+                        className="text-sm sm:text-base font-semibold text-foreground"
                         dangerouslySetInnerHTML={{
                           __html: fact.value[currentLanguage],
                         }}
@@ -389,7 +271,7 @@ export default function CrisesArchive(): React.ReactElement {
                           }}
                         />
                         <div
-                          className="text-sm sm:text-base font-semibold"
+                          className="text-sm sm:text-base font-semibold text-foreground"
                           dangerouslySetInnerHTML={{
                             __html: fact.secondValue[currentLanguage],
                           }}
@@ -406,7 +288,7 @@ export default function CrisesArchive(): React.ReactElement {
             {/* ===== MISSION STATEMENT ===== */}
             <section className="px-4 pt-5 pb-3">
               <h3
-                className="text-lg sm:text-[22px] font-bold"
+                className="text-lg sm:text-[22px] font-bold text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: archiveData.missionStatement.title[currentLanguage],
                 }}
@@ -415,7 +297,7 @@ export default function CrisesArchive(): React.ReactElement {
 
             <section className="px-4 pb-3">
               <p
-                className="text-sm sm:text-base leading-5 sm:leading-6"
+                className="text-sm sm:text-base leading-5 sm:leading-6 text-foreground"
                 dangerouslySetInnerHTML={{
                   __html:
                     archiveData.missionStatement.description[currentLanguage],

@@ -16,149 +16,119 @@ interface RelatedOrganization {
   type: "organizations" | "initiatives";
 }
 
+// Error component for when API fails
+const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
+    <div className="text-center max-w-md">
+      <div className="mb-6">
+        <svg 
+          className="mx-auto h-16 w-16 text-muted-foreground" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1} 
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
+          />
+        </svg>
+      </div>
+      <h2 className="text-2xl font-bold text-foreground mb-4">
+        Unable to Load Organization
+      </h2>
+      <p className="text-muted-foreground mb-8">
+        We're having trouble connecting to our servers. Please check your internet connection and try again.
+      </p>
+      <button
+        onClick={onRetry}
+        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring transition-colors"
+      >
+        <svg 
+          className="mr-2 h-4 w-4" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+          />
+        </svg>
+        Refresh Page
+      </button>
+    </div>
+  </div>
+);
 
-// Updated fallback data structure to match API
-const fallbackOrganizationsData: OrganizationsData = {
-  en: {
-    relatedOrganizations: [
-      { 
-        name: "Global Relief Network", 
-        logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-        id: 1,
-        organizationId: "org-fallback-001",
-        type: "organizations"
-      },
-      { 
-        name: "Aid for All", 
-        logoUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-        id: 2,
-        organizationId: "org-fallback-002",
-        type: "organizations"
-      },
-      { 
-        name: "Hope Without Borders", 
-        logoUrl: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&h=300&fit=crop",
-        id: 3,
-        organizationId: "init-fallback-001",
-        type: "initiatives"
-      },
-      { 
-        name: "United Assistance", 
-        logoUrl: "https://images.unsplash.com/photo-1507679799987-7379428750ca?w=500&h=300&fit=crop",
-        id: 4,
-        organizationId: "org-fallback-003",
-        type: "organizations"
-      },
-      { 
-        name: "Compassion in Action", 
-        logoUrl: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=500&h=300&fit=crop",
-        id: 5,
-        organizationId: "org-fallback-004",
-        type: "organizations"
-      },
-    ],
-    currentOrganization: {
-      name: "Humanity First",
-      imageUrl: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=500&h=300&fit=crop",
-      description: "Humanity First is a global humanitarian organization dedicated to providing aid and support to communities affected by genocide and mass atrocities. Our mission is to alleviate suffering, promote human dignity, and foster resilience in the face of crisis. We work tirelessly to deliver essential services, advocate for human rights, and empower individuals to rebuild their lives.",
-      type: "organizations",
-      categories: [null, null],
-      organizationId: "org-fallback-default"
-    },
-    actionButtons: [
-      { text: "Contact", url: "mailto:contact@humanityfirst.org" },
-      { text: "Visit Website", url: "https://www.humanityfirst.org" },
-    ],
-    pageTitle: "Organizations",
-  },
-  ar: {
-    relatedOrganizations: [
-      { 
-        name: "شبكة الإغاثة العالمية", 
-        logoUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=300&fit=crop",
-        id: 1,
-        organizationId: "org-fallback-001",
-        type: "organizations"
-      },
-      { 
-        name: "المساعدة للجميع", 
-        logoUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=500&h=300&fit=crop",
-        id: 2,
-        organizationId: "org-fallback-002",
-        type: "organizations"
-      },
-      { 
-        name: "الأمل بلا حدود", 
-        logoUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop",
-        id: 3,
-        organizationId: "init-fallback-001",
-        type: "initiatives"
-      },
-      { 
-        name: "المساعدة المتحدة", 
-        logoUrl: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=500&h=300&fit=crop",
-        id: 4,
-        organizationId: "org-fallback-003",
-        type: "organizations"
-      },
-      { 
-        name: "الرحمة في العمل", 
-        logoUrl: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop",
-        id: 5,
-        organizationId: "org-fallback-004",
-        type: "organizations"
-      },
-    ],
-    currentOrganization: {
-      name: "الإنسانية أولاً",
-      imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&h=300&fit=crop",
-      description: "الإنسانية أولاً هي منظمة إنسانية عالمية مكرسة لتقديم المساعدة والدعم للمجتمعات المتضررة من الإبادة الجماعية والفظائع الجماعية. مهمتنا هي تخفيف المعاناة وتعزيز الكرامة الإنسانية وتعزيز المرونة في مواجهة الأزمات. نعمل بلا كلل لتقديم الخدمات الأساسية والدفاع عن حقوق الإنسان وتمكين الأفراد من إعادة بناء حياتهم.",
-      type: "organizations",
-      categories: [null, null],
-      organizationId: "org-fallback-default"
-    },
-    actionButtons: [
-      { text: "اتصل بنا", url: "mailto:contact@humanityfirst.org" },
-      { text: "زيارة الموقع", url: "https://www.humanityfirst.org" },
-    ],
-    pageTitle: "المنظمات",
-  },
-};
+// Loading component
+const LoadingState = () => (
+  <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+    <p className="text-foreground">Loading organization...</p>
+  </div>
+);
 
 const Organizations = (): React.ReactElement => {
   const { currentLanguage } = useLanguage();
   const { organizationId } = useParams<{ organizationId: string }>();
   const navigate = useNavigate();
   
-  const [organizationsData, setOrganizationsData] = useState<OrganizationsData>(fallbackOrganizationsData);
+  const [organizationsData, setOrganizationsData] = useState<OrganizationsData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   // Fetch organizations data from API
-  useEffect(() => {
-    const fetchOrganizationsData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const id = organizationId ?? 'org-fallback-default';
-        const data = await organizationsApi.getOrganizationsData(id);
-        setOrganizationsData(data);
-      } catch (err) {
-        console.error('Failed to fetch organizations data:', err);
-        setError('Failed to load organizations data. Using fallback data.');
-        setOrganizationsData(fallbackOrganizationsData);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchOrganizationsData = async () => {
+    try {
+      setLoading(true);
+      setError(false);
+      const id = organizationId ?? 'org-fallback-default';
+      const data = await organizationsApi.getOrganizationsData(id);
+      setOrganizationsData(data);
+    } catch (err) {
+      console.error('Failed to fetch organizations data:', err);
+      setError(true);
+      setOrganizationsData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchOrganizationsData();
   }, [organizationId]);
+
+  // Handle retry
+  const handleRetry = () => {
+    fetchOrganizationsData();
+  };
 
   // Click handler for related organizations
   const handleRelatedOrgClick = (org: RelatedOrganization) => {
     navigate(`/organization/${org.organizationId}`);
   };
+
+  const handleButtonClick = (url: string) => {
+    if (url.startsWith("mailto:")) {
+      window.location.href = url;
+    } else {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  // Show loading state
+  if (loading) {
+    return <LoadingState />;
+  }
+
+  // Show error state
+  if (error || !organizationsData) {
+    return <ErrorState onRetry={handleRetry} />;
+  }
 
   // Get current language data
   const currentData = organizationsData[currentLanguage];
@@ -169,33 +139,8 @@ const Organizations = (): React.ReactElement => {
     pageTitle,
   } = currentData;
 
-  const handleButtonClick = (url: string) => {
-    if (url.startsWith("mailto:")) {
-      window.location.href = url;
-    } else {
-      window.open(url, "_blank", "noopener,noreferrer");
-    }
-  };
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] bg-background">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        <p className="mt-4 text-foreground">Loading organizations...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col items-start relative bg-background">
-      {/* Error message */}
-      {error && (
-        <div className="w-full px-4 py-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-      
       <div className="flex flex-col min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-background">
         <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
           {/* Main Content */}

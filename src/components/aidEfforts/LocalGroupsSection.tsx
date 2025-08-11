@@ -66,7 +66,7 @@ export default function LocalGroupsSection({
                 <Card
                   key={initiative.id || index}
                   onClick={() => handleCardClick(initiative)}
-                  className="min-w-[280px] max-w-[320px] bg-card border-border text-card-foreground cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:bg-accent"
+                  className="min-w-[280px] max-w-[320px] m-2 bg-card border-border text-card-foreground cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 hover:bg-accent"
                 >
                   <CardContent className="flex flex-col items-start gap-3 p-4">
                     <div className="w-6 h-6">

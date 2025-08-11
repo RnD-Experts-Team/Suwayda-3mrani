@@ -31,7 +31,7 @@ export default function ComponentNodeSection({ data, url }: ComponentNodeSection
   };
   
   return (
-    <section className="flex flex-col items-start p-6 w-full">
+    <section className="flex flex-col items-start p-1 w-full">
       <Card 
         className={`flex items-start justify-between w-full rounded-xl bg-transparent border-2 border-border/20 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out transform ${
           url ? 'cursor-pointer hover:bg-muted/30 hover:border-border/60 hover:scale-[1.02]' : 'hover:border-border/40'
@@ -54,7 +54,7 @@ export default function ComponentNodeSection({ data, url }: ComponentNodeSection
             <img 
               src={content.imageUrl} 
               alt={content.title}
-              className="w-full h-full object-contain object-center transition-transform duration-300 ease-in-out hover:scale-105"
+              className="w-full h-full object-cover object-center transition-transform duration-300 ease-in-out hover:scale-105"
             />
           </div>
         </CardContent>
