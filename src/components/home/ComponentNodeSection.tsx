@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../../LanguageContext";
 
 interface ComponentNodeSectionProps {
@@ -22,11 +23,12 @@ interface ComponentNodeSectionProps {
 
 export default function ComponentNodeSection({ data, url }: ComponentNodeSectionProps): React.ReactElement {
   const { currentLanguage } = useLanguage();
+  const navigate = useNavigate();
   const content = data[currentLanguage];
   
   const handleClick = () => {
     if (url) {
-      window.location.href = url;
+      navigate(url);
     }
   };
   
