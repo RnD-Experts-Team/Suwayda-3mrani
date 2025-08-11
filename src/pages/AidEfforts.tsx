@@ -128,9 +128,9 @@ export default function AidEfforts(): React.ReactElement {
   const localGroups = sections.find((s) => s.id === "local-groups") as
     | InitiativeSection
     | undefined;
-  const storiesOfHope = sections.find((s) => s.id === "stories-of-hope") as
-    | OrganizationSection
-    | undefined;
+  // const storiesOfHope = sections.find((s) => s.id === "stories-of-hope") as
+  //   | OrganizationSection
+  //   | undefined;
 
   return (
     <div className="flex flex-col w-full bg-background">

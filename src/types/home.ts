@@ -46,6 +46,26 @@ export interface MediaGalleryContent {
   };
 }
 
+// Featured Cases Types
+export interface FeaturedCase {
+  id: string;
+  title: LanguageContent;
+  imagePath: string | null;
+  url: string;
+  details: Array<{
+    key: LanguageContent;
+    value: LanguageContent;
+    sort_order: number;
+  }>;
+}
+
+export interface FeaturedCasesContent {
+  id: string;
+  type: "featured_cases";
+  title: LanguageContent;
+  content: FeaturedCase[];
+}
+
 // Aid Organizations Types
 export interface AidOrganization {
   id: string;
@@ -195,7 +215,8 @@ export type HomeContentItem =
   | SuggestionContent
   | TestimonialContent
   | ComponentNodeContent 
-  | SectionGroupContent;
+  | SectionGroupContent
+  | FeaturedCasesContent;
 
 // Main data structure
 export interface HomeData {
