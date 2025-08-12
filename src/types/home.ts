@@ -117,41 +117,24 @@ export interface SuggestionContent {
 }
 
 // Suggestion List Item (for component props)
-// export interface SuggestionItem {
-//   en: {
-//     title: string;
-//     description: string;
-//     buttonText: string;
-//     buttonVariant?: "default" | "outline";
-//   };
-//   ar: {
-//     title: string;
-//     description: string;
-//     buttonText: string;
-//     buttonVariant?: "default" | "outline";
-//   };
-// }
-
-// Suggestion List Item (for component props)
 export interface SuggestionItem {
   en: {
     title: string;
     description: string;
     buttonText: string;
     buttonVariant?: "default" | "outline";
-    action_link?: string; // Add this line
+    action_link?: string;
   };
   ar: {
     title: string;
     description: string;
     buttonText: string;
     buttonVariant?: "default" | "outline";
-    action_link?: string; // Add this line
+    action_link?: string;
   };
 }
 
-
-// Testimonial/Component Node Types
+// Testimonial Types
 export interface TestimonialContent {
   id: string;
   type: "testimonial";
@@ -179,7 +162,7 @@ export interface TestimonialContent {
 // Component Node Types
 export interface ComponentNodeContent {
   id: string;
-  type: "component_node" | "testimonial" | "key_events";
+  type: "component_node" | "key_events";
   content: {
     en: {
       category: string;
@@ -258,4 +241,34 @@ export interface ExtractedSuggestionsData {
 export interface ExtractedSectionGroupData {
   title: LanguageContent;
   sections: ComponentNodeContent['content'][];
+}
+
+// Testimonial Data Type for components
+export interface TestimonialData {
+  id: string;
+  content: {
+    en: {
+      category: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+    };
+    ar: {
+      category: string;
+      title: string;
+      description: string;
+      imageUrl: string;
+    };
+  };
+  url: string;
+  survivor_name: string;
+  survivor_age: number;
+  survivor_location: string;
+  date_of_incident: string;
+}
+
+// Extracted Testimonials Data Type
+export interface ExtractedTestimonialsData {
+  title: LanguageContent;
+  testimonials: TestimonialData[];
 }

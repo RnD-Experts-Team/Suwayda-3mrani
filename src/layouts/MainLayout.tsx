@@ -1,5 +1,4 @@
 // MainLayout.tsx
-// Remove these Command-related imports
 import { useState, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
@@ -18,63 +17,47 @@ import {
 const fallbackTranslations: LayoutData = {
   en: {
     title: "Suwayda Archive",
-    navigation: {
-      home: "Home",
-      crisesArchive: "Crises Archive",
-      gallery: "Gallery",
-      aidEfforts: "Aid Efforts",
-      organizations: "Organizations",
-      information: "Information",
-      stories: "Stories",
-      timeline: "Timeline",
-      dataOverview: "Data Overview",
-    },
-    buttons: {
-      seeStories: "See Stories",
-      takeAction: "Take Action",
-    },
-    footer: {
-      copyright: "© 2024 Sweda 3mrani. All rights reserved.",
-      privacyPolicy: "Privacy Policy",
-      termsOfService: "Terms of Service",
-      contact: "Contact",
-    },
-    ariaLabels: {
-      switchToLight: "Switch to light mode",
-      switchToDark: "Switch to dark mode",
-      toggleMenu: "Toggle menu",
-      switchLanguage: "Switch language",
-    },
+    home: "Home",
+    crisesArchive: "Crises Archive",
+    media: "Gallery",
+    aidEfforts: "Aid Efforts",
+    organizations: "Organizations",
+    information: "Information",
+    stories: "Stories",
+    timeline: "Timeline",
+    dataOverview: "Data Overview",
+    seeStories: "See Stories",
+    takeAction: "Take Action",
+    copyright: "© 2024 Sweda 3mrani. All rights reserved.",
+    privacyPolicy: "Privacy Policy",
+    termsOfService: "Terms of Service",
+    contact: "Contact",
+    switchToLight: "Switch to light mode",
+    switchToDark: "Switch to dark mode",
+    toggleMenu: "Toggle menu",
+    switchLanguage: "Switch language",
   },
   ar: {
     title: "أرشيف السويداء",
-    navigation: {
-      home: "الرئيسية",
-      crisesArchive: "أرشيف الأزمات",
-      gallery: "الإعلام",
-      aidEfforts: "جهود المساعدة",
-      organizations: "المنظمات",
-      information: "المعلومات",
-      stories: "القصص",
-      timeline: "الجدول الزمني",
-      dataOverview: "نظرة عامة على البيانات",
-    },
-    buttons: {
-      seeStories: "اطلع على القصص",
-      takeAction: "اتخذ إجراءً",
-    },
-    footer: {
-      copyright: "© 2024 سويدا عمراني. جميع الحقوق محفوظة.",
-      privacyPolicy: "سياسة الخصوصية",
-      termsOfService: "شروط الخدمة",
-      contact: "اتصل بنا",
-    },
-    ariaLabels: {
-      switchToLight: "التبديل إلى الوضع الفاتح",
-      switchToDark: "التبديل إلى الوضع الداكن",
-      toggleMenu: "تبديل القائمة",
-      switchLanguage: "تغيير اللغة",
-    },
+    home: "الرئيسية",
+    crisesArchive: "أرشيف الأزمات",
+    media: "الإعلام",
+    aidEfforts: "جهود المساعدة",
+    organizations: "المنظمات",
+    information: "المعلومات",
+    stories: "القصص",
+    timeline: "الجدول الزمني",
+    dataOverview: "نظرة عامة على البيانات",
+    seeStories: "اطلع على القصص",
+    takeAction: "اتخذ إجراءً",
+    copyright: "© 2024 سويدا عمراني. جميع الحقوق محفوظة.",
+    privacyPolicy: "سياسة الخصوصية",
+    termsOfService: "شروط الخدمة",
+    contact: "اتصل بنا",
+    switchToLight: "التبديل إلى الوضع الفاتح",
+    switchToDark: "التبديل إلى الوضع الداكن",
+    toggleMenu: "تبديل القائمة",
+    switchLanguage: "تغيير اللغة",
   },
   logo: roadImage,
 };
@@ -84,8 +67,7 @@ const MainLayout = () => {
   const { currentLanguage, toggleLanguage } = useLanguage();
   const location = useLocation();
 
-  const [layoutData, setLayoutData] =
-    useState<LayoutData>(fallbackTranslations);
+  const [layoutData, setLayoutData] = useState<LayoutData>(fallbackTranslations);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -100,42 +82,10 @@ const MainLayout = () => {
           en: {
             ...fallbackTranslations.en,
             ...data.en,
-            navigation: {
-              ...fallbackTranslations.en.navigation,
-              ...data.en.navigation,
-            },
-            buttons: {
-              ...fallbackTranslations.en.buttons,
-              ...data.en.buttons,
-            },
-            footer: {
-              ...fallbackTranslations.en.footer,
-              ...data.en.footer,
-            },
-            ariaLabels: {
-              ...fallbackTranslations.en.ariaLabels,
-              ...data.en.ariaLabels,
-            },
           },
           ar: {
             ...fallbackTranslations.ar,
             ...data.ar,
-            navigation: {
-              ...fallbackTranslations.ar.navigation,
-              ...data.ar.navigation,
-            },
-            buttons: {
-              ...fallbackTranslations.ar.buttons,
-              ...data.ar.buttons,
-            },
-            footer: {
-              ...fallbackTranslations.ar.footer,
-              ...data.ar.footer,
-            },
-            ariaLabels: {
-              ...fallbackTranslations.ar.ariaLabels,
-              ...data.ar.ariaLabels,
-            },
           },
           logo: data.logo || fallbackTranslations.logo,
         };
@@ -156,27 +106,19 @@ const MainLayout = () => {
   const t = layoutData[currentLanguage];
 
   const primaryNavLinks = [
-    { label: t.navigation?.home || "Home", path: "/" },
-    {
-      label: t.navigation?.dataOverview || "Data Overview",
-      path: "/data-overview",
-    },
-    { label: t.navigation?.aidEfforts || "Aid Efforts", path: "/aid-efforts" },
-    { label: t.navigation?.gallery || "Gallery", path: "/gallery" },
-    { label: t.navigation?.stories || "Stories", path: "/stories" },
+    { label: t.home || "Home", path: "/" },
+    { label: t.dataOverview || "Data Overview", path: "/data-overview" },
+    { label: t.aidEfforts || "Aid Efforts", path: "/aid-efforts" },
+    { label: t.media || "Gallery", path: "/gallery" },
+    { label: t.stories || "Stories", path: "/stories" },
   ];
 
   const informationLinks = [
-    { label: t.navigation?.timeline || "Timeline", path: "/timeline" },
-    {
-      label: t.navigation?.crisesArchive || "Crises Archive",
-      path: "/crises_archive",
-    },
+    { label: t.timeline || "Timeline", path: "/timeline" },
+    { label: t.crisesArchive || "Crises Archive", path: "/crises_archive" },
   ];
 
   const allNavLinks = [...primaryNavLinks, ...informationLinks];
-
-  
 
   if (loading) {
     return (
@@ -207,7 +149,7 @@ const MainLayout = () => {
           <img
             src={layoutData.logo}
             alt="Logo"
-            className="h-8 w-8 md:h-10 md:w-10"
+            className="h-8 w-16 md:h-10 md:w-20"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src = roadImage;
@@ -245,7 +187,7 @@ const MainLayout = () => {
                     : ""
                 }`}
               >
-                <span>{t.navigation?.information || "Information"}</span>
+                <span>{t.information || "Information"}</span>
                 <ChevronDown className="h-4 w-4" />
               </Button>
             </PopoverTrigger>
@@ -270,7 +212,7 @@ const MainLayout = () => {
             variant="ghost"
             size="icon"
             className="text-foreground hover:bg-accent"
-            aria-label={t.ariaLabels?.switchLanguage || "Switch language"}
+            aria-label={t.switchLanguage || "Switch language"}
           >
             <Languages className="h-4 w-4" />
           </Button>
@@ -282,15 +224,11 @@ const MainLayout = () => {
             className="text-foreground hover:bg-accent"
             aria-label={
               isDarkMode
-                ? t.ariaLabels?.switchToLight || "Switch to light mode"
-                : t.ariaLabels?.switchToDark || "Switch to dark mode"
+                ? t.switchToLight || "Switch to light mode"
+                : t.switchToDark || "Switch to dark mode"
             }
           >
-            {isDarkMode ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </div>
 
@@ -300,11 +238,7 @@ const MainLayout = () => {
             <Languages className="h-4 w-4" />
           </Button>
           <Button onClick={toggleTheme} variant="ghost" size="icon">
-            {isDarkMode ? (
-              <Sun className="h-4 w-4" />
-            ) : (
-              <Moon className="h-4 w-4" />
-            )}
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           <Button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -348,26 +282,26 @@ const MainLayout = () => {
       <footer className="text-center py-6 bg-card text-card-foreground border-t border-border">
         <div className="max-w-6xl mx-auto px-2 md:px-4">
           <p className="text-xs md:text-sm text-muted-foreground">
-            {t.footer?.copyright}
+            {t.copyright}
           </p>
           <div className="text-xs md:text-sm flex flex-wrap justify-center gap-4 md:gap-6 mt-2">
             <Link
               to="/privacy"
               className="text-muted-foreground hover:text-primary"
             >
-              {t.footer?.privacyPolicy}
+              {t.privacyPolicy}
             </Link>
             <Link
               to="/terms"
               className="text-muted-foreground hover:text-primary"
             >
-              {t.footer?.termsOfService}
+              {t.termsOfService}
             </Link>
             <Link
               to="/contact"
               className="text-muted-foreground hover:text-primary"
             >
-              {t.footer?.contact}
+              {t.contact}
             </Link>
           </div>
         </div>

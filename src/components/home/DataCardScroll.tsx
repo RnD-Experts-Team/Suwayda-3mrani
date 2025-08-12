@@ -47,7 +47,7 @@ export default function DataCardScroll({ caseData }: DataCardScrollProps): React
 
   return (
     <Card 
-      className="w-[300px] h-[470px] border border-border bg-transparent shadow-lg rounded-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer group flex flex-col"
+      className="w-[300px] h-[500px] border border-border bg-transparent shadow-lg rounded-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 cursor-pointer group flex flex-col"
       onClick={handleCardClick}
     >
       <CardContent className="p-4 flex flex-col h-full">
@@ -62,29 +62,31 @@ export default function DataCardScroll({ caseData }: DataCardScrollProps): React
           />
           <div className="flex flex-col justify-start space-y-3 w-full flex-grow">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <h3 className="font-semibold text-wrap text-foreground text-base leading-6 group-hover:text-primary transition-colors duration-300 line-clamp-2">
+              <h3 className="font-semibold text-foreground text-base leading-6 group-hover:text-primary transition-colors duration-300 line-clamp-2 text-wrap break-words overflow-hidden">
                 {caseData.title[currentLanguage]}
               </h3>
             </div>
-            <div className="space-y-2 overflow-y-auto flex-grow">
+            <div className="text-sm space-y-2 overflow-y-auto flex-grow">
               {getLimitedDetails().map((detail, index) => (
-                <p
+                <div
                   key={index}
-                  className="text-muted-foreground text-wrap text-sm leading-relaxed line-clamp-3"
+                  className="text-muted-foreground text-sm leading-relaxed"
                 >
                   {detail.key.en === "Description" ? (
-                    detail.value[currentLanguage]
+                    <p className="line-clamp-3 break-words overflow-hidden">
+                      {detail.value[currentLanguage]}
+                    </p>
                   ) : (
-                    <>
-                      <span className="font-medium">
+                    <p className="text-sm break-words overflow-hidden">
+                      <span className="font-medium line-clamp-1 inline-block w-full truncate">
                         {detail.key[currentLanguage]}:
                       </span>{" "}
-                      <span className="text-foreground">
+                      <span className="text-foreground line-clamp-2 break-words overflow-hidden">
                         {detail.value[currentLanguage]}
                       </span>
-                    </>
+                    </p>
                   )}
-                </p>
+                </div>
               ))}
             </div>
           </div>

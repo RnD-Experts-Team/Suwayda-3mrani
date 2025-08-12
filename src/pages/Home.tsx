@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AidAndResponseSection from "../components/home/AidAndResponseSection";
 import SuggestionList from "../components/home/SuggestionList";
-import ComponentNodeSectionGroup from "../components/home/ComponentNodeSectionGroup";
 import HeroSection from "../components/home/HeroSection";
 import MediaGallery from "@/components/home/MediaGallery";
 import { homeApi } from "@/services/homeApi";
 import DataCardListScroll from "@/components/home/DataCardListScroll";
+import TestimonialCardListScroll from "@/components/home/TestimonialCardListScroll";
 
 import type {
   HomeData,
@@ -14,10 +14,7 @@ import type {
   ExtractedHeroData,
   ExtractedMediaGalleryData,
   ExtractedAidData,
-  // ExtractedSuggestionsData,
-  ExtractedSectionGroupData,
-  ComponentNodeContent,
-  // FeaturedCasesContent,
+  TestimonialContent,
 } from "@/types/home";
 
 // Error component for when API fails
@@ -113,18 +110,14 @@ const Home = (): React.ReactElement => {
     return homeData?.data.find((item) => item.type === type);
   };
 
-  // const getDataById = (id: string): HomeContentItem | undefined => {
-  //   return homeData?.data.find((item) => item.id === id);
-  // };
-
   // Get all suggestions from the API data
   const getAllSuggestions = (): any[] => {
     return homeData?.data.filter((item) => item.type === "suggestion") || [];
   };
 
-  // Get all testimonials
-  const getAllTestimonials = (): HomeContentItem[] => {
-    return homeData?.data.filter((item) => item.type === "testimonial") || [];
+  // Get all testimonials with proper type casting
+  const getAllTestimonials = (): TestimonialContent[] => {
+    return homeData?.data.filter((item): item is TestimonialContent => item.type === "testimonial") || [];
   };
 
   // Handle organization clicks
@@ -145,7 +138,7 @@ const Home = (): React.ReactElement => {
           url: `/case/${caseItem.id}`, // Construct the URL using the case ID
           details: caseItem.details,
         })
-      ):[];  
+      ) : [];  
 
       return {
         title: featuredCasesItem.title,
@@ -183,25 +176,6 @@ const Home = (): React.ReactElement => {
     return null;
   };
 
-  // Extract suggestions data - modified to work with your API structure
-  // const extractSuggestionsData = (): any[] => {
-  //   const suggestions = getAllSuggestions();
-  //   return suggestions.map((item) => ({
-  //     en: {
-  //       title: item.content.en.title,
-  //       description: item.content.en.description,
-  //       buttonText: item.content.en.buttonText,
-  //       buttonVariant: item.content.en.buttonVariant || "outline",
-  //     },
-  //     ar: {
-  //       title: item.content.ar.title,
-  //       description: item.content.ar.description,
-  //       buttonText: item.content.ar.buttonText,
-  //       buttonVariant: item.content.ar.buttonVariant || "outline",
-  //     },
-  //   }));
-  // };
-
   // Extract suggestions data - modified to include action_link
   const extractSuggestionsData = (): any[] => {
     const suggestions = getAllSuggestions();
@@ -211,60 +185,40 @@ const Home = (): React.ReactElement => {
         description: item.content.en.description,
         buttonText: item.content.en.buttonText,
         buttonVariant: item.content.en.buttonVariant || "outline",
-        action_link: item.content.en.action_link, // Add this line
+        action_link: item.content.en.action_link,
       },
       ar: {
         title: item.content.ar.title,
         description: item.content.ar.description,
         buttonText: item.content.ar.buttonText,
         buttonVariant: item.content.ar.buttonVariant || "outline",
-        action_link: item.content.ar.action_link, // Add this line
+        action_link: item.content.ar.action_link,
       },
     }));
   };
 
-  // Extract testimonials data for the first section group
-  const extractTestimonialsData = (): ExtractedSectionGroupData | null => {
+  // Extract testimonials data with proper type handling
+  const extractTestimonialsData = (): { title: { en: string; ar: string }; testimonials: any[] } | null => {
     const testimonials = getAllTestimonials();
     if (testimonials.length === 0) return null;
 
-    const sections = testimonials
-      .filter(
-        (item): item is ComponentNodeContent => item.type === "testimonial"
-      )
-      .map((item) => item.content);
+    const transformedTestimonials = testimonials.map((item) => ({
+      id: item.id,
+      content: item.content,
+      url: item.content.url,
+      survivor_name: item.content.survivor_name,
+      survivor_age: item.content.survivor_age,
+      survivor_location: item.content.survivor_location,
+      date_of_incident: item.content.date_of_incident,
+    }));
 
     return {
-      title: { en: "Testimonials", ar: "الشهادات" }, // Default title, you can customize this
-      sections,
+      title: { en: "Testimonials", ar: "الشهادات" },
+      testimonials: transformedTestimonials,
     };
   };
 
   const featuredCasesData = extractFeaturedCasesData();
-
-  // const extractSectionGroupData = (
-  //   groupId: string
-  // ): ExtractedSectionGroupData | null => {
-  //   const groupItem = getDataById(groupId);
-  //   if (groupItem && groupItem.type === "section_group") {
-  //     const sections = groupItem.content.sections
-  //       .map((sectionId) => getDataById(sectionId))
-  //       .filter(
-  //         (item): item is ComponentNodeContent =>
-  //           item !== undefined &&
-  //           (item.type === "component_node" ||
-  //             item.type === "testimonial" ||
-  //             item.type === "key_events")
-  //       )
-  //       .map((item) => item.content);
-
-  //     return {
-  //       title: groupItem.content.title,
-  //       sections,
-  //     };
-  //   }
-  //   return null;
-  // };
 
   // Show loading state
   if (loading) {
@@ -281,8 +235,7 @@ const Home = (): React.ReactElement => {
   const galleryData = extractMediaGalleryData();
   const aidData = extractAidData();
   const suggestionsData = extractSuggestionsData();
-  const testimonialsData = extractTestimonialsData(); // Use testimonials for first section
-  // const sectionGroup2Data = extractSectionGroupData("section-group-2"); // Keep second section as is
+  const testimonialsData = extractTestimonialsData();
 
   return (
     <div className="flex flex-col w-full bg-background">
@@ -303,11 +256,11 @@ const Home = (): React.ReactElement => {
               />
             )}
 
-            {/* Section Group 1 (Testimonials) */}
+            {/* Testimonials */}
             {testimonialsData && (
-              <ComponentNodeSectionGroup
+              <TestimonialCardListScroll
+                testimonialDataArray={testimonialsData.testimonials}
                 title={testimonialsData.title}
-                sections={testimonialsData.sections}
               />
             )}
 

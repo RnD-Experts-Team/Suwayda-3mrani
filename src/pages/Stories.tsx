@@ -120,13 +120,13 @@ export default function Stories(): React.ReactElement {
             <section className="flex flex-wrap items-start justify-around gap-[12px_12px] p-4 relative self-stretch w-full flex-[0_0_auto]">
               <div className="inline-flex align-center flex-col w-full items-center gap-3 relative flex-[0_0_auto]">
                 <div className="w-full max-w-[658px] flex-[0_0_auto] flex flex-col items-start relative">
-                  <h2 className="relative text-center self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl sm:text-3xl lg:text-[32px] tracking-[0] leading-8 sm:leading-10">
+                  <h2 className="relative text-center self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-2xl sm:text-3xl lg:text-[32px] tracking-[0] leading-8 sm:leading-10 break-words overflow-hidden">
                     {storiesData.pageTitle[currentLanguage]}
                   </h2>
                 </div>
 
-                <div className="inline-flex flex-col text-wrap items-start relative flex-[0_0_auto]">
-                  <p className="relative text-wrap self-stretch mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-muted-foreground text-sm ">
+                <div className="inline-flex flex-col items-start relative flex-[0_0_auto] max-w-full">
+                  <p className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-muted-foreground text-sm break-words overflow-hidden">
                     {storiesData.pageDescription[currentLanguage]}
                   </p>
                 </div>
@@ -135,7 +135,7 @@ export default function Stories(): React.ReactElement {
 
             {/* Featured Stories Section */}
             <section className="flex flex-col items-start pt-4 pb-2 px-4 relative self-stretch w-full flex-[0_0_auto]">
-              <h3 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-lg tracking-[0] leading-[23px]">
+              <h3 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-lg tracking-[0] leading-[23px] line-clamp-2 break-words overflow-hidden">
                 {storiesData.featuredSectionTitle[currentLanguage]}
               </h3>
             </section>
@@ -152,11 +152,11 @@ export default function Stories(): React.ReactElement {
                       className="relative self-stretch w-full h-[169px] rounded-xl bg-cover bg-no-repeat bg-center transition-transform duration-300 hover:scale-102"
                       style={{ backgroundImage: `url(${story.imageUrl})` }}
                     />
-                    <CardContent className="flex flex-col items-start p-4 relative self-stretch w-full">
-                      <h4 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Medium',Helvetica] font-medium text-card-foreground text-base tracking-[0] leading-6 transition-colors duration-300 hover:text-primary">
+                    <CardContent className="flex flex-col items-start p-4 relative self-stretch w-full min-h-0">
+                      <h4 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Medium',Helvetica] font-medium text-card-foreground text-base tracking-[0] leading-6 transition-colors duration-300 hover:text-primary line-clamp-2 break-words overflow-hidden">
                         {story.title[currentLanguage]}
                       </h4>
-                      <p className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-muted-foreground text-sm tracking-[0] leading-[21px]">
+                      <p className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Regular',Helvetica] font-normal text-muted-foreground text-sm tracking-[0] leading-[21px] line-clamp-3 break-words overflow-hidden">
                         {story.description[currentLanguage]}
                       </p>
                     </CardContent>
@@ -167,7 +167,7 @@ export default function Stories(): React.ReactElement {
 
             {/* All Stories Section */}
             <section className="flex flex-col items-start pt-4 pb-2 px-4 relative self-stretch w-full flex-[0_0_auto]">
-              <h3 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-lg tracking-[0] leading-[23px]">
+              <h3 className="relative self-stretch mt-[-1.00px] [font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-lg tracking-[0] leading-[23px] line-clamp-2 break-words overflow-hidden">
                 {storiesData.allStoriesTitle[currentLanguage]}
               </h3>
             </section>
@@ -189,8 +189,8 @@ export default function Stories(): React.ReactElement {
                         backgroundColor: story.imageUrl ? 'transparent' : '#f0f0f0'
                       }}
                     />
-                    <CardContent className="flex flex-col items-start p-2 relative self-stretch w-full">
-                      <h4 className="relative text-center self-stretch mt-[-1.00px] [font-family:'Newsreader-Medium',Helvetica] font-medium text-card-foreground text-sm sm:text-base tracking-[0] leading-5 sm:leading-6 transition-colors duration-300 hover:text-primary">
+                    <CardContent className="flex flex-col items-start p-2 relative self-stretch w-full min-h-0">
+                      <h4 className="relative text-center self-stretch mt-[-1.00px] [font-family:'Newsreader-Medium',Helvetica] font-medium text-card-foreground text-sm sm:text-base tracking-[0] leading-5 sm:leading-6 transition-colors duration-300 hover:text-primary line-clamp-3 break-words overflow-hidden">
                         {story.title[currentLanguage]}
                       </h4>
                     </CardContent>
