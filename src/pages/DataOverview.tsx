@@ -5,6 +5,7 @@ import { useLanguage } from "@/LanguageContext";
 import { dataOverviewApi } from "@/services/dataOverviewApi";
 import type { DataOverviewData, DataCase } from "@/types/dataOverview";
 
+
 // Error component for when API fails
 const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
   <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background px-4">
@@ -53,6 +54,7 @@ const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
   </div>
 );
 
+
 // Loading component
 const LoadingState = () => (
   <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
@@ -61,6 +63,7 @@ const LoadingState = () => (
   </div>
 );
 
+
 export default function DataOverview(): React.ReactElement {
   const { currentLanguage } = useLanguage();
   
@@ -68,6 +71,7 @@ export default function DataOverview(): React.ReactElement {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string>("");
+
 
   // Fetch data overview data from API
   const fetchDataOverviewData = async () => {
@@ -90,14 +94,17 @@ export default function DataOverview(): React.ReactElement {
     }
   };
 
+
   useEffect(() => {
     fetchDataOverviewData();
   }, []);
+
 
   // Handle retry
   const handleRetry = () => {
     fetchDataOverviewData();
   };
+
 
   // Function to get data array for a specific tab
   const getDataArray = (tabId: string): DataCase[] => {
@@ -110,15 +117,23 @@ export default function DataOverview(): React.ReactElement {
     return dataOverviewData.dataRegistry[category] || [];
   };
 
+  // Function to get item count for a specific tab
+  const getItemCount = (tabId: string): number => {
+    return getDataArray(tabId).length;
+  };
+
+
   // Show loading state
   if (loading) {
     return <LoadingState />;
   }
 
+
   // Show error state
   if (error || !dataOverviewData) {
     return <ErrorState onRetry={handleRetry} />;
   }
+
 
   return (
     <div className="flex flex-col w-full bg-background">
@@ -134,8 +149,9 @@ export default function DataOverview(): React.ReactElement {
               </div>
             </div>
 
+
             {/* Data Overview Section */}
-            <div className="flex flex-col w-full border-b border-border">
+            <div className="flex flex-col w-full mb-6">
               <Tabs
                 value={activeTab}
                 onValueChange={setActiveTab}
@@ -143,30 +159,53 @@ export default function DataOverview(): React.ReactElement {
               >
                 <TabsList
                   dir={currentLanguage === "ar" ? "rtl" : "ltr"}
-                  className="flex h-auto bg-transparent gap-4 sm:gap-8 px-2 sm:px-4 border-0 overflow-x-auto"
+                  className="flex h-auto bg-muted/30 rounded-xl p-2 gap-2 overflow-x-auto border shadow-sm"
                 >
                   {dataOverviewData.tabItems.map((tab) => (
                     <TabsTrigger
                       key={tab.id}
                       value={tab.id}
-                      className={`h-auto px-0 py-3 sm:py-4 pb-[10px] sm:pb-[13px] border-b-[3px] data-[state=active]:border-primary data-[state=inactive]:border-transparent rounded-none [font-family:'Newsreader-Bold',Helvetica] font-bold text-xs sm:text-sm leading-[18px] sm:leading-[21px] data-[state=active]:text-foreground data-[state=inactive]:text-muted-foreground data-[state=active]:shadow-none focus:ring-0 whitespace-nowrap`}
+                      className={`
+                        relative flex items-center gap-2 px-6 py-4 rounded-lg font-semibold text-sm transition-all duration-200 ease-in-out whitespace-nowrap min-w-fit
+                        data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-lg data-[state=active]:scale-105
+                        data-[state=inactive]:bg-background data-[state=inactive]:text-muted-foreground data-[state=inactive]:hover:bg-muted data-[state=inactive]:hover:text-foreground
+                        border data-[state=active]:border-primary/20 data-[state=inactive]:border-border/50
+                        focus:ring-2 focus:ring-primary/20 focus:outline-none
+                      `}
                     >
-                      {tab.label[currentLanguage]}
+                      <span className="font-bold text-base">
+                        {tab.label[currentLanguage]}
+                      </span>
+                      <span className={`
+                        inline-flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full text-xs font-bold transition-colors duration-200
+                        data-[state=active]:bg-primary-foreground/20 data-[state=active]:text-primary-foreground
+                        data-[state=inactive]:bg-primary/10 data-[state=inactive]:text-primary
+                      `}>
+                        {getItemCount(tab.id)}
+                      </span>
                     </TabsTrigger>
                   ))}
                 </TabsList>
               </Tabs>
             </div>
 
+
             {/* Dynamic Title based on active tab */}
-            <div className="flex flex-col pt-3 sm:pt-4 pb-2 px-2 sm:px-4 w-full">
-              <h3 className="[font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-base sm:text-lg leading-[20px] sm:leading-[23px]">
-                {
-                  dataOverviewData.tabItems.find((tab) => tab.id === activeTab)
-                    ?.label[currentLanguage]
-                }
-              </h3>
+            <div className="flex flex-col pb-4 px-2 sm:px-4 w-full">
+              <div className="flex items-center gap-3">
+                <h3 className="[font-family:'Newsreader-Bold',Helvetica] font-bold text-foreground text-xl sm:text-2xl leading-6 sm:leading-8">
+                  {
+                    dataOverviewData.tabItems.find((tab) => tab.id === activeTab)
+                      ?.label[currentLanguage]
+                  }
+                </h3>
+                <span className="inline-flex items-center justify-center min-w-[32px] h-8 px-3 rounded-full bg-primary/10 text-primary text-sm font-bold">
+                  {getDataArray(activeTab).length}
+                </span>
+              </div>
+              <div className="w-16 h-1 bg-primary rounded-full mt-2"></div>
             </div>
+
 
             {/* Main Content Sections */}
             <div className="px-2 sm:px-4">
