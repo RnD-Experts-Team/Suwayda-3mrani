@@ -1,15 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import { useLanguage } from "@/LanguageContext";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom";
 
 interface CaseData {
-  id: string; // Change from number to string to match API
+  id: string;
   title: {
     en: string;
     ar: string;
   };
-  imagePath: string | null; // Allow null values
+  imagePath: string | null;
   url: string;
   details: Array<{
     key: {
@@ -30,10 +30,9 @@ interface DataCardProps {
 
 export default function DataCard({ caseData }: DataCardProps): React.ReactElement {
   const { currentLanguage } = useLanguage();
-  const navigate = useNavigate(); // Add this hook
+  const navigate = useNavigate();
 
   const handleCardClick = () => {
-    // Navigate to the case page using the case ID
     navigate(`/case/${caseData.id}`);
   };
 
@@ -52,31 +51,33 @@ export default function DataCard({ caseData }: DataCardProps): React.ReactElemen
             }}
             aria-label="Case image"
           />
-          <div className="flex flex-col justify-start space-y-3 w-full">
+          <div className="flex flex-col justify-start space-y-3 w-full min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <h3 className="font-semibold text-foreground text-lg text-wrap leading-6 group-hover:text-primary transition-colors duration-300">
+              <h3 className="font-semibold text-foreground text-lg leading-6 group-hover:text-primary transition-colors duration-300 line-clamp-3 break-words overflow-hidden">
                 {caseData.title[currentLanguage]}
               </h3>
             </div>
             <div className="space-y-2">
               {caseData.details.map((detail, index) => (
-                <p
+                <div
                   key={index}
                   className="text-muted-foreground text-sm leading-relaxed"
                 >
                   {detail.key.en === "Description" ? (
-                    detail.value[currentLanguage]
+                    <p className="line-clamp-4 break-words overflow-hidden">
+                      {detail.value[currentLanguage]}
+                    </p>
                   ) : (
-                    <>
-                      <span className="font-medium">
+                    <p className="break-words overflow-hidden">
+                      <span className="font-medium inline-block truncate max-w-[200px]">
                         {detail.key[currentLanguage]}:
                       </span>{" "}
-                      <span className="text-foreground">
+                      <span className="text-foreground line-clamp-2 break-words overflow-hidden">
                         {detail.value[currentLanguage]}
                       </span>
-                    </>
+                    </p>
                   )}
-                </p>
+                </div>
               ))}
             </div>
           </div>
