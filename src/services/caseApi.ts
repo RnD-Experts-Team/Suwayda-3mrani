@@ -20,7 +20,9 @@ export const caseApi = {
   getCaseData: async (caseId?: string): Promise<CaseData> => {
     try {
       // Use the provided caseId or default to a fallback
-      const endpoint = caseId ? `${API_BASE_URL}/case/${caseId}` : `${API_BASE_URL}/case/case-migrations-2025-001`;
+      const endpoint = caseId 
+        ? `${API_BASE_URL}/case/${caseId}` 
+        : `${API_BASE_URL}/case/case-migrations-2025-001`;
       const response = await api.get<CaseData>(endpoint);
       return response.data;
     } catch (error) {

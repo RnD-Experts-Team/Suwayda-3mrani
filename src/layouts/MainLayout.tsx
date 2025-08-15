@@ -190,7 +190,7 @@ const MainLayout = () => {
 
 
       <header className="flex items-center justify-between px-2 md:px-4 sticky bg-card top-0 z-50 h-16 md:h-20 shadow-lg border-b border-border">
-        <div className="flex items-center space-x-2 text-base md:text-lg lg:text-xl font-bold text-card-foreground">
+        <div className="flex items-center space-x-2 text-sm md:text-lg lg:text-xl font-semibold md:font-bold text-card-foreground">
           <img
             src={layoutData.logo}
             alt="Logo"
