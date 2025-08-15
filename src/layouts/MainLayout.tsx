@@ -4,7 +4,7 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { useTheme } from "../ThemeContext";
 import { useLanguage } from "../LanguageContext";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, Menu, X, ChevronDown, Languages } from "lucide-react";
+import { Sun, Moon, Menu, X, ChevronDown, Languages, Facebook, Instagram } from "lucide-react";
 import { layoutApi } from "@/services/layoutApi";
 import type { LayoutData } from "@/types/layout";
 import roadImage from "../assets/road.png";
@@ -13,6 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
 
 const fallbackTranslations: LayoutData = {
   en: {
@@ -62,16 +63,51 @@ const fallbackTranslations: LayoutData = {
   logo: roadImage,
 };
 
+// Static social media data - completely independent from API and fallback
+const staticSocialData = {
+  followUs: {
+    en: "Follow Us",
+    ar: "تابعونا"
+  },
+  links: [
+    {
+      name: "Facebook",
+      url: "https://www.facebook.com/share/15hbZnPLKo/",
+      icon: Facebook,
+      label: {
+        en: "Follow us on Facebook",
+        ar: "تابعونا على فيسبوك"
+      },
+      hoverColor: "hover:text-blue-600 dark:hover:text-blue-400",
+      bgHover: "hover:bg-blue-50 dark:hover:bg-blue-900/20"
+    },
+    {
+      name: "Instagram",
+      url: "https://www.instagram.com/swaid_aamrani?igsh=MTAyMjlscGp6ZjBwZw==",
+      icon: Instagram,
+      label: {
+        en: "Follow us on Instagram",
+        ar: "تابعونا على إنستغرام"
+      },
+      hoverColor: "hover:text-pink-600 dark:hover:text-pink-400",
+      bgHover: "hover:bg-pink-50 dark:hover:bg-pink-900/20"
+    }
+  ]
+};
+
+
 const MainLayout = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const { currentLanguage, toggleLanguage } = useLanguage();
   const location = useLocation();
+
 
   const [layoutData, setLayoutData] = useState<LayoutData>(fallbackTranslations);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isComboboxOpen, setIsComboboxOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchLayoutData = async () => {
@@ -90,6 +126,7 @@ const MainLayout = () => {
           logo: data.logo || fallbackTranslations.logo,
         };
 
+
         setLayoutData(mergedData);
       } catch (err) {
         console.error("Failed to fetch layout data:", err);
@@ -100,10 +137,13 @@ const MainLayout = () => {
       }
     };
 
+
     fetchLayoutData();
   }, []);
 
+
   const t = layoutData[currentLanguage];
+
 
   const primaryNavLinks = [
     { label: t.home || "Home", path: "/" },
@@ -113,12 +153,15 @@ const MainLayout = () => {
     { label: t.stories || "Stories", path: "/stories" },
   ];
 
+
   const informationLinks = [
     { label: t.timeline || "Timeline", path: "/timeline" },
     { label: t.crisesArchive || "Crises Archive", path: "/crises_archive" },
   ];
 
+
   const allNavLinks = [...primaryNavLinks, ...informationLinks];
+
 
   if (loading) {
     return (
@@ -133,6 +176,7 @@ const MainLayout = () => {
     );
   }
 
+
   return (
     <div
       dir={currentLanguage === "ar" ? "rtl" : "ltr"}
@@ -144,8 +188,9 @@ const MainLayout = () => {
         </div>
       )}
 
+
       <header className="flex items-center justify-between px-2 md:px-4 sticky bg-card top-0 z-50 h-16 md:h-20 shadow-lg border-b border-border">
-        <div className="flex items-center space-x-2 text-base md:text-lg lg:text-xl font-bold text-card-foreground">
+        <div className="flex items-center space-x-2 text-sm md:text-lg lg:text-xl font-semibold md:font-bold text-card-foreground">
           <img
             src={layoutData.logo}
             alt="Logo"
@@ -157,6 +202,7 @@ const MainLayout = () => {
           />
           {t.title || "Suwayda Archive"}
         </div>
+
 
         <div className="hidden lg:flex items-center space-x-4">
           {primaryNavLinks.map((link) => (
@@ -172,6 +218,7 @@ const MainLayout = () => {
               {link.label}
             </Link>
           ))}
+
 
           {/* Simple Info Dropdown without search */}
           <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
@@ -207,6 +254,7 @@ const MainLayout = () => {
             </PopoverContent>
           </Popover>
 
+
           <Button
             onClick={toggleLanguage}
             variant="ghost"
@@ -216,6 +264,7 @@ const MainLayout = () => {
           >
             <Languages className="h-4 w-4" />
           </Button>
+
 
           <Button
             onClick={toggleTheme}
@@ -231,6 +280,7 @@ const MainLayout = () => {
             {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </div>
+
 
         {/* Mobile Controls */}
         <div className="flex lg:hidden items-center space-x-2">
@@ -254,6 +304,7 @@ const MainLayout = () => {
         </div>
       </header>
 
+
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 top-16 z-40 bg-background/95 backdrop-blur-sm">
           <div className="bg-card border-b border-border p-4 space-y-2">
@@ -275,39 +326,71 @@ const MainLayout = () => {
         </div>
       )}
 
+
       <main className="flex-1 p-2 md:p-4 bg-background">
         <Outlet />
       </main>
 
-      <footer className="text-center py-6 bg-card text-card-foreground border-t border-border">
+
+      <footer className="text-center py-8 bg-card text-card-foreground border-t border-border">
         <div className="max-w-6xl mx-auto px-2 md:px-4">
-          <p className="text-xs md:text-sm text-muted-foreground">
+          <p className="text-xs md:text-sm text-muted-foreground mb-4">
             {t.copyright}
           </p>
-          <div className="text-xs md:text-sm flex flex-wrap justify-center gap-4 md:gap-6 mt-2">
-            <Link
-              to="/privacy"
-              className="text-muted-foreground hover:text-primary"
-            >
-              {t.privacyPolicy}
-            </Link>
-            <Link
-              to="/terms"
-              className="text-muted-foreground hover:text-primary"
-            >
-              {t.termsOfService}
-            </Link>
-            <Link
-              to="/contact"
-              className="text-muted-foreground hover:text-primary"
-            >
-              {t.contact}
-            </Link>
+          
+          {/* Static Social Media Links */}
+          <div className="flex flex-col items-center space-y-4">
+            
+            <div className="flex items-center justify-center gap-4">
+              <h3 className="text-sm inline md:text-base font-semibold text-foreground">
+              {staticSocialData.followUs[currentLanguage]}
+            </h3>
+              {staticSocialData.links.map((social) => {
+                const IconComponent = social.icon;
+                return (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label[currentLanguage]}
+                    className={`
+                      group relative flex items-center justify-center p-3 rounded-full 
+                      border-2 border-muted-foreground/30 text-muted-foreground
+                      transition-all duration-300 ease-in-out
+                      hover:border-current hover:scale-110 hover:shadow-lg
+                      ${social.hoverColor} ${social.bgHover}
+                      focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2
+                    `}
+                  >
+                    <IconComponent className="h-5 w-5 md:h-6 md:w-6 transition-transform duration-300 group-hover:scale-110" />
+                    
+                    {/* Tooltip */}
+                    <span className="
+                      absolute -top-12 left-1/2 transform -translate-x-1/2 
+                      px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded 
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                      pointer-events-none whitespace-nowrap z-10
+                      dark:bg-gray-700
+                    ">
+                      {social.label[currentLanguage]}
+                      <span className="
+                        absolute top-full left-1/2 transform -translate-x-1/2 
+                        w-0 h-0 border-l-4 border-r-4 border-t-4 
+                        border-transparent border-t-gray-900
+                        dark:border-t-gray-700
+                      "></span>
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
       </footer>
     </div>
   );
 };
+
 
 export default MainLayout;

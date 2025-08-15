@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import AidAndResponseSection from "../components/home/AidAndResponseSection";
 import LocalGroupsSection from "../components/aidEfforts/LocalGroupsSection";
 import { useLanguage } from "@/LanguageContext";
@@ -121,7 +121,7 @@ export default function AidEfforts(): React.ReactElement {
   }
 
   // Extract data for easier access
-  const { pageContent, actionButtons, sections } = aidEffortsData;
+  const { pageContent, sections } = aidEffortsData;
   const internationalOrganizations = sections.find(
     (s) => s.id === "international-organizations"
   ) as OrganizationSection | undefined;
@@ -180,14 +180,14 @@ export default function AidEfforts(): React.ReactElement {
               )} */}
 
               {/* Section Title */}
-              <div className="flex flex-col pt-5 pb-3 px-2 sm:px-4 w-full">
+              {/* <div className="flex flex-col pt-5 pb-3 px-2 sm:px-4 w-full">
                 <h2 className="font-bold text-foreground text-lg sm:text-xl md:text-[22px] leading-6 sm:leading-7">
                   {pageContent.sectionTitle[currentLanguage]}
                 </h2>
-              </div>
+              </div> */}
 
               {/* Action Buttons */}
-              <section className="flex justify-center w-full py-3">
+              {/* <section className="flex justify-center w-full py-3">
                 <div className="flex flex-wrap justify-center gap-3 px-4 max-w-[480px] w-full">
                   {actionButtons.map((button, index) => (
                     <Button
@@ -202,7 +202,7 @@ export default function AidEfforts(): React.ReactElement {
                     </Button>
                   ))}
                 </div>
-              </section>
+              </section> */}
             </div>
           </div>
         </div>

@@ -21,8 +21,10 @@ import { X } from "lucide-react";
 import { mediaApi } from "@/services/galleryApi";
 import type { MediaPageData, MediaItem } from "@/types/gallery";
 
+
 /* ────────── CONSTANTS ────────── */
 const ITEMS_PER_PAGE = 6;
+
 
 // Error component for when API fails
 const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
@@ -72,6 +74,7 @@ const ErrorState = ({ onRetry }: { onRetry: () => void }) => (
   </div>
 );
 
+
 // Loading component
 const LoadingState = () => (
   <div className="flex flex-col items-center justify-center min-h-[60vh] bg-background">
@@ -80,19 +83,23 @@ const LoadingState = () => (
   </div>
 );
 
+
 /* Helper – infer type if not pre-tagged */
 const getMediaType = (src: string): "image" | "video" => {
   const videoExt = [".mp4", ".webm", ".ogg", ".mov", ".avi"];
   return videoExt.some((ext) => src.toLowerCase().includes(ext)) ? "video" : "image";
 };
 
+
 export default function Media(): React.ReactElement {
   const { currentLanguage } = useLanguage();
+
 
   /* ─── Data-level state ─── */
   const [mediaData, setMediaData] = useState<MediaPageData | null>(null);
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+
 
   /* ─── UI/scroll state ─── */
   const [items, setItems] = useState<MediaItem[]>([]);
@@ -100,9 +107,11 @@ export default function Media(): React.ReactElement {
   const [hasMore, setHasMore] = useState(true);
   const [initialLoading, setInitialLoading] = useState(true);
 
+
   /* ─── Modal state ─── */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedMediaIndex, setSelectedMediaIndex] = useState(0);
+
 
   /* ─────────────────────────────────────────
      FETCH WHOLE MEDIA PAGE DATA FROM API
@@ -121,9 +130,11 @@ export default function Media(): React.ReactElement {
     }
   };
 
+
   useEffect(() => {
     fetchData();
   }, []);
+
 
   // Handle retry
   const handleRetry = () => {
@@ -135,6 +146,7 @@ export default function Media(): React.ReactElement {
     fetchData();
   };
 
+
   /* ─────────────────────────────────────────
      PAGINATION / INFINITE-SCROLL SLICE
   ───────────────────────────────────────── */
@@ -142,13 +154,16 @@ export default function Media(): React.ReactElement {
     async (pageNum = 1) => {
       if (!mediaData) return;
 
+
       /* simulate latency for UX parity */
       await new Promise((r) => setTimeout(r, 400));
+
 
       const srcArr = mediaData.mediaItems;
       const start = (pageNum - 1) * ITEMS_PER_PAGE;
       const end = start + ITEMS_PER_PAGE;
       const pageSlice = srcArr.slice(start, end);
+
 
       if (pageNum === 1) {
         setItems(pageSlice);
@@ -156,12 +171,14 @@ export default function Media(): React.ReactElement {
         setItems((prev) => [...prev, ...pageSlice]);
       }
 
+
       setHasMore(end < srcArr.length);
       setPage(pageNum + 1);
       setInitialLoading(false);
     },
     [mediaData],
   );
+
 
   /* load first page whenever mediaData changes AND data is loaded */
   useEffect(() => {
@@ -174,12 +191,15 @@ export default function Media(): React.ReactElement {
     }
   }, [mediaData, dataLoaded, sliceItems]);
 
+
   const loadMore = useCallback(
     () => sliceItems(page),
     [page, sliceItems],
   );
 
+
   const { loadMoreRef, loading } = useInfiniteScroll(loadMore, hasMore);
+
 
   /* ────────── Modal helpers ────────── */
   const openModal = (idx: number) => {
@@ -188,10 +208,12 @@ export default function Media(): React.ReactElement {
     document.body.style.overflow = "hidden";
   };
 
+
   const closeModal = () => {
     setIsModalOpen(false);
     document.body.style.overflow = "unset";
   };
+
 
   /* Close modal on ESC */
   useEffect(() => {
@@ -202,16 +224,19 @@ export default function Media(): React.ReactElement {
     }
   }, [isModalOpen]);
 
+
   /* ────────── RENDER ────────── */
   // Show loading state
   if (!dataLoaded || initialLoading) {
     return <LoadingState />;
   }
 
+
   // Show error state
   if (error || !mediaData) {
     return <ErrorState onRetry={handleRetry} />;
   }
+
 
   return (
     <div className="flex flex-col items-start bg-background">
@@ -226,6 +251,8 @@ export default function Media(): React.ReactElement {
                 </h2>
               </div>
             </div>
+            
+
 
             {/* gallery grid */}
             <div className="gallery-container w-full">
@@ -235,23 +262,23 @@ export default function Media(): React.ReactElement {
                   return (
                     <Card
                       key={itm.id}
-                      onClick={() => openModal(idx)}
                       className="bg-card border-border overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer"
                     >
-                      <CardContent className="p-0">
+                      <CardContent className="p-0" onClick={() => openModal(idx)}>
                         {type === "video" ? (
                           <div className="relative aspect-video bg-black">
-                            <video
+                            <iframe
                               src={itm.src}
-                              preload="metadata"
-                              muted
-                              className="w-full h-full object-cover rounded-md"
+                              className="w-full h-full object-cover rounded-md border-none pointer-events-none"
+                              loading="lazy"
+                              title={itm.alt}
+                              allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
                             />
-                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-md">
-                              <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center">
-                                <div className="w-0 h-0 border-l-[8px] border-y-[6px] border-y-transparent border-l-black ml-1" />
-                              </div>
-                            </div>
+                            <div 
+                              className="absolute inset-0 cursor-pointer"
+                              onClick={() => openModal(idx)}
+                            />
                           </div>
                         ) : (
                           <div className="aspect-video">
@@ -268,6 +295,7 @@ export default function Media(): React.ReactElement {
                 })}
               </div>
 
+
               {/* infinite-scroll sentinel / messages */}
               {hasMore && (
                 <div ref={loadMoreRef} className="load-more-trigger mt-8 text-center">
@@ -283,6 +311,7 @@ export default function Media(): React.ReactElement {
                 </div>
               )}
 
+
               {!hasMore && (
                 <div className="text-muted-foreground text-center mt-8">
                   {mediaData.loadingMessages.noMoreItems[currentLanguage]}
@@ -293,6 +322,7 @@ export default function Media(): React.ReactElement {
         </main>
       </div>
 
+
       {/* ───────────── MODAL / CAROUSEL ───────────── */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -300,7 +330,7 @@ export default function Media(): React.ReactElement {
             className="absolute inset-0 bg-black/80"
             onClick={closeModal}
           />
-          <div className="relative z-10 w-full max-w-4xl mx-4">
+          <div className="relative z-10 w-full h-full max-w-7xl mx-4">
             {/* close btn */}
             <Button
               variant="outline"
@@ -314,36 +344,40 @@ export default function Media(): React.ReactElement {
               </span>
             </Button>
 
+
             {/* carousel */}
             <Carousel
-              className="w-full"
+              className="w-full h-full"
               opts={{ startIndex: selectedMediaIndex, loop: true }}
             >
-              <CarouselContent>
+              <CarouselContent className="h-full">
                 {items.map((itm) => {
                   const type = itm.type || getMediaType(itm.src);
                   return (
-                    <CarouselItem key={itm.id}>
-                      <div className="flex items-center justify-center p-4">
+                    <CarouselItem key={itm.id} className="h-full">
+                      <div className="flex items-center justify-center p-4 h-full">
                         {type === "video" ? (
-                          <video
-                            src={itm.src}
-                            controls
-                            className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-lg"
-                            style={{
-                              aspectRatio: 'auto',
-                              maxWidth: '100%',
-                              maxHeight: '80vh'
-                            }}
-                          >
-                            {mediaData.loadingMessages.videoNotSupported[currentLanguage]}
-                          </video>
+                          <div className="w-full h-full max-h-[90vh]">
+                            <iframe
+                              src={itm.src}
+                              className="w-[97%] h-full border-none rounded-lg"
+                              title={itm.alt}
+                              allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowFullScreen
+                              style={{
+                                minHeight: '60vh',
+                                aspectRatio: '16/9'
+                              }}
+                            />
+                          </div>
                         ) : (
-                          <img
-                            src={itm.src}
-                            alt={itm.alt}
-                            className="max-w-full max-h-[80vh] object-contain rounded-lg"
-                          />
+                          <div className="w-full h-full max-h-[90vh] flex items-center justify-center">
+                            <img
+                              src={itm.src}
+                              alt={itm.alt}
+                              className="w-full h-full object-contain rounded-lg"
+                            />
+                          </div>
                         )}
                       </div>
                     </CarouselItem>

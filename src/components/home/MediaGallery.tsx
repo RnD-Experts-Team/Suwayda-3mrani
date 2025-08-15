@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '@/LanguageContext';
 import { ArrowRight, X, ExternalLink, Play, ArrowLeft } from 'lucide-react';
 
+
 interface MediaItem {
   url: string;
   title: {
@@ -20,6 +21,7 @@ interface MediaItem {
   type: 'image' | 'video';
 }
 
+
 interface MediaGalleryData {
   title: {
     en: string;
@@ -28,9 +30,11 @@ interface MediaGalleryData {
   mediaItems: MediaItem[];
 }
 
+
 interface MediaGalleryProps {
   data: MediaGalleryData;
 }
+
 
 export default function MediaGallery({ data }: MediaGalleryProps): React.ReactElement {
   const { currentLanguage } = useLanguage();
@@ -101,9 +105,8 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
                   <Card 
                     key={index} 
                     className="!m-2 bg-card border-border rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300 flex-shrink-0 shadow-sm cursor-pointer"
-                    onClick={() => openDialog(mediaItem)}
                   >
-                    <CardContent className="p-0">
+                    <CardContent className="p-0" onClick={() => openDialog(mediaItem)}>
                       <div className="w-[350px] h-[350px] relative">
                         {mediaItem.type === 'image' ? (
                           <img
@@ -117,15 +120,21 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
                           />
                         ) : (
                           <div className="relative w-full h-full">
-                            <video
+                            <iframe
                               src={mediaItem.url}
-                              className="w-full h-full object-cover"
-                              muted
-                              preload="metadata"
+                              className="w-full h-full object-cover border-none pointer-events-none"
+                              loading="lazy"
+                              title={mediaItem.title[currentLanguage]}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
                               <Play className="h-12 w-12 text-white" />
                             </div>
+                            <div 
+                              className="absolute inset-0 cursor-pointer"
+                              onClick={() => openDialog(mediaItem)}
+                            />
                           </div>
                         )}
                       </div>
@@ -149,11 +158,11 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
       {selectedMedia && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75" onClick={closeDialog}>
           <div 
-            className="bg-card border-border rounded-xl max-w-4xl max-h-[90vh] w-full mx-4 overflow-hidden"
+            className="bg-card border-border rounded-xl max-w-6xl max-h-[95vh] w-full h-full mx-4 overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Dialog Header */}
-            <div className="flex items-center justify-between p-4 border-b border-border">
+            <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
               <h3 className="text-foreground font-bold text-xl [font-family:'Newsreader-Bold',Helvetica]">
                 {selectedMedia.title[currentLanguage]}
               </h3>
@@ -168,32 +177,37 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
             </div>
             
             {/* Dialog Content */}
-            <div className="p-4 overflow-y-auto max-h-[calc(90vh-120px)]">
+            <div className="p-4 overflow-y-auto flex-1 flex flex-col">
               {/* Media Display */}
-              <div className="mb-4">
+              <div className="mb-4 flex-1 flex items-center justify-center">
                 {selectedMedia.type === 'image' ? (
                   <img
                     src={selectedMedia.url}
                     alt={selectedMedia.title[currentLanguage]}
-                    className="w-full max-h-96 object-contain rounded-lg"
+                    className="w-full h-full object-contain rounded-lg max-h-[60vh]"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = '/placeholder-image.jpg';
                     }}
                   />
                 ) : (
-                  <video
-                    src={selectedMedia.url}
-                    controls
-                    className="w-full max-h-96 rounded-lg"
-                  >
-                    {currentLanguage === 'en' ? 'Your browser does not support the video tag.' : 'متصفحك لا يدعم عرض الفيديو.'}
-                  </video>
+                  <div className="w-full h-full max-h-[60vh] min-h-[400px]">
+                    <iframe
+                      src={selectedMedia.url}
+                      className="w-full h-full rounded-lg border-none"
+                      title={selectedMedia.title[currentLanguage]}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{
+                        aspectRatio: '16/9'
+                      }}
+                    />
+                  </div>
                 )}
               </div>
               
               {/* Description */}
-              <div className="mb-4">
+              <div className="mb-4 flex-shrink-0">
                 <h4 className="text-foreground font-semibold text-lg mb-2 [font-family:'Newsreader-Bold',Helvetica]">
                   {currentLanguage === 'en' ? 'Description' : 'الوصف'}
                 </h4>
@@ -204,7 +218,7 @@ export default function MediaGallery({ data }: MediaGalleryProps): React.ReactEl
               
               {/* Source Link */}
               {selectedMedia.sourceUrl && (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-shrink-0">
                   <span className="text-muted-foreground [font-family:'Newsreader-Medium',Helvetica] font-medium">
                     {currentLanguage === 'en' ? 'Source:' : 'المصدر:'}
                   </span>

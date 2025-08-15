@@ -6,10 +6,10 @@ const API_BASE_URL = 'https://admin.suwayda3mrani.com/api';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 10_000,
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -20,11 +20,13 @@ const api = axios.create({
 export const testimonialsApi = {
   getTestimonyData: async (storyId?: string): Promise<TestimonialData> => {
     try {
-      const endpoint = storyId ? `${API_BASE_URL}/testimony/${storyId}` : `${API_BASE_URL}/testimony/1`;
-      const response = await api.get<TestimonialData>(endpoint);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching testimony data:', error);
+      const endpoint = storyId
+        ? `${API_BASE_URL}/testimony/${storyId}`
+        : `${API_BASE_URL}/testimony/1`;
+      const { data } = await api.get<TestimonialData>(endpoint);
+      return data;
+    } catch (err) {
+      console.error('Error fetching testimony data:', err);
       throw new Error('Failed to fetch testimony data');
     }
   },
