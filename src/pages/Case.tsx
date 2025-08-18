@@ -69,6 +69,9 @@ const LoadingState = () => (
   </div>
 );
 
+// Media item type for unified carousel
+type MediaItem = { url: string; type: 'image' | 'video' };
+
 export default function Case(): React.ReactElement {
   const { currentLanguage } = useLanguage();
   const { caseId } = useParams<{ caseId?: string }>();
@@ -102,15 +105,9 @@ export default function Case(): React.ReactElement {
     fetchCaseData();
   };
 
-  // Helper function to detect if URL is a video
-  const isVideoUrl = (url: string): boolean => {
-    const videoExtensions = ['.mp4', '.webm', '.ogg', '.avi', '.mov', '.wmv', '.flv', '.mkv'];
-    return videoExtensions.some(ext => url.toLowerCase().includes(ext));
-  };
-
   // Helper function to extract only the intro part of the content (before first \n)
   const extractIntroContent = (content: string): string => {
-    return content.split('\n')[0].trim();
+    return content.split('\\n')[0].trim();
   };
 
   // Show loading state
@@ -125,6 +122,12 @@ export default function Case(): React.ReactElement {
 
   const currentData = caseData[currentLanguage];
 
+  // Build unified media list: images first, then videos
+  const mediaList: MediaItem[] = [
+    ...currentData.images.map((url) => ({ url, type: 'image' as const })),
+    ...currentData.videos.map((url) => ({ url, type: 'video' as const })),
+  ];
+
   return (
     <div className="flex flex-col items-start relative bg-background">
       <div className="flex flex-col min-h-[600px] md:min-h-[800px] items-start relative self-stretch w-full flex-[0_0_auto] bg-card">
@@ -132,7 +135,7 @@ export default function Case(): React.ReactElement {
           <div className="flex items-start justify-center px-2 md:px-4 lg:px-8 py-5 relative flex-1 self-stretch w-full grow">
             <div className="flex flex-col max-w-7xl w-full items-start px-0 py-5 relative">
               {/* Image/Video Carousel */}
-              {currentData.images && currentData.images.length > 0 && (
+              {mediaList.length > 0 && (
                 <div className="relative self-stretch w-full flex-[0_0_auto] mb-4">
                   <Carousel
                     className="w-full"
@@ -141,28 +144,25 @@ export default function Case(): React.ReactElement {
                     }}
                   >
                     <CarouselContent>
-                      {currentData.images.map((media, index) => (
-                        <CarouselItem key={index}>
+                      {mediaList.map(({ url, type }, index) => (
+                        <CarouselItem key={`${type}-${index}`}>
                           <Card className="relative self-stretch w-full flex-[0_0_auto] bg-transparent border-0">
                             <CardContent className="p-0">
                               <AspectRatio ratio={16 / 9}>
-                                {isVideoUrl(media) ? (
-                                  <video
-                                    className="w-full h-full object-cover rounded-lg"
-                                    controls
-                                    preload="metadata"
-                                  >
-                                    <source src={media} type="video/mp4" />
-                                    {currentLanguage === 'ar' 
-                                      ? 'متصفحك لا يدعم عنصر الفيديو.' 
-                                      : 'Your browser does not support the video tag.'
-                                    }
-                                  </video>
+                                {type === 'video' ? (
+                                  <iframe
+                                    src={url}
+                                    className="w-full h-full rounded-lg border-none"
+                                    title={`Case video ${index + 1}`}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                    loading="lazy"
+                                  />
                                 ) : (
                                   <img
                                     className="w-full h-full object-cover rounded-lg"
                                     alt={`Case media ${index + 1}`}
-                                    src={media}
+                                    src={url}
                                   />
                                 )}
                               </AspectRatio>
@@ -184,41 +184,6 @@ export default function Case(): React.ReactElement {
                   {currentData.title}
                 </h2>
               </div>
-
-              {/* Case metadata */}
-              {/* {caseData.metadata && (
-                <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">
-                  <Card className="w-full bg-muted/50 border border-border">
-                    <CardContent className="p-4">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <span className="font-semibold text-foreground">
-                            {currentLanguage === 'ar' ? 'نوع القضية : ' : 'Case Type:'} 
-                          </span>
-                          <span className="ml-2 text-muted-foreground capitalize">{caseData.metadata.type}</span>
-                        </div>
-                        <div>
-                          <span className="font-semibold text-foreground">
-                            {currentLanguage === 'ar' ? 'تاريخ الحادث : ' : 'Incident Date:'} 
-                          </span>
-                          <span className="ml-2 text-muted-foreground">
-                            {new Date(caseData.metadata.incident_date).toLocaleDateString(
-                              currentLanguage === 'ar' ? 'ar-SA' : 'en-US',
-                              { year: 'numeric', month: 'long', day: 'numeric' }
-                            )}
-                          </span>
-                        </div>
-                        <div className="sm:col-span-2">
-                          <span className="font-semibold text-foreground">
-                            {currentLanguage === 'ar' ? 'الموقع : ' : 'Location:'} 
-                          </span>
-                          <span className="ml-2 text-muted-foreground">{caseData.metadata.location}</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              )} */}
 
               {/* Content description - Updated to show only intro */}
               <div className="flex flex-col items-start pt-1 pb-3 px-2 sm:px-4 relative self-stretch w-full flex-[0_0_auto]">

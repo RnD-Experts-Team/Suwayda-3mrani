@@ -3,6 +3,7 @@ export interface CaseLanguageContent {
   title: string;
   content: string;
   images: string[];
+  videos: string[];  // NEW: separate videos array
 }
 
 // Case metadata
